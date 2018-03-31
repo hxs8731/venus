@@ -14,6 +14,29 @@ Vue.prototype.formatDate = function(option) {
 Vue.prototype.callLink = function(linkUrl, newWindow){
   window.open("http://" + linkUrl);
 }
+Vue.prototype.getInfoByWorkCityType = (options, response) => {
+  // let workType = options.workType;
+  // let city = options.city;
+  // let company = options.companyName;
+  var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool";
+  this.http.get(relUrl, {
+    params: options
+  }).then((res) => {
+    console.log('GET ＝>>>>>>> requestLists start res = ' + JSON.stringify(res.data.data));
+    if (res.data) {
+      if (res.data.success){
+        if (response) {
+          response(res.data.data);
+        }
+        // this.requestLists = res.data.data;
+      } else if(res.data.errCode) {
+        console.log(res.data.errCode  + "," + JSON.stringify(es.data.errMsg));
+      }
+    }
+  }).catch((error) => {
+    console.log(JSON.stringify(error));
+  });
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

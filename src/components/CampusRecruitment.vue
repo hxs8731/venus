@@ -13,9 +13,9 @@
          <router-link tag="li" id="nav3" to="/jobhunting"><a>求职学院</a></router-link>
        </ul>
      </div>
-     <ul class="nav navbar-nav navbar-right"> 
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+     <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
     </ul>
   </div>
 </nav>
@@ -48,7 +48,7 @@
   export default {
     name: 'CampusRecruitment',
     data () {
-      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool"; 
+      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool";
       this.http.get(relUrl, {
         params: { 'workType': 1,
           "city": "",
@@ -73,17 +73,17 @@
       city: ""
     }
   },
-  
+
   mounted: function () {
   },
   created: function () {
     //this.getInfoByWorkCityType(1);
-  }, 
+  },
   methods: {
     getInfoByWorkCityType: (workType, city, companyName) => {
-      // var relUrl  = "/api/index/getInfoByWorkCityType?workType=1&pageNumber=0&pageSize=10"; 
+      // var relUrl  = "/api/index/getInfoByWorkCityType?workType=1&pageNumber=0&pageSize=10";
       console.log("getInfoByWorkCityType 11");
-      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool"; 
+      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool";
       var pcity = city || "";
       var pcompany = companyName || "";
       let paramsObj = {
