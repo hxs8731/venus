@@ -8,7 +8,12 @@ import $ from 'jquery'
 
 Vue.config.productionTip = false
 Vue.prototype.http = axios;
-
+Vue.prototype.formatDate = function(option) {
+ return option;
+}
+Vue.prototype.callLink = function(linkUrl, newWindow){
+  window.open("http://" + linkUrl);
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
