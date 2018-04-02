@@ -24,7 +24,7 @@
   <div class="form-group">
    <input type="text" class="form-control" v-model='companyName' placeholder="公司" />
    <input type="text" class="form-control"v-model='city' placeholder="城市" />
-   <button type="submit" class="btn btn-default" @click="getInfoByWorkCityType(1, city, companyName)">搜索</button>
+   <button type="submit" class="btn btn-default" @click="doQueryList(1, city, companyName)">搜索</button>
  </div>
 </form>
 </div>
@@ -48,68 +48,40 @@
   export default {
     name: 'CampusRecruitment',
     data () {
-      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool";
-      this.http.get(relUrl, {
-        params: { 'workType': 1,
-          "city": "",
-          "companyName": ""
-        }
-      })
-      .then((res) => {
-        console.log('GET ＝>>>>>>> requestLists start res = ' + JSON.stringify(res.data.data));
-        if (res.data) {
-          if (res.data.success){
-            this.requestLists = res.data.data;
-          } else if(res.data.errCode) {
-            console.log(res.data.errCode  + "," + JSON.stringify(es.data.errMsg));
-          }
-        }
-      }).catch((error) => {
-        console.log(JSON.stringify(error));
-      });
-    return {
-      requestLists: [],
-      companyName: "",
-      city: ""
-    }
-  },
-
-  mounted: function () {
-  },
-  created: function () {
-    //this.getInfoByWorkCityType(1);
-  },
-  methods: {
-    getInfoByWorkCityType: (workType, city, companyName) => {
-      // var relUrl  = "/api/index/getInfoByWorkCityType?workType=1&pageNumber=0&pageSize=10";
-      console.log("getInfoByWorkCityType 11");
-      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool";
-      var pcity = city || "";
-      var pcompany = companyName || "";
-      let paramsObj = {
-        "workType": workType,
-        "city": pcity,
-        "companyName": pcompany
+      let params = {
+        'workType': 1,
+        "city": "",
+        "companyName": ""
       };
-      this.http.get(relUrl, {
-        params: paramsObj
-      })
-      .then((res) => {
-        console.log('GET ＝>>>>>>> requestLists start res = ' + JSON.stringify(res.data.data));
-        if (res.data) {
-          if (res.data.success){
-            console.log("getInfoByWorkCityType 555555");
-            this.requestLists = res.data.data;
-            console.log("getInfoByWorkCityType 2222");
-          } else if(res.data.errCode) {
-            console.log(res.data.errCode  + "," + JSON.stringify(es.data.errMsg));
-          }
-        }
-      }).catch((error) => {
-        console.log(JSON.stringify(error));
+      this.getInfoByWorkCityType(params, (lists) => {
+        this.requestLists = lists;
       });
+      return {
+        requestLists: [],
+        school: "",
+        city: "",
+        companyName: "",
+        time: ""
+      }
+    },
+
+    mounted: function () {
+    },
+    created: function () {
+      //this.getInfoByWorkCityType(1);
+    },
+    methods: {
+      doQueryList: (workType, city, companyName) => {
+        let paramsObj = {
+          "workType": workType,
+          "city": city,
+          "companyName": companyName
+        };
+        this.getInfoByWorkCityType(params, (lists) => {
+          this.requestLists = lists;
+        });
+      }
     }
-  }
 }
 </script>
 

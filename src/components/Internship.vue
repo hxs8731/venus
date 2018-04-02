@@ -13,18 +13,18 @@
           <router-link tag="li" id="nav3" to="/jobhunting"><a>求职学院</a></router-link>
         </ul>
       </div>
-      <ul class="nav navbar-nav navbar-right"> 
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
       </ul>
       </div>
     </nav>
     <div class="container-fluid">
      <form class="navbar-form navbar-left">
       <div class="form-group">
-       <input type="text" class="form-control" v-model='school' placeholder="学校" />
+       <input type="text" class="form-control" v-model='companyName' placeholder="公司" />
        <input type="text" class="form-control"v-model='city' placeholder="城市" />
-       <button type="submit" class="btn btn-default" @click="getInfoByWorkCityType(3, city, school)">搜索</button>
+       <button type="submit" class="btn btn-default" @click="doQueryList(3, city, companyName)">搜索</button>
      </div>
     </form>
     </div>
@@ -37,7 +37,7 @@
       <div class="row" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
         <div class="col-md-2" >{{ list.companyName }}</div>
         <div class="col-md-2" >{{ list.school }}</div>
-        <div class="col-md-2" >{{  formatDate(list.punishTime)}}</div>
+        <div class="col-md-2" >{{ formatDate(list.punishTime) }}</div>
       </div>
     </div>
   </div>
@@ -46,58 +46,31 @@
 export default {
   name: 'Intership',
   data () {
-    // http://39.104.86.53/index/getInfoByWorkCityType?workType=1&pageNumber=0&pageSize=10
-    var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool?workType=3&pageNumber=0&pageSize=10";
-    var demoUri = "https://yesno.wtf/api";
-    this.http.get(relUrl)
-    .then((res) => {
-      console.log('GET ＝>>>>>>> requestLists start res = ' + JSON.stringify(res.data.data));
-      if (res.data) {
-        if (res.data.success){
-          this.requestLists = res.data.data;
-        } else if(res.data.errCode) {
-          console.log(res.data.errCode  + "," + JSON.stringify(es.data.errMsg));
-        }
-      }
-
-    }).catch((error) => {
-      console.log(JSON.stringify(error));
+    let params = { 'workType': 3,
+      "city": "",
+      "companyName": ""
+    };
+    this.getInfoByWorkCityType(params, (lists) => {
+      this.requestLists = lists;
     });
 
     return {
       requestLists: [],
       school: "",
-      city: ""
+      city: "",
+      companyName: "",
+      time: ""
     }
- },
+  },
   methods: {
-    getInfoByWorkCityType: (workType, city, school) => {
-      // var relUrl  = "/api/index/getInfoByWorkCityType?workType=1&pageNumber=0&pageSize=10"; 
-      console.log("getInfoByWorkCityType 11");
-      var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool"; 
-      var pcity = city || "";
-      var pschool = school || "";
+    doQueryList: (workType, city, companyName) => {
       let paramsObj = {
         "workType": workType,
-        "city": pcity,
-        "school": pschool
+        "city": city,
+        "companyName": companyName
       };
-      this.http.get(relUrl, {
-        params: paramsObj
-      })
-      .then((res) => {
-        console.log('GET ＝>>>>>>> requestLists start res = ' + JSON.stringify(res.data.data));
-        if (res.data) {
-          if (res.data.success){
-            console.log("getInfoByWorkCityType 555555");
-            this.requestLists = res.data.data;
-            console.log("getInfoByWorkCityType 2222");
-          } else if(res.data.errCode) {
-            console.log(res.data.errCode  + "," + JSON.stringify(es.data.errMsg));
-          }
-        }
-      }).catch((error) => {
-        console.log(JSON.stringify(error));
+      this.getInfoByWorkCityType(params, (lists) => {
+        this.requestLists = lists;
       });
     }
   }

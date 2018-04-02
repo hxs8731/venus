@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import $ from 'jquery'
+// import $ from 'jquery'
 
 Vue.config.productionTip = false
 Vue.prototype.http = axios;
@@ -15,10 +15,8 @@ Vue.prototype.callLink = function(linkUrl, newWindow){
   window.open("http://" + linkUrl);
 }
 Vue.prototype.getInfoByWorkCityType = (options, response) => {
-  // let workType = options.workType;
-  // let city = options.city;
-  // let company = options.companyName;
   var relUrl  = "/api/index/getInfoByWorkCityTypeQualificationCompanyNameSchool";
+  // var demoUri = "https://yesno.wtf/api";
   this.http.get(relUrl, {
     params: options
   }).then((res) => {
@@ -28,9 +26,8 @@ Vue.prototype.getInfoByWorkCityType = (options, response) => {
         if (response) {
           response(res.data.data);
         }
-        // this.requestLists = res.data.data;
       } else if(res.data.errCode) {
-        console.log(res.data.errCode  + "," + JSON.stringify(es.data.errMsg));
+        console.log(res.data.errCode  + "," + JSON.stringify(res.data.errMsg));
       }
     }
   }).catch((error) => {
