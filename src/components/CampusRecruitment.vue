@@ -77,7 +77,7 @@
           "city": city,
           "companyName": companyName
         };
-        this.getInfoByWorkCityType(params, (lists) => {
+        this.getInfoByWorkCityType(paramsObj, (lists) => {
           this.requestLists = lists;
         });
       }
