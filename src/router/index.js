@@ -4,6 +4,7 @@ import Preach from '@/components/Preach'
 import JobHunting from '@/components/JobHunting'
 import CampusRecruitment from '@/components/CampusRecruitment'
 import Internship from '@/components/Internship'
+import SearchBar from '@/components/SearchBar'
 Vue.use(Router)
 
 export default new Router({
@@ -24,6 +25,10 @@ export default new Router({
       path: '/internship',
       name: 'Internship',
       component: Internship
+    }, {
+      path: '/search',
+      name: 'SearchBar',
+      component: SearchBar
     }
   ]
 })
@@ -39,7 +44,7 @@ export default new Router({
 //           path: '/navigator',
 //           name: 'Navigator',
 //           component: Navigator
-//         } 
+//         }
 //       ]
 //     } , {
 //       path: '/preach',
