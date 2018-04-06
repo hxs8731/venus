@@ -1,6 +1,6 @@
 <template>
-<div id="app">
-    <router-view />
+<div id="app" class="root">
+  <router-view />
 </div>
 </template>
 
@@ -12,4 +12,7 @@ export default {
 
 <style>
 @import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css';
+.root {
+  background-color: #FCFFDF;
+}
 </style>

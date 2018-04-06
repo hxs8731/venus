@@ -13,6 +13,7 @@
     <ul v-if="showTime.show">
       <span>时间: </span>
       <button v-for="time in timeList.list" class="btn btn-default" @click="selectInfo(selectedTime, time, showTime.single)"> {{ time }} </button>
+      <button class="btn btn-default" @click="selectInfo(selectedTime, time, showTime.single)">自定义</button>
       <span v-if="showTime.more" @click="toggleMore(timeList)">  更多</span>
     </ul>
     <ul>
@@ -44,9 +45,9 @@
           moreMode: false
         },
         timeList: {
-          main: ["本周", "一个月", "三个月"],
-          total: ["本周", "一个月", "三个月"],
-          list: ["本周", "一个月", "三个月"],
+          main: ["本周", "下周", "下个月"],
+          total: ["本周", "下周", "下个月"],
+          list: ["本周", "下周", "下个月"],
           moreMode: false
         },
         showCity: {show: true, single: true, more: true},
