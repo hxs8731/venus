@@ -1,33 +1,8 @@
 <template>
 	<div>
-		<nav class="navbar navbar-default" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<img src="../assets/logo.png" />
-				</div>
-				<div>
-					<ul class="nav navbar-nav">
-						<router-link tag="li" id="nav0" to="/"><a>校园招聘</a></router-link></li>
-						<router-link tag="li" id="nav1" to="/preach" class="active"><a>校园宣讲会</a></router-link>
-						<router-link tag="li" id="nav2" to="/internship"><a>实习</a></router-link>
-						<router-link tag="li" id="nav3" to="/jobhunting"><a>求职学院</a></router-link>
-					</ul>
-				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-				</ul>
-			</div>
-		</nav>
-		 <div class="container-fluid">
-		 <form class="navbar-form navbar-left">
-			<div class="form-group">
-			 <input type="text" class="form-control" v-model='school' placeholder="学校" />
-			 <input type="text" class="form-control"v-model='city' placeholder="城市" />
-			 <button type="submit" class="btn btn-default" @click="getInfoByWorkCityType(2, city, school)">搜索</button>
-		 </div>
-		</form>
-		</div>
+	<navigator-bar :navInfos="naviLists" />
+	<search-bar />
+	<h1>校园宣讲会</h1>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-2">公司</div>
@@ -45,8 +20,14 @@
 	</div>
 </template>
 <script>
+import SearchBar from '@/components/SearchBar'
+import NavigatorBar from '@/components/NavigatorBar'
 	export default {
 		name: 'Preach',
+		components: {
+      NavigatorBar,
+      SearchBar
+    },
 		data () {
 			let params = {
 				"workType": 2,
@@ -58,6 +39,12 @@
 				this.requestLists = lists;
 			});
 			return {
+				naviLists: [
+					{text: "校园招聘", to: "/", className:"nav-pills"},
+					{text: "校园宣讲会", to: "/preach", className:"active nav-pills"},
+					{text: "实习", to: "/internship", className:"nav-pills"},
+					{text: "求职学院", to: "/jobhunting", className:"nav-pills"}
+				],
 				requestLists: [],
 				school: "",
 				city: "",

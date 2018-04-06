@@ -1,34 +1,8 @@
 <template>
   <div>
-    <nav class="navbar navbar-default logo-color" role="navigation">
-      <div class="container-fluid">
-       <div class="navbar-header">
-        <img src="../assets/logo.png" />
-      </div>
-      <div>
-        <ul class="nav navbar-nav">
-         <router-link tag="li" id="nav0" to="/" class="active"><a>校园招聘</a></router-link></li>
-         <router-link tag="li" id="nav1" to="/preach"><a>校园宣讲会</a></router-link>
-         <router-link tag="li" id="nav2" to="/internship"><a>实习</a></router-link>
-         <router-link tag="li" id="nav3" to="/jobhunting"><a>求职学院</a></router-link>
-       </ul>
-     </div>
-     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-    </ul>
-  </div>
-</nav>
-<div class="container-fluid">
- <form class="navbar-form navbar-left">
-  <div class="form-group">
-   <input type="text" class="form-control" v-model='companyName' placeholder="公司" />
-   <input type="text" class="form-control"v-model='city' placeholder="城市" />
-   <button type="submit" class="btn btn-default" @click="doQueryList(1, city, companyName)">搜索</button>
- </div>
-</form>
-</div>
-
+    <navigator-bar :navInfos="naviLists" />
+    <search-bar />
+    <h1>校园招聘</h1>
 <div class="container-fluid">
  <div class="row">
   <div class="col-md-2">城市</div>
@@ -41,12 +15,27 @@
   <div class="col-md-2">{{ list.companyName }}</div>
   <div class="col-md-2">{{  formatDate(list.punishTime)}}</div>
 </div>
+<ul class="pagination">
+    <li><a href="#">&laquo;</a></li>
+    <li class="active"><a href="#">1</a></li>
+    <li class="disabled"><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">&raquo;</a></li>
+</ul>
 </div>
 </div>
 </template>
 <script>
+import SearchBar from '@/components/SearchBar'
+import NavigatorBar from '@/components/NavigatorBar'
   export default {
     name: 'CampusRecruitment',
+    components: {
+      NavigatorBar,
+      SearchBar
+    },
     data () {
       let params = {
         'workType': 1,
@@ -57,6 +46,12 @@
         this.requestLists = lists;
       });
       return {
+        naviLists: [
+        	{text: "校园招聘", to: "/", className:"active nav-pills"},
+        	{text: "校园宣讲会", to: "/preach", className:"nav-pills"},
+        	{text: "实习", to: "/internship", className:"nav-pills"},
+        	{text: "求职学院", to: "/jobhunting", className:"nav-pills"}
+        ],
         requestLists: [],
         school: "",
         city: "",
