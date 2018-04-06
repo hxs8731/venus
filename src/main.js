@@ -9,10 +9,45 @@ import axios from 'axios'
 Vue.config.productionTip = false
 Vue.prototype.http = axios;
 Vue.prototype.formatDate = function(option) {
- return option;
-};
+  // let TimeNow = option;
+  let date = new Date(option);
+  let fmt = 'yyyy-MM-dd hh:mm';
+  if(/(y+)/.test(fmt)){
+  fmt = fmt.replace(RegExp.$1,(date.getFullYear()+'').substr(4-RegExp.$1.length));
+  }
+  let o = {
+  'M+':date.getMonth() + 1,
+  'd+':date.getDate(),
+  'h+':date.getHours(),
+  'm+':date.getMinutes(),
+  's+':date.getSeconds()
+  };
+
+  // 遍历这个对象
+  for(let k in o){
+  if(new RegExp(`(${k})`).test(fmt)){
+   // console.log(`${k}`)
+   console.log(RegExp.$1)
+   let str = o[k] + '';
+   fmt = fmt.replace(RegExp.$1,(RegExp.$1.length===1)?str:this.padLeftZero(str));
+  }
+  }
+  return fmt;
+}
+
+Vue.prototype.padLeftZero = function(str) {
+ return ('00'+str).substr(str.length);
+}
+
 Vue.prototype.callLink = function(linkUrl, newWindow){
-  window.open("http://" + linkUrl);
+  if (undefined === newWindow) {
+    newWindow = true; // default new window
+  }
+  if (newWindow) {
+      window.open(linkUrl);
+  } else {
+    window.location.href = linkUrl;
+  }
 };
 Vue.prototype.TEST_RESULT = {
 	"data": {
