@@ -13,6 +13,6 @@ export default {
 <style>
 @import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css';
 .root {
-  background-color: #FCFFDF;
+  background-color: #FCFCFE;
 }
 </style>

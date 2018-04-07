@@ -1,20 +1,23 @@
 <template>
   <div>
-    <ul v-if="showCity.show">
-      <span>城市: </span>
-      <button v-for="city in cityList.list" class="btn btn-default" @click="selectInfo(selectedCity, city, showCity.single)"> {{ city }} </button>
-      <span v-if="showCity.more" @click="toggleMore(cityList)">  更多</span>
-    </ul>
-    <ul v-if="showSchool.show">
-      <span>学校: </span>
-      <button v-for="school in schoolList.list" class="btn btn-default" @click="selectInfo(selectedSchool, school, showSchool.single)"> {{ school }} </button>
-      <span v-if="showSchool.more" @click="toggleMore(schoolList)">  更多</span>
-    </ul>
-    <ul v-if="showTime.show">
-      <span>时间: </span>
-      <button v-for="time in timeList.list" class="btn btn-default" @click="selectInfo(selectedTime, time, showTime.single)"> {{ time }} </button>
-      <button class="btn btn-default" @click="selectInfo(selectedTime, time, showTime.single)">自定义</button>
-      <span v-if="showTime.more" @click="toggleMore(timeList)">  更多</span>
+    <ul class="searchbar" v-if="showCity.show">
+      <li v-if="showCity.show">
+        <span>城市: </span>
+        <button v-for="city in cityList.list" class="btn btn-default" @click="selectInfo(selectedCity, city, showCity.single)"> {{ city }} </button>
+        <span v-if="showCity.more" @click="toggleMore(cityList)">  更多</span>
+      </li>
+      <li v-if="showSchool.show">
+        <span>学校: </span>
+        <button v-for="school in schoolList.list" class="btn btn-default" @click="selectInfo(selectedSchool, school, showSchool.single)"> {{ school }} </button>
+        <span v-if="showSchool.more" @click="toggleMore(schoolList)">  更多</span>
+      </li>
+      <li v-if="showTime.show"  class="form-inline">
+        <span>时间: </span>
+        <button v-for="time in timeList.list" class="btn btn-default" @click="selectInfo(selectedTime, time, showTime.single)"> {{ time }} </button>
+        <datepicker class="form-control" id="startDate" type="text" placeholder="开始时间"></datepicker>
+        <datepicker class="form-control" id="endDate" type="text" placeholder="结束时间"></datepicker>
+        <span v-if="showTime.more" @click="toggleMore(timeList)">  更多</span>
+      </li>
     </ul>
     <ul>
       <li v-if="showCity.show">当前选择的城市是: <span v-for="city in selectedCity"> {{ city }} </span></li>
@@ -25,9 +28,16 @@
 </template>
 </ul>
 <script>
+import "../assets/bootstrap-datetimepicker.js";
+import Datepicker from 'vuejs-datepicker'
   export default {
     name: 'SearchBar',
+    components: {
+      Datepicker,
+      Datepicker
+    },
     data () {
+      this.dateDefault();
       return {
         selectedCity: [],
         selectedSchool: [],
@@ -52,8 +62,11 @@
         },
         showCity: {show: true, single: true, more: true},
         showSchool: {show: true, single: false, more: true},
-        showTime: {show: true, single: false, more: false}
+        showTime: {show: true, single: true, more: false}
       }
+    },
+    mounted: {
+
     },
     methods: {
       selectInfo: function(array, info, single) {
@@ -91,5 +104,15 @@
   }
 </script>
 <style>
-@import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css'
+@import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css';
+@import "../assets/css/bootstrap-datetimepicker.min.css";
+#startDate, #endDate{
+  border: none;
+}
+.searchbar li {
+  margin-bottom: 5px;
+}
+.searchbar .btn{
+  margin-right: 5px;
+}
 </style>
