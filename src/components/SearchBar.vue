@@ -28,7 +28,6 @@
 </template>
 </ul>
 <script>
-import "../assets/bootstrap-datetimepicker.js";
 import Datepicker from 'vuejs-datepicker'
   export default {
     name: 'SearchBar',
@@ -37,7 +36,6 @@ import Datepicker from 'vuejs-datepicker'
       Datepicker
     },
     data () {
-      this.dateDefault();
       return {
         selectedCity: [],
         selectedSchool: [],
@@ -64,9 +62,6 @@ import Datepicker from 'vuejs-datepicker'
         showSchool: {show: true, single: false, more: true},
         showTime: {show: true, single: true, more: false}
       }
-    },
-    mounted: {
-
     },
     methods: {
       selectInfo: function(array, info, single) {
@@ -105,7 +100,6 @@ import Datepicker from 'vuejs-datepicker'
 </script>
 <style>
 @import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css';
-@import "../assets/css/bootstrap-datetimepicker.min.css";
 #startDate, #endDate{
   border: none;
 }

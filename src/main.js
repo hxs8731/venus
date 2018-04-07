@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import $ from 'jquery'
+// import $ from 'jquery'
 
 Vue.config.productionTip = false
 Vue.prototype.http = axios;
@@ -27,7 +27,7 @@ Vue.prototype.formatDate = function(option) {
   for (let k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
       // console.log(`${k}`)
-      // console.log(RegExp.$1)
+      console.log(RegExp.$1)
       let str = o[k] + '';
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : this.padLeftZero(str));
     }
@@ -147,38 +147,6 @@ Vue.prototype.TEST_URL = "https://yesno.wtf/api";
 Vue.prototype.TEST_MODE = true; // false;
 Vue.prototype.getRequestUrl = function() {
   return this.TEST_MODE ? this.TEST_URL : this.REL_URL;
-};
-Vue.prototype.dateDefault = function(){
-  var d, s;
-  var self = this;
-  d = new Date();
-  s = d.getFullYear() + "-";       //取年份
-  s = s + (d.getMonth() + 1) + "-";   //取月份,date生成的月份为0-11
-  s += d.getDate() + " ";        //取日期
-  s += d.getHours() + ":";        //取小时
-  s += d.getMinutes() + ":";       //取分
-  s += d.getSeconds();          //取秒
-  self.time = s;
-  console.log("dateDefault self.time = " + self.time);
-  $('.form_datetime').datetimepicker({
-    language: 'zh-CN',
-    format: 'yyyy-mm-dd hh:ii:ss',
-    //startDate: s,    默认开始时间
-    weekStart: 0,    //一周从那一天开始，默认值为:0,范围：0-6
-    todayBtn: 1,    //默认值：false，为true时，底部显示today，不选中，为linked时当天日期被选中
-    autoclose: 1,    //选择一个日期后是否立即关闭此选择框
-    todayHighlight: 1,  //高亮当前日期
-    startView: 2,     // 日期时间选择器打开之后首先显示的视图，默认值为：2，0:hour,1:day,2:mouth,3:year,4:decade
-    forceParse: 0,    //强制解析文本框的值
-    showMeridian: 1
-   });
-  $('#form_datetime').datetimepicker()
-     .on('hide', function (ev) {
-     var value = $("#form_datetime").val();
-     self.time = value;
-       console.log("datetimepicker on hide: self.time = " + self.time);
-    });
-
 };
 Vue.prototype.getInfoByWorkCityType = function(options, response) {
   this.http.get(this.getRequestUrl(), {
