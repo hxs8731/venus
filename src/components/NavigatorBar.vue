@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="center-block">
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">

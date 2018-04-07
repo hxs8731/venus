@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="center-block">
     <ul class="searchbar" v-if="showCity.show">
       <li v-if="showCity.show">
         <span>城市: </span>
@@ -19,11 +19,13 @@
         <span v-if="showTime.more" @click="toggleMore(timeList)">  更多</span>
       </li>
     </ul>
+    <!--
     <ul>
       <li v-if="showCity.show">当前选择的城市是: <span v-for="city in selectedCity"> {{ city }} </span></li>
       <li v-if="showSchool.show">当前选择的学校是: <span v-for="school in selectedSchool"> {{ school }} </span></li>
       <li v-if="showTime.show">当前选择的时间段是: <span v-for="time in selectedTime"> {{ time }} </span></li>
     </ul>
+    -->
   </div>
 </template>
 </ul>

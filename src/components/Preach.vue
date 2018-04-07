@@ -1,21 +1,30 @@
 <template>
-<div>
+<div class="center-block">
   <navigator-bar :navInfos="naviLists" />
   <search-bar />
-  <h1>校园宣讲会</h1>
+  <h3>校园宣讲会</h3>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-2">公司</div>
-      <div class="col-md-2">学校</div>
-      <div class="col-md-2">举办时间</div>
-      <div class="col-md-2">举办地点</div>
+    <div class="row list-body">
+      <div class="col-md-2 list-header">公司</div>
+      <div class="col-md-2 list-header">学校</div>
+      <div class="col-md-2 list-header">举办时间</div>
+      <div class="col-md-2 list-header">举办地点</div>
     </div>
-    <div class="row" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
-      <div class="col-md-2">{{ list.companyName }}</div>
-      <div class="col-md-2">{{ list.school }}</div>
-      <div class="col-md-2">{{ list.xjTime }}</div>
-      <div class="col-md-2">{{ list.teachInsAddress }}</div>
+    <div class="row list-body" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
+      <div class="col-md-2 list-row">{{ list.companyName }}</div>
+      <div class="col-md-2 list-row">{{ list.school }}</div>
+      <div class="col-md-2 list-row">{{ list.xjTime }}</div>
+      <div class="col-md-2 list-row">{{ list.teachInsAddress }}</div>
     </div>
+    <ul class="pagination">
+      <li><a href="#">&laquo;</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li class="disabled"><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#">&raquo;</a></li>
+    </ul>
   </div>
 </div>
 </template>

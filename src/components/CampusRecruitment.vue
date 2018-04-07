@@ -2,17 +2,17 @@
 <div>
   <navigator-bar :navInfos="naviLists" />
   <search-bar />
-  <h1>校园招聘</h1>
+  <h3>招聘信息</h3>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3">城市</div>
-      <div class="col-md-3">招聘会</div>
-      <div class="col-md-3">发布时间</div>
+    <div class="row list-body">
+      <div class="col-md-2 list-header">城市</div>
+      <div class="col-md-4 list-header">招聘会</div>
+      <div class="col-md-2 list-header">发布时间</div>
     </div>
-    <div class="row" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
-      <div class="col-md-3 list-group-item"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
-      <div class="col-md-3 list-group-item">{{ list.companyName }}</div>
-      <div class="col-md-3 list-group-item">{{ formatDate(list.punishTime)}}</div>
+    <div class="row list-body" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
+      <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
+      <div class="col-md-4 list-row">{{ list.companyName }}</div>
+      <div class="col-md-2 list-row">{{ formatDate(list.punishTime)}}</div>
     </div>
     <ul class="pagination">
       <li><a href="#">&laquo;</a></li>
@@ -97,7 +97,6 @@ export default {
 ul.nav {
   margin-top: 22px
 }
-
 /*.logo-color {
    background-color: #FFF0F5
  }*/
