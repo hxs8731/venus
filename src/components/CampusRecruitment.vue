@@ -1,18 +1,20 @@
 <template>
 <div>
   <navigator-bar :navInfos="naviLists" />
-  <search-bar />
+  <search-bar :searchProps="searchInfos"/>
   <h3>招聘信息</h3>
   <div class="container-fluid">
     <div class="row list-body">
       <div class="col-md-2 list-header">城市</div>
       <div class="col-md-4 list-header">招聘会</div>
-      <div class="col-md-2 list-header">发布时间</div>
+      <div class="col-md-2 list-header">收录时间</div>
+      <div class="col-md-4 list-header">网申入口</div>
     </div>
     <div class="row list-body" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
       <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
       <div class="col-md-4 list-row">{{ list.companyName }}</div>
-      <div class="col-md-2 list-row">{{ formatDate(list.punishTime)}}</div>
+      <div class="col-md-2 list-row">{{ formatDate(list.gmtCreate)}}</div>
+      <div class="col-md-4 list-row"><button class="btn btn-primary">网申</button></div>
     </div>
     <ul class="pagination">
       <li><a href="#">&laquo;</a></li>
@@ -41,29 +43,51 @@ export default {
       "city": "",
       "companyName": ""
     };
-    this.getInfoByWorkCityType(params, (lists) => {
+    this.getInfoByWorkType(params, (lists) => {
       this.requestLists = lists;
     });
+
     return {
+      searchInfos: {
+          showCity: {
+              show: true,
+              single: true,
+              showMore: false
+          },
+          showSchool: {
+              show: false, // not show school
+              single: false,
+              showMore: false
+          },
+          showTime: {
+              show: true,
+              single: true,
+              showMore: false
+          }
+      },
       naviLists: [{
           text: "校园招聘",
           to: "/",
-          className: "active nav-pills"
+          className: "active nav-pills",
+          id: "campus"
         },
         {
           text: "校园宣讲会",
           to: "/preach",
-          className: "nav-pills"
+          className: "nav-pills",
+          id: "preach"
         },
         {
           text: "实习",
           to: "/internship",
-          className: "nav-pills"
+          className: "nav-pills",
+          id: "internship"
         },
         {
           text: "求职学院",
           to: "/jobhunting",
-          className: "nav-pills"
+          className: "nav-pills",
+          id: "jobhunting"
         }
       ],
       requestLists: [],
@@ -73,11 +97,6 @@ export default {
       time: ""
     }
   },
-
-  mounted: function() {},
-  created: function() {
-    //this.getInfoByWorkCityType(1);
-  },
   methods: {
     doQueryList: (workType, city, companyName) => {
       let paramsObj = {
@@ -85,7 +104,7 @@ export default {
         "city": city,
         "companyName": companyName
       };
-      this.getInfoByWorkCityType(paramsObj, (lists) => {
+      this.getInfoByWorkType(paramsObj, (lists) => {
         this.requestLists = lists;
       });
     }
@@ -94,9 +113,7 @@ export default {
 </script>
 
 <style>
-ul.nav {
-  margin-top: 22px
-}
+
 /*.logo-color {
    background-color: #FFF0F5
  }*/

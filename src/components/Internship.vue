@@ -41,32 +41,36 @@ export default {
       "city": "",
       "companyName": ""
     };
-    this.getInfoByWorkCityType(params, (lists) => {
+    this.getInfoByWorkType(params, (lists) => {
       this.requestLists = lists;
     });
 
     return {
-      naviLists: [{
-          text: "校园招聘",
-          to: "/",
-          className: "nav-pills"
-        },
-        {
-          text: "校园宣讲会",
-          to: "/preach",
-          className: "nav-pills"
-        },
-        {
-          text: "实习",
-          to: "/internship",
-          className: "active nav-pills"
-        },
-        {
-          text: "求职学院",
-          to: "/jobhunting",
-          className: "nav-pills"
-        }
-      ],
+        naviLists: [{
+            text: "校园招聘",
+            to: "/",
+            className: "nav-pills",
+            id: "campus"
+          },
+          {
+            text: "校园宣讲会",
+            to: "/preach",
+            className: "nav-pills",
+            id: "preach"
+          },
+          {
+            text: "实习",
+            to: "/internship",
+            className: "active nav-pills",
+            id: "internship"
+          },
+          {
+            text: "求职学院",
+            to: "/jobhunting",
+            className: "nav-pills",
+            id: "jobhunting"
+          }
+        ],
       requestLists: [],
       school: "",
       city: "",
@@ -81,7 +85,7 @@ export default {
         "city": city,
         "companyName": companyName
       };
-      this.getInfoByWorkCityType(params, (lists) => {
+      this.getInfoByWorkType(params, (lists) => {
         this.requestLists = lists;
       });
     }
@@ -90,5 +94,4 @@ export default {
 </script>
 
 <style>
-@import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css'
 </style>

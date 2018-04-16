@@ -31,7 +31,7 @@ export default {
   margin: 0px auto;
 }
 .list-row {
-height: 29px;
+height: 40px;
 padding: 12px 3%;
 line-height: 29px;
 }

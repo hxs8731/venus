@@ -7,7 +7,7 @@
       </div>
       <div>
         <ul class="nav navbar-nav">
-          <router-link tag="li" :to="list.to" v-for="list in navInfos" :class="list.className"><a>{{list.text}}</a></router-link>
+          <router-link tag="li" :to="list.to" :key="list.id" v-for="list in navInfos" :class="list.className"><a>{{list.text}}</a></router-link>
           </li>
         </ul>
       </div>
@@ -39,7 +39,9 @@ export default {
 </script>
 
 <style>
-@import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css';
+ul.nav {
+  margin-top: 22px
+}
 .search_nav {
   padding: 10px 20px;
 }
