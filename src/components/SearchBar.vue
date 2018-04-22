@@ -11,8 +11,8 @@
     <li v-if="showCity.showMore">
       <span>自定义城市: </span>
       <p v-for="letterData in letters">
-          <span>{{ letterData.letter }}</span>
-          <button v-for="info in letterData.data" class="btn btn-default" @click="selectInfo(selectedCityInfos, info, showCity.single)"> {{ info.city }} </button>
+        <span>{{ letterData.letter }}</span>
+        <button v-for="info in letterData.data" class="btn btn-default" @click="selectInfo(selectedCityInfos, info, showCity.single)"> {{ info.city }} </button>
       </p>
     </li>
     <li v-if="showSchool.show">
@@ -33,16 +33,16 @@
       <span @click="changeTimeMode(false, showTime)">  普通时间段</span>
     </li>
   </ul>
-  <ul>
+  <!-- <ul>
     <li v-if="showCity.show">当前选择的城市是: <span v-for="info in selectedCityInfos"> {{ info.city }} </span></li>
     <li v-if="showSchool.show">当前选择的学校是: <span v-for="school in selectedSchoolInfos"> {{ info.school }} </span></li>
     <li v-if="showTime.show">当前选择的时间段是: <span v-for="timeInfo in selectedTimeInfos"> {{ timeInfo.text }} </span></li>
-  </ul>
+  </ul> -->
 </div>
 </template>
 </ul>
 <script>
-import "../assets/bootstrap-datetimepicker.js";
+// import "../assets/bootstrap-datetimepicker.js";
 import Datepicker from 'vuejs-datepicker'
 export default {
   name: 'SearchBar',
@@ -57,21 +57,21 @@ export default {
       order: 1
     }, (res) => {
       this.mainCityInfos = res;
-    //   console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res) + ", searchProps = " + searchProps);
+      //   console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res) + ", searchProps = " + searchProps);
     });
     this.getCityByIp({ // get totalCityInfos
       level: 2,
       order: 0
     }, (res) => {
-    //   console.log('GET ＝>>>>>>> searchbar getCityByIp total start res = ' + JSON.stringify(res));
+      //   console.log('GET ＝>>>>>>> searchbar getCityByIp total start res = ' + JSON.stringify(res));
       this.totalCityInfos = res;
       for (let i = 0, len = this.letters.length; i < len; i++) {
-          let letterData = this.letters[i];
+        let letterData = this.letters[i];
         //   console.log(`letter data is ${letterData}, ${this.letters}`);
-          letterData.data = res.filter((info) => {
-             return info.pinyin.startsWith(letterData.letter);
-            //  console.log(`filter letter => ${letterData.letter}, ${info.pinyin}`);
-          });
+        letterData.data = res.filter((info) => {
+          return info.pinyin.startsWith(letterData.letter);
+          //  console.log(`filter letter => ${letterData.letter}, ${info.pinyin}`);
+        });
         //   console.log(`letter data is setted ${letterData.data}`);
       }
     });
@@ -101,124 +101,98 @@ export default {
       ],
       startQueryDate: "",
       endQueryDate: "",
-    //   selectedCityInfosInfo: {
-    //     id: -1,
-    //     parentId: -1,
-    //     province: "",
-    //     level: -1,
-    //     city: "",
-    //     county: "",
-    //     ipsSeg: null,
-    //     gmtCreate: null,
-    //     gmtModified: -1,
-    //     pinyin: "",
-    //     defOrder: -1
-    //   },
+      //   selectedCityInfosInfo: {
+      //     id: -1,
+      //     parentId: -1,
+      //     province: "",
+      //     level: -1,
+      //     city: "",
+      //     county: "",
+      //     ipsSeg: null,
+      //     gmtCreate: null,
+      //     gmtModified: -1,
+      //     pinyin: "",
+      //     defOrder: -1
+      //   },
       letters: [{
-          letter: "A",
-          data: []
-        },
-        {
-          letter: "B",
-          data: []
-        },
-        {
-          letter: "C",
-          data: []
-        },
-        {
-          letter: "D",
-          data: []
-        },
-        {
-          letter: "E",
-          data: []
-        },
-        {
-          letter: "F",
-          data: []
-        },
-        {
-          letter: "G",
-          data: []
-        },
-        {
-          letter: "H",
-          data: []
-        },
-        {
-          letter: "I",
-          data: []
-        },
-        {
-          letter: "J",
-          data: []
-        },
-        {
-          letter: "K",
-          data: []
-        },
-        {
-          letter: "L",
-          data: []
-        },
-        {
-          letter: "M",
-          data: []
-        },
-        {
-          letter: "N",
-          data: []
-        },
-        {
-          letter: "O",
-          data: []
-        },
-        {
-          letter: "P",
-          data: []
-        },
-        {
-          letter: "Q",
-          data: []
-        },
-        {
-          letter: "R",
-          data: []
-        },
-        {
-          letter: "S",
-          data: []
-        },
-        {
-          letter: "T",
-          data: []
-        },
-        {
-          letter: "U",
-          data: []
-        },
-        {
-          letter: "V",
-          data: []
-        },
-        {
-          letter: "W",
-          data: []
-        },
-        {
-          letter: "X",
-          data: []
-        },
-        {
-          letter: "Y",
-          data: []
-        },
-        {
-          letter: "Z",
-          data: []
-        }
-      ],
+        letter: "A",
+        data: []
+      }, {
+        letter: "B",
+        data: []
+      }, {
+        letter: "C",
+        data: []
+      }, {
+        letter: "D",
+        data: []
+      }, {
+        letter: "E",
+        data: []
+      }, {
+        letter: "F",
+        data: []
+      }, {
+        letter: "G",
+        data: []
+      }, {
+        letter: "H",
+        data: []
+      }, {
+        letter: "I",
+        data: []
+      }, {
+        letter: "J",
+        data: []
+      }, {
+        letter: "K",
+        data: []
+      }, {
+        letter: "L",
+        data: []
+      }, {
+        letter: "M",
+        data: []
+      }, {
+        letter: "N",
+        data: []
+      }, {
+        letter: "O",
+        data: []
+      }, {
+        letter: "P",
+        data: []
+      }, {
+        letter: "Q",
+        data: []
+      }, {
+        letter: "R",
+        data: []
+      }, {
+        letter: "S",
+        data: []
+      }, {
+        letter: "T",
+        data: []
+      }, {
+        letter: "U",
+        data: []
+      }, {
+        letter: "V",
+        data: []
+      }, {
+        letter: "W",
+        data: []
+      }, {
+        letter: "X",
+        data: []
+      }, {
+        letter: "Y",
+        data: []
+      }, {
+        letter: "Z",
+        data: []
+      }],
       showCity: {
         show: this.searchProps.showCity.show,
         single: this.searchProps.showCity.single,
@@ -236,42 +210,35 @@ export default {
       }
     }
   },
-  // watch: {
-  //   //   selectedCityInfos: function (val, oldVal) {
-  //   //       console.log("selectedCityInfos");
-  //   //       console.log('[watch]==>new: %s, old: %s', JSON.stringify(val), JSON.stringify(oldVal));
-  //   //   },
-  //   selectedCityInfos: this.searchCity,
-  // },
   methods: {
     selectInfo: function(array, info, single) {
-    //   console.log("select city info = " + JSON.stringify(info));
+      //   console.log("select city info = " + JSON.stringify(info));
       let index = array.indexOf(info);
-    //   console.log(`${index}`);
+      //   console.log(`${index}`);
       if (index >= 0) {
         array.splice(index, 1); // if selected, toggle it
       } else {
-          if (single) {
-              array.splice(0);
-          }
+        if (single) {
+          array.splice(0);
+        }
         array.splice(0, 0, info);
       }
       let infos = this.searchProps.showCity.infos;
-    //   console.log(`array.splice ${JSON.stringify(array)}, ${JSON.stringify(infos)}`);
+      //   console.log(`array.splice ${JSON.stringify(array)}, ${JSON.stringify(infos)}`);
       if (info.city) {
-          // collopse city panel
-          this.showCity.showMore = false;
+        // collopse city panel
+        this.showCity.showMore = false;
       }
       if (info.text) {
-          this.showTime.startDate = "2018-03-20";
-          this.showTime.endDate = "2018-04-20";
+        this.showTime.startDate = "2018-03-20";
+        this.showTime.endDate = "2018-04-20";
       }
       this.$emit("selected-info", this.searchProps);
     },
     selectCityInfo: function(info) {
-        if (this.showCity.single) {
-            this.selectedCityInfos.splice(0);
-        }
+      if (this.showCity.single) {
+        this.selectedCityInfos.splice(0);
+      }
     },
     toggleMore: function(showObj) {
       showObj.showMore = !showObj.showMore;

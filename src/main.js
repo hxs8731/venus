@@ -98,7 +98,7 @@ Vue.prototype.getInfoByWorkType = function(options, response) {
         // console.log('GET ＝>>>>>>> requestLists start res = ' + JSON.stringify(res));
         // console.log('GET ＝>>>>>>> requestLists start res data = ' + JSON.stringify(res.data.data));
         if (response) {
-          response(res.data.data);
+          response(res.data);
         }
       } else if (res.data.errCode) {
         console.log(res.data.errCode + "," + JSON.stringify(res.data.errMsg));

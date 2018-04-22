@@ -45,7 +45,7 @@ export default {
     };
 
     this.getInfoByWorkType(params, (lists) => {
-      this.requestLists = lists;
+      this.requestLists = lists.data;
     });
     return {
         searchInfos: {

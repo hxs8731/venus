@@ -11,37 +11,34 @@
     </div>
     <div class="row list-body" v-for="list in requestLists">
       <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
-      <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)">{{ list.companyName }}</div>
+      <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)"><a href="#">{{ list.companyName }}</a></div>
       <div class="col-md-2 list-row">{{ formatDate(list.gmtCreate)}}</div>
       <div class="col-md-4 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">网申</button></div>
     </div>
-    <ul class="pagination">
-      <li><a href="#">&laquo;</a></li>
-      <li class="active"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#">&raquo;</a></li>
-    </ul>
+    <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
+    <paginator :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
   </div>
 </div>
 </template>
 <script>
-import SearchBar from '@/components/SearchBar'
-import NavigatorBar from '@/components/NavigatorBar'
+import SearchBar from '@/components/SearchBar';
+import NavigatorBar from '@/components/NavigatorBar';
+import Paginator from '@/components/Paginator';
 export default {
   name: 'CampusRecruitment',
   components: {
     NavigatorBar,
-    SearchBar
+    SearchBar,
+    Paginator
   },
   data() {
     let params = {
       'workType': 1
     };
     this.getInfoByWorkType(params, (lists) => {
-      this.requestLists = lists;
+      this.requestLists = lists.data;
+      console.log(`getInfoByWorkType response ${lists.totalElems}, ${lists.totalPages}`);
+      this.pageCount = lists.totalPages;
     });
 
     return {
@@ -92,61 +89,71 @@ export default {
           id: "jobhunting"
         }
       ],
+      selectedValue: null,
       requestLists: [],
       school: "",
       city: "",
       companyName: "",
-      time: ""
+      time: "",
+      pageCount: -1,
+      pagiData: {
+          pageNumber: 1,
+          pageSize: 10
+      }
     }
   },
   methods: {
-    //   doQueryList: (workType, city, companyName) => {
-    //       let paramsObj = {
-    //         "workType": workType,
-    //         "city": city,
-    //         "companyName": companyName
-    //       };
-    //       this.getInfoByWorkType(paramsObj, (lists) => {
-    //         this.requestLists = lists;
-    //       });
-    //   },
       handleSelected: function(selectedValue) {
+          this.selectedValue = selectedValue;
+          this.doQueryList();
+      },
+
+      togglePage: function(indexPage) {
+          console.log(indexPage);
+          this.pagiData.pageNumber = indexPage;
+          this.doQueryList();
+      },
+
+      doQueryList: function() {
           let params = {
               workType: 1
           };
-          if (selectedValue.showCity.show) {
-              let infos = selectedValue.showCity.infos;
-              let len = infos.length;
-              if (len > 0) {
-                  let cityStr = "";
-                  for (let i = 0; i < len; i++) {
-                      if (i > 0) {
-                          cityStr += ","
+          if (this.selectedValue) {
+              if (this.selectedValue.showCity.show) {
+                  let infos = this.selectedValue.showCity.infos;
+                  let len = infos.length;
+                  if (len > 0) {
+                      let cityStr = "";
+                      for (let i = 0; i < len; i++) {
+                          if (i > 0) {
+                              cityStr += ","
+                          }
+                          cityStr += infos[i].city;
                       }
-                      cityStr += infos[i].city;
+                      params.city = cityStr;
+                      console.log(`handleSelected => params.city = ${params.city}`);
                   }
-                  params.city = cityStr;
-                  console.log(`handleSelected => params.city = ${params.city}`);
+              }
+              if (this.selectedValue.showTime.show) {
+                  let startDate = "2018-03-20";
+                  let endDate = "2018-04-20";
+                //   this.showTime.startDate = "2018-03-20";
+                //   this.showTime.endDate = "2018-04-20";
+                  params.fromPubTime = startDate;
+                  params.toPubTime = endDate;
+                //   console.log(`handleSelected => params.startDate = ${startDate}`);
+                //   console.log(`handleSelected => params.endData = ${endData}`);
               }
           }
-          this.getInfoByWorkType(params, (lists) => {
-            this.requestLists = lists;
-          });
-          if (selectedValue.showTime.show) {
-              let startDate = "2018-03-20";
-              let endDate = "2018-04-20";
-            //   this.showTime.startDate = "2018-03-20";
-            //   this.showTime.endDate = "2018-04-20";
-              params.fromPubTime = startDate;
-              params.toPubTime = endDate;
-              console.log(`handleSelected => params.startDate = ${startDate}`);
-              console.log(`handleSelected => params.endData = ${endData}`);
+          if (this.pagiData) {
+              params.pageNumber = this.pagiData.pageNumber;
+              params.pageCount = this.pagiData.pageCount;
           }
-          console.log('handleSelected [watch]==>new: %s, old: %s', JSON.stringify(selectedValue));
+          console.log('handleSelected [watch]==>new: %s, old: %s', JSON.stringify(this.selectedValue));
+          this.getInfoByWorkType(params, (lists) => {
+            this.requestLists = lists.data;
+          });
       }
-  },
-  _handleSearchCity: function(selctedCityInfo) {
-      console.log(`handleSearchCity ${JSON.stringify(selctedCityInfo)}`);
   }
 }
 </script>
