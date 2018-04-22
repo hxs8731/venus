@@ -8,25 +8,29 @@
 const WORK_TYPE_CAMPUS = 1; // 校园招聘类型
 const WORK_TYPE_PREACH = 2; // 宣讲会类型
 const WORK_TYPE_INTERNSHIP = 3; // 实习 @depricaated
-const WORK_TYPE_JOBHUNTING = 4; // 学院 @depricaated
+const WORK_TYPE_JOBHUNTING = 4; // 社招 @depricaated
 
 const TEST_MODE = false;
 const TEST_URL = "https://yesno.wtf/api";
 const INDEX_PREFIX = "/api/index/";
-const COMPANY_CITY_URI = INDEX_PREFIX + "getInfoByCompanyCity"; // 获取校招数据
+const COMPANY_CITY_URI = INDEX_PREFIX + "getInfoByWorkCityTypePubRange"; // 获取校招数据
 const SCHOOL_CITY_URI = INDEX_PREFIX + "getInfoBySchoolCity";
 const WORK_CITY_TYPE_URI = INDEX_PREFIX + "getInfoByWorkType";
-const XJ_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkTypeXjTimeRange"; // 获取宣讲会数据
+const XJ_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkCityTypeXjTimeRange"; // 获取宣讲会数据
 const PUBLISH_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkTypePublishTimeRange";
 const WHOLE_URI = INDEX_PREFIX + "getInfoByWorkTypeQualificationCompanyNameSchool";
 
 
+//level 2 市
+//level 1 省
 const BASE_PREFIX = "/api/base/";
 const CITY_BY_IP_URI = BASE_PREFIX + "getCitysByOrder"; //获取城市
 const ALL_PROVINCE_URI = BASE_PREFIX + "getAllProvince"; //获取所有省
 const CITY_BY_PROVINCE_ID_URI = BASE_PREFIX + "getCityByProvinceId"; //获取省下的市
-const SCHOOL_BY_CITY_ID_URI = BASE_PREFIX + "getSchoolByCityId"; //获取市学校
-const SCHOOL_BY_PROVINCE_ID_URI = BASE_PREFIX + "getSchoolByProvinceId"; //获取省下的学校
+const SCHOOL_BY_CITY_ID_URI = BASE_PREFIX + "getSchoolByParams"; //获取市学校 @params (cityName, )
+//Long provinceId, Long cityId, String provinceName, String cityName,String competent,Integer level, Integer order
+
+const SCHOOL_BY_PROVINCE_ID_URI = BASE_PREFIX + "getSchoolByProvince"; //获取省下的学校
 const TEST_RESULT = {
   "data": {
     "success": true,
