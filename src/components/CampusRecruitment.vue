@@ -4,16 +4,18 @@
   <search-bar :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid">
     <div class="row list-body">
+      <div class="col-md-1 list-header">&nbsp;</div>
       <div class="col-md-2 list-header">城市</div>
       <div class="col-md-4 list-header">招聘会</div>
       <div class="col-md-2 list-header">收录时间</div>
-      <div class="col-md-4 list-header">网申入口</div>
+      <div class="col-md-3 list-header">网申入口</div>
     </div>
     <div class="row list-body" v-for="list in requestLists">
+      <div class="col-md-1 list-row">&nbsp;</div>
       <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
       <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)"><a href="#">{{ list.companyName }}</a></div>
       <div class="col-md-2 list-row">{{ formatDate(list.gmtCreate)}}</div>
-      <div class="col-md-4 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">网申</button></div>
+      <div class="col-md-3 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">网申</button></div>
     </div>
     <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
     <paginator :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
@@ -135,8 +137,8 @@ export default {
                   }
               }
               if (this.selectedValue.showTime.show) {
-                  let startDate = "2018-03-20";
-                  let endDate = "2018-04-20";
+                  let startDate = this.selectedValue.showTime.startDate;
+                  let endDate = this.selectedValue.showTime.endDate;
                 //   this.showTime.startDate = "2018-03-20";
                 //   this.showTime.endDate = "2018-04-20";
                   params.fromPubTime = startDate;
@@ -149,7 +151,7 @@ export default {
               params.pageNumber = this.pagiData.pageNumber;
               params.pageCount = this.pagiData.pageCount;
           }
-          console.log('handleSelected [watch]==>new: %s, old: %s', JSON.stringify(this.selectedValue));
+          console.log('handleSelected [watch]==>new: %s', JSON.stringify(this.selectedValue));
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;
           });

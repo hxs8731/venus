@@ -5,16 +5,10 @@
       <span>城市: </span>
       <button v-for="info in mainCityInfos" :class="selectedCityInfos.indexOf(info) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedCityInfos, info, showCity.single)"> {{ info.city }} </button>
       <button v-for="info in selectedCityInfos" v-if="mainCityInfos.indexOf(info) < 0" class="btn btn-primary" @click="selectInfo(selectedCityInfos, info, showCity.single)">{{ info.city }}</button>
-      <span @click="toggleMore(showCity)">更多城市</span>
+      <a href="#" @click="toggleMore(showCity)" data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多城市</a>
+      <model-view modelTitle="自定义城市" :singleSelect="showCity.single" :modelData="letters" :selectedInfos="selectedCityInfos" modelId="cityModal" @modal-selected="selectInfoFromModal($event)" />
+    </li>
 
-    </li>
-    <li v-if="showCity.showMore">
-      <span>自定义城市: </span>
-      <p v-for="letterData in letters">
-        <span>{{ letterData.letter }}</span>
-        <button v-for="info in letterData.data" class="btn btn-default" @click="selectInfo(selectedCityInfos, info, showCity.single)"> {{ info.city }} </button>
-      </p>
-    </li>
     <li v-if="showSchool.show">
       <span>学校: </span>
       <button v-for="info in mainSchoolInfos" class="btn btn-default" @click="selectInfo(selectedSchoolInfos, info.school, showSchool.single)"> {{ info.school }} </button>
@@ -24,31 +18,28 @@
     <li v-if="!showTime.showMore" class="form-inline">
       <span>时间: </span>
       <button v-for="timeInfo in mainTimeInfos" :class="selectedTimeInfos.indexOf(timeInfo) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedTimeInfos, timeInfo, showTime.single)"> {{ timeInfo.text }} </button>
-      <span @click="changeTimeMode(true, showTime)">  自定义时间</span>
+      <a href="#" @click="changeTimeMode(true, showTime)"><span class="glyphicon glyphicon-th"></span>自定义时间</a>
     </li>
     <li v-if="showTime.showMore" class="form-inline">
       <span>时间: </span>
-      <datepicker class="form-control" id="startDate" type="text" placeholder="开始时间" language="zh" format="yyyy-MM-dd"></datepicker>
-      <datepicker class="form-control" id="endDate" type="text" placeholder="结束时间" language="zh" format="yyyy-MM-dd"></datepicker>
-      <span @click="changeTimeMode(false, showTime)">  普通时间段</span>
+      <datepicker class="form-control" id="startDate" type="text" @selected="selectStartDate" placeholder="开始时间" language="zh" format="yyyy-MM-dd"></datepicker>
+      <datepicker class="form-control" id="endDate" type="text" @selected="selectEndDate" placeholder="结束时间" language="zh" format="yyyy-MM-dd"></datepicker>
+      <a href="#" @click="changeTimeMode(false, showTime)"><span class="glyphicon glyphicon-th-large"></span>普通时间段</a>
     </li>
   </ul>
-  <!-- <ul>
-    <li v-if="showCity.show">当前选择的城市是: <span v-for="info in selectedCityInfos"> {{ info.city }} </span></li>
-    <li v-if="showSchool.show">当前选择的学校是: <span v-for="school in selectedSchoolInfos"> {{ info.school }} </span></li>
-    <li v-if="showTime.show">当前选择的时间段是: <span v-for="timeInfo in selectedTimeInfos"> {{ timeInfo.text }} </span></li>
-  </ul> -->
 </div>
 </template>
 </ul>
 <script>
-// import "../assets/bootstrap-datetimepicker.js";
-import Datepicker from 'vuejs-datepicker'
+import "../assets/bootstrap.min.js";
+import Datepicker from 'vuejs-datepicker';
+import ModelView from '@/components/ModelView';
 export default {
   name: 'SearchBar',
   components: {
     Datepicker,
-    Datepicker
+    Datepicker,
+    ModelView
   },
   props: ['searchProps', 'searchCity'],
   data() {
@@ -57,7 +48,8 @@ export default {
       order: 1
     }, (res) => {
       this.mainCityInfos = res;
-      //   console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res) + ", searchProps = " + searchProps);
+      this.initialTimeInfo();
+        console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
     });
     this.getCityByIp({ // get totalCityInfos
       level: 2,
@@ -75,6 +67,7 @@ export default {
         //   console.log(`letter data is setted ${letterData.data}`);
       }
     });
+
     return {
       selectedCityInfos: this.searchProps.showCity.infos,
       selectedSchoolInfos: this.searchProps.showSchool.infos,
@@ -206,13 +199,22 @@ export default {
       showTime: {
         show: this.searchProps.showTime.show,
         single: this.searchProps.showTime.single,
-        showMore: this.searchProps.showTime.showMore
-      }
+        showMore: this.searchProps.showTime.showMore,
+        startDate: this.searchProps.showTime.startDate,
+        endDate: this.searchProps.showTime.endDate,
+    },
+    showModal: false
     }
   },
   methods: {
+    selectInfoFromModal: function(options) { // 只能传一个参数；
+        console.log("selectInfoFromModal select city info = " + JSON.stringify(options));
+        if (options) {
+            this.selectInfo(options.infos, options.info, options.single);
+        }
+    },
     selectInfo: function(array, info, single) {
-      //   console.log("select city info = " + JSON.stringify(info));
+        console.log("select city info = " + JSON.stringify(info) + ", array = " + JSON.stringify(array) + ", single = " + single);
       let index = array.indexOf(info);
       //   console.log(`${index}`);
       if (index >= 0) {
@@ -223,26 +225,53 @@ export default {
         }
         array.splice(0, 0, info);
       }
-      let infos = this.searchProps.showCity.infos;
+    //   let infos = this.searchProps.showCity.infos;
       //   console.log(`array.splice ${JSON.stringify(array)}, ${JSON.stringify(infos)}`);
       if (info.city) {
         // collopse city panel
         this.showCity.showMore = false;
       }
       if (info.text) {
-        this.showTime.startDate = "2018-03-20";
-        this.showTime.endDate = "2018-04-20";
+        let parseTime = this.parseMainTime(info.text);
+        this.searchProps.showTime.startDate = parseTime.start;
+        this.searchProps.showTime.endDate = parseTime.end;
+        console.log(`selectInfo ${this.showTime.startDate}, ${this.showTime.endDate}, ${this.searchProps.showTime.startDate}, ${this.searchProps.showTime.endDate}`);
       }
       this.$emit("selected-info", this.searchProps);
-    },
-    selectCityInfo: function(info) {
-      if (this.showCity.single) {
-        this.selectedCityInfos.splice(0);
-      }
     },
     toggleMore: function(showObj) {
       showObj.showMore = !showObj.showMore;
     },
+    selectStartDate: function(value) {
+        console.log(`selectStartDate ===> ${this.formatDate(value)}`);
+        this.showTime.startDate = this.formatDate(value);
+    },
+    selectEndDate: function(value) {
+        console.log(`selectEndDate ===> ${this.formatDate(value)}`);
+        this.showTime.endDate = this.formatDate(value);
+    },
+    parseMainTime: function(timeStr) {
+        let result = {};
+        var weekOfday = this.moment().format('E'); //计算今天是这周第几天
+        if ("本周" === timeStr) {
+            result.start = this.moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD');
+            result.end = this.moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD');
+        } else if ("下周" === timeStr) {
+            result.start = this.moment().add(7 - weekOfday + 1, 'days').format('YYYY-MM-DD');
+            result.end = this.moment().add(7 - weekOfday + 7, 'days').format('YYYY-MM-DD');
+        } else if ("下个月" === timeStr) {
+            result.start = this.moment().endOf('month').add(1, 'days').format('YYYY-MM-DD');
+            result.end = this.moment().endOf('month').add(1, 'month').format('YYYY-MM-DD');
+        } else if ("上周" === timeStr) {
+            result.start = this.moment().subtract(weekOfday - 1 + 7, 'days').format('YYYY-MM-DD');
+            result.end = this.moment().subtract(weekOfday - 1 + 1, 'days').format('YYYY-MM-DD');
+        } else if ("上个月" === timeStr) {
+            result.start = this.moment().startOf('month').subtract(1, 'month').format('YYYY-MM-DD');
+            result.end = this.moment().endOf('month').subtract(1, 'month').format('YYYY-MM-DD');
+        }
+        return result;
+    },
+
     changeTimeMode: function(isMain, showTime) {
       if (isMain) {
         // it's time main mode, change to custom time range
