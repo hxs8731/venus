@@ -139,12 +139,12 @@ export default {
               if (this.selectedValue.showTime.show) {
                   let startDate = this.selectedValue.showTime.startDate;
                   let endDate = this.selectedValue.showTime.endDate;
-                //   this.showTime.startDate = "2018-03-20";
-                //   this.showTime.endDate = "2018-04-20";
-                  params.fromPubTime = startDate;
-                  params.toPubTime = endDate;
-                //   console.log(`handleSelected => params.startDate = ${startDate}`);
-                //   console.log(`handleSelected => params.endData = ${endData}`);
+                  if (-1 !== startDate && -1 !== endDate) {
+                      params.fromPubTime = startDate;
+                      params.toPubTime = endDate;
+                  }
+                  console.log(`handleSelected => params.startDate = ${startDate}`);
+                  console.log(`handleSelected => params.endData = ${endDate}`);
               }
           }
           if (this.pagiData) {

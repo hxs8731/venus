@@ -11,8 +11,8 @@
 
     <li v-if="showSchool.show">
       <span>学校: </span>
-      <button v-for="info in mainSchoolInfos" class="btn btn-default" @click="selectInfo(selectedSchoolInfos, info.school, showSchool.single)"> {{ info.school }} </button>
-      <span v-if="showSchool.more" @click="toggleMore(schoolList)">  更多</span>
+      <button v-for="info in mainSchoolInfos" :class="selectedSchoolInfos.indexOf(info) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedSchoolInfos, info, showSchool.single)"> {{ info.name }} </button>
+      <!-- <span v-if="showSchool.more" @click="toggleMore(schoolList)">  更多</span> -->
     </li>
 
     <li v-if="!showTime.showMore" class="form-inline">
@@ -48,7 +48,7 @@ export default {
       order: 1
     }, (res) => {
       this.mainCityInfos = res;
-      this.initialTimeInfo();
+    //   this.initialTimeInfo();
         console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
     });
     this.getCityByIp({ // get totalCityInfos
@@ -94,98 +94,7 @@ export default {
       ],
       startQueryDate: "",
       endQueryDate: "",
-      //   selectedCityInfosInfo: {
-      //     id: -1,
-      //     parentId: -1,
-      //     province: "",
-      //     level: -1,
-      //     city: "",
-      //     county: "",
-      //     ipsSeg: null,
-      //     gmtCreate: null,
-      //     gmtModified: -1,
-      //     pinyin: "",
-      //     defOrder: -1
-      //   },
-      letters: [{
-        letter: "A",
-        data: []
-      }, {
-        letter: "B",
-        data: []
-      }, {
-        letter: "C",
-        data: []
-      }, {
-        letter: "D",
-        data: []
-      }, {
-        letter: "E",
-        data: []
-      }, {
-        letter: "F",
-        data: []
-      }, {
-        letter: "G",
-        data: []
-      }, {
-        letter: "H",
-        data: []
-      }, {
-        letter: "I",
-        data: []
-      }, {
-        letter: "J",
-        data: []
-      }, {
-        letter: "K",
-        data: []
-      }, {
-        letter: "L",
-        data: []
-      }, {
-        letter: "M",
-        data: []
-      }, {
-        letter: "N",
-        data: []
-      }, {
-        letter: "O",
-        data: []
-      }, {
-        letter: "P",
-        data: []
-      }, {
-        letter: "Q",
-        data: []
-      }, {
-        letter: "R",
-        data: []
-      }, {
-        letter: "S",
-        data: []
-      }, {
-        letter: "T",
-        data: []
-      }, {
-        letter: "U",
-        data: []
-      }, {
-        letter: "V",
-        data: []
-      }, {
-        letter: "W",
-        data: []
-      }, {
-        letter: "X",
-        data: []
-      }, {
-        letter: "Y",
-        data: []
-      }, {
-        letter: "Z",
-        data: []
-      }],
+      letters:[{letter:"A",data:[]},{letter:"B",data:[]},{letter:"C",data:[]},{letter:"D",data:[]},{letter:"E",data:[]},{letter:"F",data:[]},{letter:"G",data:[]},{letter:"H",data:[]},{letter:"I",data:[]},{letter:"J",data:[]},{letter:"K",data:[]},{letter:"L",data:[]},{letter:"M",data:[]},{letter:"N",data:[]},{letter:"O",data:[]},{letter:"P",data:[]},{letter:"Q",data:[]},{letter:"R",data:[]},{letter:"S",data:[]},{letter:"T",data:[]},{letter:"U",data:[]},{letter:"V",data:[]},{letter:"W",data:[]},{letter:"X",data:[]},{letter:"Y",data:[]},{letter:"Z",data:[]}],
       showCity: {
         show: this.searchProps.showCity.show,
         single: this.searchProps.showCity.single,
@@ -230,6 +139,16 @@ export default {
       if (info.city) {
         // collopse city panel
         this.showCity.showMore = false;
+        if (this.showSchool.show) {
+            // do query school info
+            this.getSchoolByParams({
+              cityName: info.city
+            }, (res) => {
+              this.mainSchoolInfos = res;
+            //   this.initialTimeInfo();
+                console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
+            });
+        }
       }
       if (info.text) {
         let parseTime = this.parseMainTime(info.text);

@@ -70,6 +70,22 @@ Vue.prototype.getRequestUrl = function(workType) {
   }
   return uri;
 };
+Vue.prototype.getSchoolByParams = function(options, response) {
+  this.http.get(this._global.SCHOOL_BY_CITY_ID_URI, {
+    params: options
+  }).then((res) => {
+    // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res));
+    if (res.data) {
+        if (response) {
+          response(res.data.data);
+        }
+    } else if (res.data.errCode) {
+      console.log(res.data.errCode + "," + JSON.stringify(res.data.errMsg));
+    }
+  }).catch((error) => {
+    console.log("error" + JSON.stringify(error));
+  });
+};
 Vue.prototype.getCityByIp = function(options, response) {
   this.http.get(this._global.CITY_BY_IP_URI, {
     params: options

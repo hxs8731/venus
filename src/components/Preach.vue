@@ -2,7 +2,6 @@
 <div class="center-block">
   <navigator-bar :navInfos="naviLists" />
   <search-bar  :searchProps="searchInfos" @selected-info="handleSelected"/>
-  <h3>校园宣讲会</h3>
   <div class="container-fluid">
     <div class="row list-body">
       <div class="col-md-3 list-header">公司</div>
@@ -18,26 +17,21 @@
       <div class="col-md-3 list-row">{{ list.teachInsAddress }}</div>
       <div class="col-md-1 list-row">订阅</div>
     </div>
-    <ul class="pagination">
-      <li><a href="#">&laquo;</a></li>
-      <li class="active"><a href="#">1</a></li>
-      <li class="disabled"><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#">&raquo;</a></li>
-    </ul>
+    <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
+    <paginator :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
   </div>
 </div>
 </template>
 <script>
-import SearchBar from '@/components/SearchBar'
-import NavigatorBar from '@/components/NavigatorBar'
+import SearchBar from '@/components/SearchBar';
+import NavigatorBar from '@/components/NavigatorBar';
+import Paginator from '@/components/Paginator';
 export default {
   name: 'Preach',
   components: {
     NavigatorBar,
-    SearchBar
+    SearchBar,
+    Paginator
   },
   data() {
     let params = {
@@ -95,47 +89,86 @@ export default {
             id: "jobhunting"
           }
         ],
+      selectedValue: null,
       requestLists: [],
       school: "",
       city: "",
       companyName: "",
-      time: ""
+      time: "",
+      pageCount: -1,
+      pagiData: {
+          pageNumber: 1,
+          pageSize: 10
+      }
     }
   },
   methods: {
       handleSelected: function(selectedValue) {
+          this.selectedValue = selectedValue;
+          this.doQueryList();
+      },
+
+      togglePage: function(indexPage) {
+          console.log(indexPage);
+          this.pagiData.pageNumber = indexPage;
+          this.doQueryList();
+      },
+
+      doQueryList: function() {
           let params = {
               workType: 2
           };
-          if (selectedValue.showCity.show) {
-              let infos = selectedValue.showCity.infos;
-              let len = infos.length;
-              if (len > 0) {
-                  let cityStr = "";
-                  for (let i = 0; i < len; i++) {
-                      if (i > 0) {
-                          cityStr += ","
+          if (this.selectedValue) {
+              if (this.selectedValue.showCity.show) {
+                  let infos = this.selectedValue.showCity.infos;
+                  let len = infos.length;
+                  if (len > 0) {
+                      let cityStr = "";
+                      for (let i = 0; i < len; i++) {
+                          if (i > 0) {
+                              cityStr += ","
+                          }
+                          cityStr += infos[i].city;
                       }
-                      cityStr += infos[i].city;
+                      params.city = cityStr;
+                      console.log(`handleSelected => params.city = ${params.city}`);
                   }
-                  params.city = cityStr;
-                  console.log(`handleSelected => params.city = ${params.city}`);
+              }
+              if (this.selectedValue.showTime.show) {
+                  let startDate = this.selectedValue.showTime.startDate;
+                  let endDate = this.selectedValue.showTime.endDate;
+
+                  if (-1 !== startDate && -1 !== endDate) {
+                      params.fromXjTime = startDate;
+                      params.toXjTime = endDate;
+                  }
+                  console.log(`handleSelected => params.startDate = ${startDate}`);
+                  console.log(`handleSelected => params.endData = ${endDate}`);
+              }
+              if (this.selectedValue.showSchool.show) {
+                  let infos = this.selectedValue.showSchool.infos;
+                  let len = infos.length;
+                  if (len > 0) {
+                      let schoolName = "";
+                      for (let i = 0; i < len; i++) {
+                          if (i > 0) {
+                              schoolName += ","
+                          }
+                          schoolName += infos[i].name;
+                      }
+                      params.school = schoolName;
+                      console.log(`handleSelected => params.schoolName = ${params.schoolName}`);
+                  }
               }
           }
-          this.getInfoByWorkType(params, (lists) => {
-            this.requestLists = lists;
-          });
-          if (selectedValue.showTime.show) {
-              let startDate = "2018-03-20";
-              let endDate = "2018-04-20";
-            //   this.showTime.startDate = "2018-03-20";
-            //   this.showTime.endDate = "2018-04-20";
-              params.fromPubTime = startDate;
-              params.toPubTime = endDate;
-              console.log(`handleSelected => params.startDate = ${startDate}`);
-              console.log(`handleSelected => params.endData = ${endData}`);
+          if (this.pagiData) {
+              params.pageNumber = this.pagiData.pageNumber;
+              params.pageCount = this.pagiData.pageCount;
           }
-          console.log('handleSelected [watch]==>new: %s, old: %s', JSON.stringify(selectedValue));
+          console.log('handleSelected [watch]==>new: %s', JSON.stringify(this.selectedValue));
+          this.getInfoByWorkType(params, (lists) => {
+            this.requestLists = lists.data;
+          });
       }
   }
 }
