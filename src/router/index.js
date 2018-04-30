@@ -4,6 +4,7 @@ import Preach from '@/components/Preach'
 import JobHunting from '@/components/JobHunting'
 import CampusRecruitment from '@/components/CampusRecruitment'
 import Internship from '@/components/Internship'
+import Loging from '@/components/Loging'
 Vue.use(Router)
 
 export default new Router({
@@ -23,5 +24,9 @@ export default new Router({
     path: '/internship',
     name: 'Internship',
     component: Internship
+  }, {
+    path: '/Loging',
+    name: 'Loging',
+    component: Loging
   }]
 })

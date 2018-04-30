@@ -20,7 +20,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        <!--<li><a href="/Loging"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>-->
+        <li><router-link tag="a" to="/Loging" key="Loging"><span class="glyphicon glyphicon-log-in"></span>登录</router-link></li>
       </ul>
     </div>
   </nav>
