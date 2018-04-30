@@ -14,8 +14,8 @@
       <ul class="form-inline form-group nav navbar-nav search_nav">
         <li>
           <label class="sr-only" for="name">名称</label>
-          <input type="text" class="form-control" id="name" placeholder="输入网申或企业名称">
-          <button type="button" class="btn btn-primary">搜索</button>
+          <input type="text" class="form-control" ref="input1" placeholder="输入网申或企业名称">
+          <button type="button" class="btn btn-primary" @click="doSearchCompany">搜索</button>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -34,6 +34,11 @@ export default {
     return {
       activeId: ""
     }
+  },
+  methods: {
+      doSearchCompany: function() {
+          this.$emit("search-nav", this.$refs.input1.value);
+      }
   }
 }
 </script>

@@ -10,12 +10,12 @@
       <div class="col-md-3 list-header">举办地点</div>
       <div class="col-md-1 list-header">订阅</div>
     </div>
-    <div class="row list-body" v-for="list in requestLists" @click="callLink(list.recruitUrl)">
+    <div class="row list-body" v-for="list in requestLists">
       <div class="col-md-3 list-row">{{ list.companyName }}</div>
-      <div class="col-md-2 list-row">{{ list.school }}</div>
+      <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#">{{ list.school }}</a></div>
       <div class="col-md-3 list-row">{{ list.xjTime }}</div>
       <div class="col-md-3 list-row">{{ list.teachInsAddress }}</div>
-      <div class="col-md-1 list-row">订阅</div>
+      <div class="col-md-1 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">订阅</button></div>
     </div>
     <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
     <paginator :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
@@ -99,12 +99,19 @@ export default {
       pagiData: {
           pageNumber: 1,
           pageSize: 10
-      }
+      },
+      navSearchInfo: null
     }
   },
   methods: {
       handleSelected: function(selectedValue) {
           this.selectedValue = selectedValue;
+          this.doQueryList();
+      },
+
+      handleNavbarSearch: function(value) {
+          // search company
+          this.navSearchInfo = value;
           this.doQueryList();
       },
 
@@ -118,7 +125,20 @@ export default {
           let params = {
               workType: 2
           };
-          if (this.selectedValue) {
+          let searchMode = 0; // normal mode
+          if (this.navSearchInfo) {
+              let value = this.navSearchInfo;
+              value = value.replace('\s+', '');
+              if(value.length > 0) {
+                  params.company = this.navSearchInfo;
+                  searchMode = 1; // company mode
+              }
+          }
+          if (this.pagiData) {
+              params.pageNumber = this.pagiData.pageNumber;
+              params.pageCount = this.pagiData.pageCount;
+          }
+          if (this.selectedValue && searchMode == 0) { // normal mode
               if (this.selectedValue.showCity.show) {
                   let infos = this.selectedValue.showCity.infos;
                   let len = infos.length;

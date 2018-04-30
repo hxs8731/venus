@@ -1,6 +1,6 @@
 <template>
 <div>
-  <navigator-bar :navInfos="naviLists" />
+  <navigator-bar :navInfos="naviLists" @search-nav="handleNavbarSearch"/>
   <search-bar :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid">
     <div class="row list-body">
@@ -101,12 +101,19 @@ export default {
       pagiData: {
           pageNumber: 1,
           pageSize: 10
-      }
+      },
+      navSearchInfo: null
     }
   },
   methods: {
       handleSelected: function(selectedValue) {
           this.selectedValue = selectedValue;
+          this.doQueryList();
+      },
+
+      handleNavbarSearch: function(value) {
+          // search company
+          this.navSearchInfo = value;
           this.doQueryList();
       },
 
@@ -120,7 +127,20 @@ export default {
           let params = {
               workType: 1
           };
-          if (this.selectedValue) {
+          let searchMode = 0; // normal mode
+          if (this.navSearchInfo) {
+              let value = this.navSearchInfo;
+              value = value.replace('\s+', '');
+              if(value.length > 0) {
+                  params.company = this.navSearchInfo;
+                  searchMode = 1; // company mode
+              }
+          }
+          if (this.pagiData) {
+              params.pageNumber = this.pagiData.pageNumber;
+              params.pageCount = this.pagiData.pageCount;
+          }
+          if (this.selectedValue && searchMode == 0) { // normal mode
               if (this.selectedValue.showCity.show) {
                   let infos = this.selectedValue.showCity.infos;
                   let len = infos.length;
@@ -147,10 +167,7 @@ export default {
                   console.log(`handleSelected => params.endData = ${endDate}`);
               }
           }
-          if (this.pagiData) {
-              params.pageNumber = this.pagiData.pageNumber;
-              params.pageCount = this.pagiData.pageCount;
-          }
+
           console.log('handleSelected [watch]==>new: %s', JSON.stringify(this.selectedValue));
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;

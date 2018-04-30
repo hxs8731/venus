@@ -9,7 +9,7 @@
       <model-view modelTitle="自定义城市" :singleSelect="showCity.single" :modelData="letters" :selectedInfos="selectedCityInfos" modelId="cityModal" @modal-selected="selectInfoFromModal($event)" />
     </li>
 
-    <li v-if="showSchool.show">
+    <li v-if="showSchool.show && mainSchoolInfos.length > 0">
       <span>学校: </span>
       <button v-for="info in mainSchoolInfos" :class="selectedSchoolInfos.indexOf(info) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedSchoolInfos, info, showSchool.single)"> {{ info.name }} </button>
       <!-- <span v-if="showSchool.more" @click="toggleMore(schoolList)">  更多</span> -->
@@ -140,14 +140,18 @@ export default {
         // collopse city panel
         this.showCity.showMore = false;
         if (this.showSchool.show) {
-            // do query school info
-            this.getSchoolByParams({
-              cityName: info.city
-            }, (res) => {
-              this.mainSchoolInfos = res;
-            //   this.initialTimeInfo();
-                console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
-            });
+            if (array.length <= 0) {
+                this.mainSchoolInfos = []; // clear main school info
+            } else {
+                // do query school info
+                this.getSchoolByParams({
+                    cityName: info.city
+                }, (res) => {
+                    this.mainSchoolInfos = res;
+                    //   this.initialTimeInfo();
+                    console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
+                });
+            }
         }
       }
       if (info.text) {
