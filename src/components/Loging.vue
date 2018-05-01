@@ -74,7 +74,7 @@ img{max-width:100%;}
 	margin: 0 auto;
 	width: 80%;
 }
-body a,form li,input[type="submit"],input[type="text"],.sixth-login input[type="submit"],.third-login input[type="submit"]{
+body a,form li,.login-form input[type="submit"],.login-form input[type="text"],.sixth-login .login-form input[type="submit"],.third-login .login-form input[type="submit"]{
 	transition: 0.1s all;
 	-webkit-transition: 0.1s all;
 	-moz-transition: 0.1s all;
@@ -129,7 +129,7 @@ background: url('../assets/images/close.png') no-repeat 0px 0px;
 	-moz-border-top-right-radius: 10px;
 	-o-border-top-right-radius: 10p
 }
-input[type="text"] {
+.login-form input[type="text"] {
 	  width: 70%;
 	  padding: 1em 2em 1em 3em;
 	  color: #9199aa;
@@ -141,7 +141,7 @@ input[type="text"] {
 	  border-bottom: 1px solid#484856;
 	  margin-top: 2em;
 }
- input[type="password"]{
+ .login-form input[type="password"]{
 	  width: 70%;
 	  padding: 1em 2em 1em 3em;
 	  color: #dd3e3e;
@@ -156,7 +156,7 @@ input[type="text"] {
 .key {
    background: url(../assets/images/pass.png) no-repeat 447px 17px;
 }
-input[type="submit"]{
+.login-form input[type="submit"]{
   font-size: 30px;
   color: #fff;
   outline: none;
@@ -174,7 +174,7 @@ input[type="submit"]{
 	-o-border-bottom-right-radius: 15px;
 	cursor: pointer;
 }
-input[type="submit"]:hover {
+.login-form input[type="submit"]:hover {
 	background: #ff2775;
   border-bottom-left-radius: 15px;
 	-webkit-border-bottom-left-radius: 15px;
@@ -248,7 +248,7 @@ label.lbl-3 {
 	.key {
 	  background: url(../assets/images/pass.png) no-repeat 376px 17px;
 	}
-	
+
 	body {
 	  min-height: 811px;
 	}
@@ -327,13 +327,13 @@ label.lbl-3 {
 	  width: 90%;
 	  margin: 10% auto 0 auto;
 	}
-	input[type="text"] {
+	.login-form input[type="text"] {
 	  width: 62%;
 	  padding: 1.2em 2em .5em 2.5em;
 	  font-size: 17px;
 	  margin-top: .5em;
 	}
-	input[type="password"] {
+	.login-form input[type="password"] {
 		width: 62%;
 		padding: 1.2em 2em .5em 2.5em;
 		font-size: 17px;
@@ -369,7 +369,7 @@ label.lbl-3 {
 	body {
 	    min-height: 504px;
 	}
-	input[type="submit"] {
+	.login-form input[type="submit"] {
 	  font-size: 28px;
 	  padding: 10px 0;
 	}

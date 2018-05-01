@@ -37,10 +37,10 @@ export default {
     let params = {
       "workType": 2
     };
-
-    this.getInfoByWorkType(params, (lists) => {
-      this.requestLists = lists.data;
-    });
+    this.updateListData(params);
+    // this.getInfoByWorkType(params, (lists) => {
+    //   this.requestLists = lists.data;
+    // });
     return {
         searchInfos: {
             showCity: {
@@ -186,8 +186,13 @@ export default {
               params.pageCount = this.pagiData.pageCount;
           }
           console.log('handleSelected [watch]==>new: %s', JSON.stringify(this.selectedValue));
+          this.updateListData(params);
+      },
+      updateListData: function(params) {
+          params.pageSize = 6;
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;
+            this.pageCount = lists.totalPages; // update pagecount
           });
       }
   }
