@@ -10,7 +10,7 @@ const WORK_TYPE_PREACH = 2; // 宣讲会类型
 const WORK_TYPE_INTERNSHIP = 3; // 实习 @depricaated
 const WORK_TYPE_JOBHUNTING = 4; // 社招 @depricaated
 
-const TEST_MODE = true;
+const TEST_MODE = false;
 const TEST_URL = "https://yesno.wtf/api";
 const INDEX_PREFIX = "/api/index/";
 const COMPANY_CITY_URI = INDEX_PREFIX + "getInfoByWorkCityTypePubRange"; // 获取校招数据
