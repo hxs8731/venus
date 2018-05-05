@@ -12,8 +12,8 @@
     </div>
     <div class="row list-body" v-for="list in requestLists">
       <div class="col-md-1 list-row">&nbsp;</div>
-      <div class="col-md-2 list-row"><span @mouseover="mouseOver(list.recruitCitys)" @mouseout="mouseOut(list.recruitCitys)" class="label label-primary">{{ list.recruitCitys }}</span></div>
-      <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)"><a @mouseover="mouseOver(list.companyName)" @mouseout="mouseOut(list.companyName)" href="#">{{ list.companyName }}</a></div>
+      <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
+      <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)"><a :title="list.companyName" href="#">{{ list.companyName }}</a></div>
       <div class="col-md-2 list-row">{{ formatDate(list.gmtCreate)}}</div>
       <div class="col-md-3 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">网申</button></div>
     </div>
@@ -181,19 +181,12 @@ export default {
             this.requestLists = lists.data;
             this.pageCount = lists.totalPages; // update pagecount
           });
-      },
-      mouseOver: function(value) {
-          console.log("over value is " + value + ", ");
-      },
-      mouseOut: function(value) {
-          console.log("out value is " + value + ", ");
       }
   }
 }
 </script>
 
 <style>
-
 /*.logo-color {
    background-color: #FFF0F5
  }*/

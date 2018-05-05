@@ -11,10 +11,10 @@
       <div class="col-md-1 list-header">订阅</div>
     </div>
     <div class="row list-body" v-for="list in requestLists">
-      <div class="col-md-3 list-row">{{ list.companyName }}</div>
-      <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#">{{ list.school }}</a></div>
+      <div class="col-md-3 list-row" :title="list.companyName">{{ list.companyName }}</div>
+      <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#" :title="list.school">{{ list.school }}</a></div>
       <div class="col-md-3 list-row">{{ list.xjTime }}</div>
-      <div class="col-md-3 list-row">{{ list.teachInsAddress }}</div>
+      <div class="col-md-3 list-row" :title="list.teachInsAddress">{{ list.teachInsAddress }}</div>
       <div class="col-md-1 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">订阅</button></div>
     </div>
     <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
