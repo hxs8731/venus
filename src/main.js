@@ -81,7 +81,7 @@ Vue.prototype.getInfoByWorkType = function(options, response) {
   }).then((res) => {
     if (this._global.TEST_MODE) {
       console.log('GET ＝>>>>>>> requestLists in test mode');
-      response(this._global.TEST_RESULT.data.data);
+      response(this._global.TEST_RESULT.data);
       return;
     }
     if (res.data) {

@@ -1,6 +1,6 @@
 <template>
 <div class="center-block">
-  <navigator-bar :navInfos="naviLists" />
+  <navigator-bar :navInfos="naviLists" @search-nav="handleNavbarSearch"/>
   <search-bar  :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid">
     <div class="row list-body">
@@ -18,7 +18,8 @@
       <div class="col-md-1 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">订阅</button></div>
     </div>
     <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
-    <paginator :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
+    <div v-if="this.pageCount <= 0" class="no-data">没有数据</div>
+    <paginator v-else :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
   </div>
 </div>
 </template>
@@ -97,8 +98,8 @@ export default {
       time: "",
       pageCount: -1,
       pagiData: {
-          pageNumber: 1,
-          pageSize: 10
+          pageNumber: 0,
+          pageSize: 6
       },
       navSearchInfo: null
     }
@@ -130,7 +131,7 @@ export default {
               let value = this.navSearchInfo;
               value = value.replace('\s+', '');
               if(value.length > 0) {
-                  params.company = this.navSearchInfo;
+                  params.companyName = this.navSearchInfo;
                   searchMode = 1; // company mode
               }
           }
@@ -161,6 +162,8 @@ export default {
                   if (-1 !== startDate && -1 !== endDate) {
                       params.fromXjTime = startDate;
                       params.toXjTime = endDate;
+                  } else if (-1 === startDate) {
+                      params.fromXjTime = this.formatDate(new Date());
                   }
                   console.log(`handleSelected => params.startDate = ${startDate}`);
                   console.log(`handleSelected => params.endData = ${endDate}`);

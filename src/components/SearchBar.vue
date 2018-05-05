@@ -167,11 +167,19 @@ export default {
     },
     selectStartDate: function(value) {
         console.log(`selectStartDate ===> ${this.formatDate(value)}`);
-        this.showTime.startDate = this.formatDate(value);
+        this.searchProps.showTime.startDate = this.formatDate(value);
+        // this.showTime.startDate = this.formatDate(value);
+        this.$emit("selected-info", this.searchProps);
     },
     selectEndDate: function(value) {
         console.log(`selectEndDate ===> ${this.formatDate(value)}`);
-        this.showTime.endDate = this.formatDate(value);
+        this.searchProps.showTime.endDate = this.formatDate(value);
+        // this.showTime.endDate = this.formatDate(value);
+        this.$emit("selected-info", this.searchProps);
+    },
+    clearSelectDate: function(value) {
+        this.searchProps.showTime.startDate = -1;
+        this.searchProps.showTime.endDate = -1;
     },
     parseMainTime: function(timeStr) {
         let result = {};
@@ -205,6 +213,7 @@ export default {
         showTime.showMore = false;
         showTime.showMain = true;
       }
+      this.clearSelectDate();
     }
   }
 }

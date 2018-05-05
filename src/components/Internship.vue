@@ -3,7 +3,7 @@
   <navigator-bar :navInfos="naviLists" />
   <search-bar />
   <h3>实习</h3>
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
     <div class="row list-body">
       <div class="col-md-2 list-header">公司</div>
       <div class="col-md-2 list-header">学校</div>
@@ -23,7 +23,7 @@
       <li><a href="#">5</a></li>
       <li><a href="#">&raquo;</a></li>
     </ul>
-  </div>
+  </div> -->
 </div>
 </template>
 <script>
