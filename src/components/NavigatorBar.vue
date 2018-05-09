@@ -19,9 +19,9 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+        <li><a href="#"><label class="glyphicon glyphicon-user"></label><span class="left-tip">注册</span></a></li>
         <!--<li><a href="/Loging"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>-->
-        <li><router-link tag="a" to="/Loging" key="Loging"><span class="glyphicon glyphicon-log-in"></span>登录</router-link></li>
+        <li><router-link tag="a" to="/Loging" key="Loging"><span class="glyphicon glyphicon-log-in"></span><span class="left-tip">登录</span></router-link></li>
       </ul>
     </div>
   </nav>
@@ -47,6 +47,12 @@ export default {
 <style>
 ul.nav {
   margin-top: 22px
+}
+.left-tip {
+    padding-left:5px;
+}
+.navbar {
+    margin-bottom: 0px;
 }
 .search_nav {
   padding: 10px 20px;

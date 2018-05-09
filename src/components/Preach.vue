@@ -2,15 +2,15 @@
 <div class="center-block">
   <navigator-bar :navInfos="naviLists" @search-nav="handleNavbarSearch"/>
   <search-bar  :searchProps="searchInfos" @selected-info="handleSelected"/>
-  <div class="container-fluid">
-    <div class="row list-body">
+  <div class="container-fluid content-list">
+    <div class="row list-title">
       <div class="col-md-3 list-header">公司</div>
       <div class="col-md-2 list-header">学校</div>
       <div class="col-md-3 list-header">举办时间</div>
       <div class="col-md-3 list-header">举办地点</div>
       <div class="col-md-1 list-header">订阅</div>
     </div>
-    <div class="row list-body" v-for="list in requestLists">
+    <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
       <div class="col-md-3 list-row" :title="list.companyName">{{ list.companyName }}</div>
       <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#" :title="list.school">{{ list.school }}</a></div>
       <div class="col-md-3 list-row">{{ list.xjTime }}</div>
@@ -112,6 +112,7 @@ export default {
 
       handleNavbarSearch: function(value) {
           // search company
+          this.pagiData.pageNumber = -1;
           this.navSearchInfo = value;
           this.doQueryList();
       },
@@ -134,10 +135,6 @@ export default {
                   params.companyName = this.navSearchInfo;
                   searchMode = 1; // company mode
               }
-          }
-          if (this.pagiData) {
-              params.pageNumber = this.pagiData.pageNumber;
-              params.pageCount = this.pagiData.pageCount;
           }
           if (this.selectedValue && searchMode == 0) { // normal mode
               if (this.selectedValue.showCity.show) {
@@ -185,10 +182,12 @@ export default {
               }
           }
           if (this.pagiData) {
-              params.pageNumber = this.pagiData.pageNumber;
-              params.pageCount = this.pagiData.pageCount;
+              if (this.pagiData.pageNumber >= 0) {
+                  params.pageNumber = this.pagiData.pageNumber;
+              }
+              params.pageSize = this.pagiData.pageSize;
           }
-          console.log('handleSelected [watch]==>new: %s', JSON.stringify(this.selectedValue));
+          console.log('handleSelected [watch]==>new: %s, params: %s', JSON.stringify(this.selectedValue), JSON.stringify(params));
           this.updateListData(params);
       },
       updateListData: function(params) {

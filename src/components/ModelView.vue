@@ -34,4 +34,7 @@ export default {
 }
 </script>
 <style>
+.modal-body {
+    background: #FCFDFE;
+}
 </style>

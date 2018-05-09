@@ -2,15 +2,15 @@
 <div>
   <navigator-bar :navInfos="naviLists" @search-nav="handleNavbarSearch"/>
   <search-bar :searchProps="searchInfos" @selected-info="handleSelected"/>
-  <div class="container-fluid">
-    <div class="row list-body">
+  <div class="container-fluid content-list">
+    <div class="row list-title">
       <div class="col-md-1 list-header">&nbsp;</div>
       <div class="col-md-2 list-header">城市</div>
       <div class="col-md-4 list-header">招聘会</div>
       <div class="col-md-2 list-header">收录时间</div>
       <div class="col-md-3 list-header">网申入口</div>
     </div>
-    <div class="row list-body" v-for="list in requestLists">
+    <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
       <div class="col-md-1 list-row">&nbsp;</div>
       <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
       <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)"><a :title="list.companyName" href="#">{{ list.companyName }}</a></div>
@@ -36,7 +36,8 @@ export default {
   },
   data() {
     let params = {
-      'workType': 1
+      workType: 1,
+      pageSize: 6
     };
     this.updateListData(params);
 
@@ -90,17 +91,10 @@ export default {
       ],
       selectedValue: null,
       requestLists: [],
-      school: "",
-      city: "",
-      companyName: "",
-      time: "",
       pageCount: -1,
       pagiData: {
           pageNumber: 0,
           pageSize: 6
-      },
-      noData: {
-          show: false
       },
       navSearchInfo: null
     }
@@ -113,6 +107,7 @@ export default {
 
       handleNavbarSearch: function(value) {
           // search company
+          this.pagiData.pageNumber = -1;
           this.navSearchInfo = value;
           this.doQueryList();
       },
@@ -135,10 +130,6 @@ export default {
                   params.companyName = this.navSearchInfo;
                   searchMode = 1; // company mode
               }
-          }
-          if (this.pagiData) {
-              params.pageNumber = this.pagiData.pageNumber;
-              params.pageSize = this.pagiData.pageSize;
           }
           if (this.selectedValue && searchMode == 0) { // normal mode
               if (this.selectedValue.showCity.show) {
@@ -167,8 +158,13 @@ export default {
                   console.log(`handleSelected => params.endData = ${endDate}`);
               }
           }
-
-          console.log('handleSelected [watch]==>new: %s', JSON.stringify(this.selectedValue));
+          if (this.pagiData) {
+              if (this.pagiData.pageNumber >= 0) {
+                  params.pageNumber = this.pagiData.pageNumber;
+              }
+              params.pageSize = this.pagiData.pageSize;
+          }
+          console.log('handleSelected [watch]==>new: %s, params: %s', JSON.stringify(this.selectedValue), JSON.stringify(params));
           this.updateListData(params);
           // this.getInfoByWorkType(params, (lists) => {
           //   this.requestLists = lists.data;
@@ -176,7 +172,6 @@ export default {
           // });
       },
       updateListData: function(params) {
-          params.pageSize = 6;
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;
             this.pageCount = lists.totalPages; // update pagecount

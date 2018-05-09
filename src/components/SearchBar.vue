@@ -1,27 +1,27 @@
 <template>
-<div>
-  <ul class="searchbar" v-if="showCity.show">
+<div class="center-block searchbar">
+  <ul v-if="showCity.show">
     <li v-if="showCity.show">
-      <span>城市: </span>
+      <span class="left-tip">城市: </span>
       <button v-for="info in mainCityInfos" :class="selectedCityInfos.indexOf(info) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedCityInfos, info, showCity.single)"> {{ info.city }} </button>
       <button v-for="info in selectedCityInfos" v-if="mainCityInfos.indexOf(info) < 0" class="btn btn-primary" @click="selectInfo(selectedCityInfos, info, showCity.single)">{{ info.city }}</button>
-      <a href="#" @click="toggleMore(showCity)" data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多城市</a>
+      <a href="#" @click="toggleMore(showCity), blur()" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多城市</a>
       <model-view modelTitle="自定义城市" :singleSelect="showCity.single" :modelData="letters" :selectedInfos="selectedCityInfos" modelId="cityModal" @modal-selected="selectInfoFromModal($event)" />
     </li>
 
     <li v-if="showSchool.show && mainSchoolInfos.length > 0">
-      <span>学校: </span>
+      <span class="left-tip">学校: </span>
       <button v-for="info in mainSchoolInfos" :class="selectedSchoolInfos.indexOf(info) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedSchoolInfos, info, showSchool.single)"> {{ info.name }} </button>
       <!-- <span v-if="showSchool.more" @click="toggleMore(schoolList)">  更多</span> -->
     </li>
 
     <li v-if="!showTime.showMore" class="form-inline">
-      <span>时间: </span>
+      <span class="left-tip">时间: </span>
       <button v-for="timeInfo in mainTimeInfos" :class="selectedTimeInfos.indexOf(timeInfo) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedTimeInfos, timeInfo, showTime.single)"> {{ timeInfo.text }} </button>
       <a href="#" @click="changeTimeMode(true, showTime)"><span class="glyphicon glyphicon-th"></span>自定义时间</a>
     </li>
     <li v-if="showTime.showMore" class="form-inline">
-      <span>时间: </span>
+      <span class="left-tip">时间: </span>
       <datepicker class="form-control" id="startDate" type="text" @selected="selectStartDate" placeholder="开始时间" language="zh" format="yyyy-MM-dd"></datepicker>
       <datepicker class="form-control" id="endDate" type="text" @selected="selectEndDate" placeholder="结束时间" language="zh" format="yyyy-MM-dd"></datepicker>
       <a href="#" @click="changeTimeMode(false, showTime)"><span class="glyphicon glyphicon-th-large"></span>普通时间段</a>
@@ -223,11 +223,18 @@ export default {
 #endDate {
   border: none;
 }
-
-.searchbar li {
-  margin-bottom: 5px;
+.searchbar {
+  background: #FCFDFE;
+  padding: 20px 20px;
+  overflow: hidden;
 }
-
+.searchbar li {
+  margin-bottom: 10px;
+  list-style: none;
+}
+.searchbar .left-tip {
+    padding-right: 10px;
+}
 .searchbar .btn {
   margin-right: 5px;
   margin-bottom: 5px;
