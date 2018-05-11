@@ -20,7 +20,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><label class="glyphicon glyphicon-user"></label><span class="left-tip">注册</span></a></li>
+        <li><a @click="callLink(_global.REGISTER_URL)" href="#"><label class="glyphicon glyphicon-user"></label><span class="left-tip">注册</span></a></li>
         <!--<li><a href="/Loging"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>-->
         <li><router-link tag="a" to="/Loging" key="Loging"><span class="glyphicon glyphicon-log-in"></span><span class="left-tip">登录</span></router-link></li>
       </ul>

@@ -20,7 +20,8 @@ const WORK_CITY_TYPE_URI = INDEX_PREFIX + "getInfoByWorkType";
 const XJ_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkCityTypeXjTimeRange"; // 获取宣讲会数据
 const PUBLISH_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkTypePublishTimeRange";
 const WHOLE_URI = INDEX_PREFIX + "getInfoByWorkTypeQualificationCompanyNameSchool";
-const EDUCATION_URL = "http://39.104.86.53/education"
+const EDUCATION_URL = "http://39.104.86.53/education";
+const REGISTER_URL = "http://39.104.86.53/education/register";
 
 
 //level 2 市
@@ -4548,6 +4549,7 @@ export default
     SCHOOL_BY_CITY_ID_URI, //获取市学校
     SCHOOL_BY_PROVINCE_ID_URI, //获取省下的学校
     TEST_RESULT,
-    EDUCATION_URL
+    EDUCATION_URL,
+    REGISTER_URL
 }
 </script>
