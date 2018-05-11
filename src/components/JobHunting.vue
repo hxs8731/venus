@@ -28,12 +28,12 @@ export default {
             className: "nav-pills",
             id: "preach"
           },
-          {
-            text: "实习",
-            to: "/internship",
-            className: "nav-pills",
-            id: "internship"
-          },
+        //   {
+        //     text: "实习",
+        //     to: "/internship",
+        //     className: "nav-pills",
+        //     id: "internship"
+        //   },
           {
             text: "求职学院",
             to: "/jobhunting",

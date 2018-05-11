@@ -37,7 +37,7 @@ export default {
   data() {
     let params = {
       workType: 1,
-      pageSize: 6
+      pageSize: 10
     };
     this.updateListData(params);
 
@@ -75,26 +75,27 @@ export default {
           to: "/preach",
           className: "nav-pills",
           id: "preach"
-        },
-        {
-          text: "实习",
-          to: "/internship",
-          className: "nav-pills",
-          id: "internship"
-        },
-        {
-          text: "求职学院",
-          to: "/jobhunting",
-          className: "nav-pills",
-          id: "jobhunting"
         }
+        // ,
+        // {
+        //   text: "实习",
+        //   to: "/internship",
+        //   className: "nav-pills",
+        //   id: "internship"
+        // },
+        // {
+        //   text: "求职学院",
+        //   to: "/jobhunting",
+        //   className: "nav-pills",
+        //   id: "jobhunting"
+        // }
       ],
       selectedValue: null,
       requestLists: [],
       pageCount: -1,
       pagiData: {
           pageNumber: 0,
-          pageSize: 6
+          pageSize: 10
       },
       navSearchInfo: null
     }

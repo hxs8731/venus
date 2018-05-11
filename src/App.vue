@@ -7,7 +7,7 @@
       <li> | </li>
       <li>版权信息</li>
     </ul> -->
-    <p class="nav">中国领先的校园招聘平台 © Copyright 2016  |  xxICP备13010980号-4  </p>
+    <p class="nav">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号  </p>
     <p class="nav">杭州寻龙信息技术有限公司 All Rights Reserved</p>
   </footer>
 </div>
@@ -32,6 +32,9 @@ a:focus {
     box-shadow: none;
 }
  div{border:none}
+ body {
+     background: #f5f5f5;
+ }
 .root {
   width: 1208px;
   margin: 0px auto;
@@ -61,7 +64,8 @@ line-height: 40px;
   border-bottom: 1px dotted #BCBCBC;
 }
 .list-title {
-    height: 30px;
+    /*height: 30px;*/
+    background: #DCDCDC;
 }
 .gray {
   background-color: #EFEFEF;
@@ -71,11 +75,11 @@ line-height: 40px;
 }
 .list-title .list-header {
 padding: 12px 3%;
-height: 30px;
+/*height: 30px;*/
 border-bottom: 1px solid #f5f5f5;
-font-size: 13px;
+font-size: 14px;
 font-weight: bold;
-color: #888;
+color: #666;
 word-break:keep-all;       /* 不换行 */
 
 white-space:nowrap;        /* 不换行 */

@@ -4,16 +4,18 @@
   <search-bar  :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid content-list">
     <div class="row list-title">
-      <div class="col-md-3 list-header">公司</div>
+      <div class="col-md-2 list-header">城市</div>
+      <div class="col-md-2 list-header">公司</div>
       <div class="col-md-2 list-header">学校</div>
-      <div class="col-md-3 list-header">举办时间</div>
+      <div class="col-md-2 list-header">举办时间</div>
       <div class="col-md-3 list-header">举办地点</div>
       <div class="col-md-1 list-header">订阅</div>
     </div>
     <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
-      <div class="col-md-3 list-row" :title="list.companyName">{{ list.companyName }}</div>
+      <div class="col-md-2 list-row" :title="list.recruitCitys"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
+      <div class="col-md-2 list-row" :title="list.companyName">{{ list.companyName }}</div>
       <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#" :title="list.school">{{ list.school }}</a></div>
-      <div class="col-md-3 list-row">{{ list.xjTime }}</div>
+      <div class="col-md-2 list-row">{{ list.xjTime }}</div>
       <div class="col-md-3 list-row" :title="list.teachInsAddress">{{ list.teachInsAddress }}</div>
       <div class="col-md-1 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">订阅</button></div>
     </div>
@@ -76,19 +78,20 @@ export default {
             to: "/preach",
             className: "active nav-pills",
             id: "preach"
-          },
-          {
-            text: "实习",
-            to: "/internship",
-            className: "nav-pills",
-            id: "internship"
-          },
-          {
-            text: "求职学院",
-            to: "/jobhunting",
-            className: "nav-pills",
-            id: "jobhunting"
           }
+        //   ,
+        //   {
+        //     text: "实习",
+        //     to: "/internship",
+        //     className: "nav-pills",
+        //     id: "internship"
+        //   },
+        //   {
+        //     text: "求职学院",
+        //     to: "/jobhunting",
+        //     className: "nav-pills",
+        //     id: "jobhunting"
+        //   }
         ],
       selectedValue: null,
       requestLists: [],
@@ -99,7 +102,7 @@ export default {
       pageCount: -1,
       pagiData: {
           pageNumber: 0,
-          pageSize: 6
+          pageSize: 10
       },
       navSearchInfo: null
     }
@@ -191,10 +194,11 @@ export default {
           this.updateListData(params);
       },
       updateListData: function(params) {
-          params.pageSize = 6;
+          params.pageSize = 10;
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;
             this.pageCount = lists.totalPages; // update pagecount
+            console.log(`updateListData ${JSON.stringify(lists.data)}, ${lists.totalPages}`);
           });
       }
   }
