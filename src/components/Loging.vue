@@ -1,16 +1,13 @@
 <template>
 <div class = "root">
 <div class="login-form">
-	<div class="close"></div>
+	<!-- <div class="close"></div>
 		<div class="head-info">
 			<label class="lbl-1"> </label>
 			<label class="lbl-2"> </label>
 			<label class="lbl-3"> </label>
-		</div>
+		</div> -->
 			<div class="clear"> </div>
-	<div class="avtar">
-		<img src="../assets/images/avtar.png" />
-	</div>
 			<form>
 					<input type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" >
 						<div class="key">
@@ -161,7 +158,7 @@ background: url('../assets/images/close.png') no-repeat 0px 0px;
   color: #fff;
   outline: none;
   border: none;
-  background: #3ea751;
+  background: #0099cc;
   width: 100%;
   padding: 18px 0;
   border-bottom-left-radius: 15px;

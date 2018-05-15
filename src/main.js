@@ -44,7 +44,7 @@ Vue.prototype.getRequestUrl = function(workType) {
   return uri;
 };
 Vue.prototype.getSchoolByParams = function(options, response) {
-  this.http.get(this._global.SCHOOL_BY_CITY_ID_URI, {
+  this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.SCHOOL_BY_CITY_ID_URI, {
     params: options
   }).then((res) => {
     // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res));
@@ -60,10 +60,15 @@ Vue.prototype.getSchoolByParams = function(options, response) {
   });
 };
 Vue.prototype.getCityByIp = function(options, response) {
-  this.http.get(this._global.CITY_BY_IP_URI, {
+  this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.CITY_BY_IP_URI, {
     params: options
   }).then((res) => {
-    // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res));
+    console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res) + ", " + this._global.TEST_MODE);
+    if (this._global.TEST_MODE) {
+      console.log('GET ＝>>>>>>> getCityByIp in test mode');
+      response(options.order === 1 ? this._global.TEST_CITY_INFOS.data : this._global.TEST_TOTAL_INFOS.data);
+      return;
+    }
     if (res.data) {
         if (response) {
           response(res.data.data);
@@ -72,7 +77,7 @@ Vue.prototype.getCityByIp = function(options, response) {
       console.log(res.data.errCode + "," + JSON.stringify(res.data.errMsg));
     }
   }).catch((error) => {
-    console.log("error" + JSON.stringify(error));
+    console.log("error" + error);
   });
 };
 Vue.prototype.getInfoByWorkType = function(options, response) {
@@ -80,7 +85,7 @@ Vue.prototype.getInfoByWorkType = function(options, response) {
     params: options
   }).then((res) => {
     if (this._global.TEST_MODE) {
-      console.log('GET ＝>>>>>>> requestLists in test mode');
+      console.log('GET ＝>>>>>>> getInfoByWorkType in test mode');
       response(this._global.TEST_RESULT.data);
       return;
     }

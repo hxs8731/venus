@@ -225,14 +225,15 @@ export default {
 }
 .searchbar {
   background: #FCFCFC;
-  padding: 20px 20px;
-  margin-top: 5px;
-  border: 1px dotted #BCBCBC;
+  padding: 10px 20px;
+  margin-top: 20px;
+  width: 80%;
+  /*border: 1px dotted #BCBCBC;*/
 }
 .searchbar li {
-  margin-bottom: 10px;
+  margin: 10px 0px;
   list-style: none;
-  border-bottom: 1px dotted #B2DFEE;
+  /*border-bottom: 1px dotted #B2DFEE;*/
 }
 .searchbar .left-tip {
     padding-right: 10px;

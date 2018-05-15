@@ -27,7 +27,7 @@ export default new Router({
   }, {
     path: '/Loging',
     name: 'Loging',
-    // component: Loging
+    // component: Loging //router to login page.
     component: CampusRecruitment
   }]
 })

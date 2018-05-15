@@ -55,7 +55,7 @@ export default {
 <style>
 /* navbar */
 .navbar-default {
-background-color: #F8F8F8;
+background-color: #0099cc;
 border: none;
 }
 /* title */
@@ -68,7 +68,7 @@ color: #5E5E5E;
 }
 /* link */
 .navbar-default .navbar-nav > li > a {
-color: #777;
+color: #FFF;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
@@ -77,8 +77,8 @@ color: #333;
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-color: #555;
-background-color: #E7E7E7;
+color: #FFF;
+background-color: #0fa9dd; /*navigator focus bg color*/
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
@@ -135,13 +135,14 @@ ul.nav li.active a:hover{
   color: #FEFEFE;
 }
 ul.nav li.active {
-    background: #337ab7;
+    background: transparent;
 }
 .left-tip {
     padding-left:5px;
 }
 .navbar {
     margin-bottom: 0px;
+    border-radius: 0px; /*modify radius background*/
 }
 .search_nav {
   padding: 10px 20px;

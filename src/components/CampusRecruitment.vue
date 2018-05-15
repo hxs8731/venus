@@ -17,10 +17,12 @@
       <div class="col-md-2 list-row">{{ formatDate(list.gmtCreate)}}</div>
       <div class="col-md-3 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">网申</button></div>
     </div>
+</div>
     <!-- <pagination :currentPage="pagiData.currentPage" :showPage="pagiData.showPages" :allPages="pagiData.allPages"/> -->
-    <div v-if="this.pageCount <= 0" class="no-data">没有数据</div>
-    <paginator v-else :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
-  </div>
+    <div class="content-foot">
+        <div v-if="this.pageCount <= 0" class="no-data">没有数据</div>
+        <paginator v-else :pageCount="pageCount" @togglePage="togglePage($event)"></paginator>
+    </div>
 </div>
 </template>
 <script>

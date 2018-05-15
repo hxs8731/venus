@@ -33,17 +33,15 @@ a:focus {
 }
  div{border:none}
  body {
-     background: #f5f5f5;
+     background: #f1f4f9;
  }
 .root {
-  width: 1208px;
   margin: 0px auto;
   min-height: 780px;
 }
 .footer {
-  background-color: #3A3A3B;
-  color: #DFDFDF;
-  width: 1208px;
+  background-color: #0099cc;
+  color: #FFF;
   height: 80px;
   margin: 0px auto;
 }
@@ -65,13 +63,22 @@ line-height: 40px;
 }
 .list-title {
     /*height: 30px;*/
-    background: #DCDCDC;
+    background: #bedeea;
+    /*background: rgba(255, 255, 255, 0.5);*/
 }
 .gray {
-  background-color: #EFEFEF;
+  background-color: #e3f5fc;
+}
+.content-foot {
+  width: 80%;
+  margin: 0px auto;
 }
 .content-list {
     margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    background-color: #FFF;
+    border: 8px solid #c9e2ec;
 }
 .list-title .list-header {
 padding: 12px 3%;
@@ -105,5 +112,76 @@ text-overflow:ellipsis;    /*溢出时显示省略标记...；需与overflow:hid
     height: 200px;
     text-align: center;
     margin-top: 30px;
+}
+/* override boot strap css*/
+.btn-primary {
+    color: #fff;
+    background-color: #0fa9dd;
+    border-color: #2e6da4;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #DFDFDF;
+}
+
+.label-primary {
+    background-color: #0fa9dd;
+}
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #0fa9dd;
+    border-color: #0fa9dd;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    /*border: 1px solid transparent;*/
+    /*border-radius: 4px;*/
+    border-radius: 0px;
 }
 </style>
