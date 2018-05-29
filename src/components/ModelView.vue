@@ -7,8 +7,8 @@
                     <h4 class="modal-title" id="myModalLabel">{{ modelTitle }}</h4>
                 </div>
                 <div class="modal-body">
-                    <div v-for="letterData in modelData">
-                      <p>{{ letterData.letter }}</p>
+                    <div class="modal-main" v-for="letterData in modelData">
+                      <p class="modal-subtitle">{{ letterData.letter }}</p>
                       <button v-for="info in letterData.data" class="btn btn-default" data-dismiss="modal" data-target="#myModal" @click="selectInfo(selectedInfos, info, singleSelect)"> {{ info.city }} </button>
                   </div>
                 </div>
@@ -37,4 +37,16 @@ export default {
 .modal-body {
     background: #FCFDFE;
 }
+.modal-main {
+    margin-bottom: 10px;
+}
+.modal-subtitle {
+    background: #e3f5fc;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    border-top: 1px dotted #BCBCBC;
+}
+
 </style>
