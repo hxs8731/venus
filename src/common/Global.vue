@@ -10,7 +10,7 @@ const WORK_TYPE_PREACH = 2; // 宣讲会类型
 const WORK_TYPE_INTERNSHIP = 3; // 实习 @depricaated
 const WORK_TYPE_JOBHUNTING = 4; // 社招 @depricaated
 
-const TEST_MODE = false;
+const TEST_MODE = false; //false; // use test mode or not.
 const TEST_URL = "https://yesno.wtf/api";
 const INDEX_PREFIX = "/api/api/index/";
 // const INDEX_PREFIX = "/api/index/";
@@ -20,14 +20,14 @@ const WORK_CITY_TYPE_URI = INDEX_PREFIX + "getInfoByWorkType";
 const XJ_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkCityTypeXjTimeRange"; // 获取宣讲会数据
 const PUBLISH_TIME_RANGE_URI = INDEX_PREFIX + "getInfoByWorkTypePublishTimeRange";
 const WHOLE_URI = INDEX_PREFIX + "getInfoByWorkTypeQualificationCompanyNameSchool";
-const EDUCATION_URL = "http://39.104.86.53/education";
-const REGISTER_URL = "http://39.104.86.53/education/register";
+const EDUCATION_URL = "http://feiyujob.com/education";
+const REGISTER_URL = "http://feiyujob.com/education/register";
 
 
 //level 2 市
 //level 1 省
-// const BASE_PREFIX = "/api/api/base/";
-const BASE_PREFIX = "/api/base/";
+const BASE_PREFIX = "/api/api/base/";
+// const BASE_PREFIX = "/api/base/";
 const CITY_BY_IP_URI = BASE_PREFIX + "getCitysByOrder"; //获取城市
 const ALL_PROVINCE_URI = BASE_PREFIX + "getAllProvince"; //获取所有省
 const CITY_BY_PROVINCE_ID_URI = BASE_PREFIX + "getCityByProvinceId"; //获取省下的市

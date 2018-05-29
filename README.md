@@ -29,8 +29,8 @@ npm test
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-http://39.104.86.53/index/getInfoByWorkCityTypeXjTimeRange?worktype=1 // 校招，宣讲会
+http://www.feiyujob.com/api/index/getInfoByWorkCityTypeXjTimeRange?worktype=1 // 校招，宣讲会
 
-http://39.104.86.53/index/getInfoByWorkCityTypePubRange?workType=1&fromPubTime=2018-01-20&toPubTime=2018-04-20 // 收录时间
+http://www.feiyujob.com/api/index/getInfoByWorkCityTypePubRange?workType=1&fromPubTime=2018-01-20&toPubTime=2018-04-20 // 收录时间
 
-http://39.104.86.53/index/getInfoByWorkCityTypePubRange?workType=1&fromPubTime=2018-01-20&toPubTime=2018-04-21&pageNumber=6&pageSize=5 // 时间,page个数
+http://www.feiyujob.com/api/index/getInfoByWorkCityTypePubRange?workType=1&fromPubTime=2018-01-20&toPubTime=2018-04-21&pageNumber=6&pageSize=5 // 时间,page个数
