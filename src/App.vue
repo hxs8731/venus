@@ -54,7 +54,7 @@ a:focus {
     overflow: hidden; /*解决 float后*/
 }
 .list-row {
-padding: 12px 3%;
+padding: 10px 2%;
 line-height: 40px;
 }
 .list-body {
@@ -81,7 +81,7 @@ line-height: 40px;
     border: 8px solid #c9e2ec;
 }
 .list-title .list-header {
-padding: 12px 3%;
+padding: 10px 2%;
 /*height: 30px;*/
 border-bottom: 1px solid #f5f5f5;
 font-size: 14px;
