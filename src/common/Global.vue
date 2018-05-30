@@ -26,8 +26,8 @@ const REGISTER_URL = "http://feiyujob.com/education/register";
 
 //level 2 市
 //level 1 省
-const BASE_PREFIX = "/api/api/base/";
-// const BASE_PREFIX = "/api/base/";
+// const BASE_PREFIX = "/api/api/base/";
+const BASE_PREFIX = "/api/base/";
 const CITY_BY_IP_URI = BASE_PREFIX + "getCitysByOrder"; //获取城市
 const ALL_PROVINCE_URI = BASE_PREFIX + "getAllProvince"; //获取所有省
 const CITY_BY_PROVINCE_ID_URI = BASE_PREFIX + "getCityByProvinceId"; //获取省下的市
