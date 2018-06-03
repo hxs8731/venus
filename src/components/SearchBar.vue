@@ -126,7 +126,9 @@ export default {
         console.log("select city info = " + JSON.stringify(info) + ", array = " + JSON.stringify(array) + ", single = " + single);
       let index = array.indexOf(info);
       //   console.log(`${index}`);
+      let unselected = false;
       if (index >= 0) {
+        unselected = true;
         array.splice(index, 1); // if selected, toggle it
       } else {
         if (single) {
@@ -136,7 +138,7 @@ export default {
       }
     //   let infos = this.searchProps.showCity.infos;
       //   console.log(`array.splice ${JSON.stringify(array)}, ${JSON.stringify(infos)}`);
-      if (info.city) {
+      if (info.city) { // select or unselect city info.
         // collopse city panel
         this.showCity.showMore = false;
         if (this.showSchool.show) {
@@ -154,10 +156,10 @@ export default {
             }
         }
       }
-      if (info.text) {
+      if (info.text) { // select or unselect time info.
         let parseTime = this.parseMainTime(info.text);
-        this.searchProps.showTime.startDate = parseTime.start;
-        this.searchProps.showTime.endDate = parseTime.end;
+        this.searchProps.showTime.startDate = unselected ? -1 : parseTime.start;
+        this.searchProps.showTime.endDate = unselected ? -1 : parseTime.end;
         console.log(`selectInfo ${this.showTime.startDate}, ${this.showTime.endDate}, ${this.searchProps.showTime.startDate}, ${this.searchProps.showTime.endDate}`);
       }
       this.$emit("selected-info", this.searchProps);
