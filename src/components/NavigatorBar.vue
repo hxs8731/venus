@@ -128,6 +128,9 @@ ul.nav {
 ul.nav li a{
   font-size: 16px;
 }
+ul.nav li.nav-pills {
+  margin: 0 15px;
+}
 ul.nav li.active a{
   color: #FEFEFE;
 }

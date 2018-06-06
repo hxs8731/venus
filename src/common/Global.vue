@@ -11,7 +11,7 @@ const WORK_TYPE_INTERNSHIP = 3; // 实习 @depricaated
 const WORK_TYPE_JOBHUNTING = 4; // 社招 @depricaated
 
 const TEST_MODE = false; //false; // use test mode or not.
-const DEV_MODE = false; // use dev or product
+const DEV_MODE = "development" === process.env.NODE_ENV; // use dev or product
 const TEST_URL = "https://yesno.wtf/api";
 const INDEX_PREFIX = DEV_MODE ? "/api/api/index/" : "/api/index/"; // dev mode used.
 const COMPANY_CITY_URI = INDEX_PREFIX + "getInfoByWorkCityTypePubRange"; // 获取校招数据
