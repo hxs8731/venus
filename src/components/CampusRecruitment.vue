@@ -1,6 +1,6 @@
 <template>
 <div>
-  <navigator-bar :navInfos="naviLists" @search-nav="handleNavbarSearch"/>
+  <navigator-bar :navInfos="naviLists" :loginNavInfos="loginNavLists" @search-nav="handleNavbarSearch"/>
   <search-bar :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid content-list">
     <div class="row list-title">
@@ -92,6 +92,21 @@ export default {
         //   id: "jobhunting"
         // }
       ],
+      loginNavLists: [
+        {
+          text: "发布信息",
+          to: "/deploy",
+          className: "nav-pills",
+          id: "deploy"
+        },
+        {
+          text: "审核信息",
+          to: "/verify",
+          className: "nav-pills",
+          id: "verify"
+        }
+      ],
+      
       selectedValue: null,
       requestLists: [],
       pageCount: -1,

@@ -48,23 +48,18 @@ export default {
       order: 1
     }, (res) => {
       this.mainCityInfos = res;
-    //   this.initialTimeInfo();
-        console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
+        // console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
     });
     this.getCityByIp({ // get totalCityInfos
       level: 2,
       order: 0
     }, (res) => {
-      //   console.log('GET ＝>>>>>>> searchbar getCityByIp total start res = ' + JSON.stringify(res));
       this.totalCityInfos = res;
       for (let i = 0, len = this.letters.length; i < len; i++) {
         let letterData = this.letters[i];
-        //   console.log(`letter data is ${letterData}, ${this.letters}`);
         letterData.data = res.filter((info) => {
           return info.pinyin.startsWith(letterData.letter);
-          //  console.log(`filter letter => ${letterData.letter}, ${info.pinyin}`);
         });
-        //   console.log(`letter data is setted ${letterData.data}`);
       }
     });
 

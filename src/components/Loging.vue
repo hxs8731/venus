@@ -42,19 +42,6 @@ export default {
           className: "nav-pills",
           id: "preach"
         }
-        // ,
-        // {
-        //   text: "实习",
-        //   to: "/internship",
-        //   className: "nav-pills",
-        //   id: "internship"
-        // },
-        // {
-        //   text: "求职学院",
-        //   to: "/jobhunting",
-        //   className: "nav-pills",
-        //   id: "jobhunting"
-        // }
       ]
     };
   },
@@ -66,14 +53,41 @@ export default {
   methods: {
     doSubmit: function() {
       if (this.checkInputValue) {
-        let options = {
-          username: this.username,
-          password: this.password
-        }
-        this.http.get(this._global.USER_LOGIN_ACTION, {
-          params: options
-        }).then((res) => {
+        // let options = {
+        //   userName: this.username,
+        //   password: this.password
+        // };
+        // this.http.get(this._global.USER_LOGIN_ACTION, {
+        //   params: options
+        // }).then((res) => {
+        //   console.log(`doSubmit callback ${JSON.stringify(res)}`);
+        //   this.cookieStore.setCookie('username', this.username, 1);
+        //   // 跳转到主页面；
+        //   // userType: 3 发布权限  2 系统管理员  1 普通用户
+        // });
+        let params = new URLSearchParams();
+        params.append('userName', this.username);
+        params.append('password', this.password);
+        this.http.post(this._global.USER_LOGIN_ACTION, params).then((res) => {
           console.log(`doSubmit callback ${JSON.stringify(res)}`);
+          if (res.data.success) {
+            let type = res.data.data.userType;
+            this.cookieStore.setCookie('username', this.username, 1);
+            this.cookieStore.setCookie('userType', type, 1);
+            if (3 === type) {
+              this.$router.push('/deploy');
+            } else if (2 === type) {
+              this.$router.push('/verify');
+            } else {
+              this.$router.push('/');
+            }
+          } else {
+            alert(res.data.errMsg);
+          }
+          // 跳转到主页面；
+          // userType: 3 发布权限  2 系统管理员  1 普通用户
+        }).catch(function (error) {
+        　　alert(error);
         });
       } else {
         console.log("input value is empty.");
