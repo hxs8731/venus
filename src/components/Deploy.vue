@@ -162,9 +162,14 @@ export default {
     doDeploy: function() {
       let params = this.generateParams();
       this.http
-        .post(this._global.DEPLOY_ACTION, params)
+        .post(this._global.DEPLOY_ACTION, params, {
+          headers: {'Content-Type': 'application/json'} // must add content type
+        })
         .then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
+          if (res.data && res.data.success) {
+            alert("发布成功！");
+          }
           this.clearInput();
         })
         .catch(function(error) {
@@ -194,8 +199,10 @@ export default {
       //   }
 
       // }
-      let params = new URLSearchParams();
-      params.append("userName", this.cookieStore.getCookie("username"));
+      // let params = new URLSearchParams();
+      // params.append("userName", this.cookieStore.getCookie("username"));
+      let params = {};
+      params.userName = this.cookieStore.getCookie("username");
       let recruitInfo = {};
       recruitInfo.companyName = this.companyName;
       recruitInfo.companyDesc = this.companyDesc;
@@ -220,7 +227,13 @@ export default {
         recruitInfo.recruitUrl = this.recruitUrl;
         // preachJob: ""
       }
-      params.append("recruit", recruitInfo);
+      // params.append("recruit", recruitInfo);
+      // console.log("generateParams params = " + params);
+      // return params;
+      params.recruit = recruitInfo;
+      // var qs = require('qs');
+      // let qparams = qs.stringify(params);
+      // console.log("generateParams qparams = " + qparams);
       return params;
     },
     switchWorkType: function(type) {

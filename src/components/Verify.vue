@@ -89,7 +89,9 @@ export default {
       this.http.post(this._global.UPDATE_RECRUIT)
       let params = this.generateParams(id, pass);
       this.http
-        .post(this._global.UPDATE_RECRUIT, params)
+        .post(this._global.UPDATE_RECRUIT, params, {
+          headers: {'Content-Type': 'application/json'} // must add content type
+        })
         .then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
           // this.clearInput();
@@ -99,11 +101,16 @@ export default {
         });
     },
     generateParams: function(ids, pass) {
-      let params = new URLSearchParams();
-      params.append("userName", this.cookieStore.getCookie("username"));
-      // ids=1,2&showType=0
-      params.append("ids", ids);
-      params.append("showType", pass ? 1 : 0);
+      // let params = new URLSearchParams();
+      // params.append("userName", this.cookieStore.getCookie("username"));
+      // // ids=1,2&showType=0
+      // params.append("ids", ids);
+      // params.append("showType", pass ? 1 : 0);
+      let params = {};
+      params.userName = this.cookieStore.getCookie("username");
+      params.ids = ids;
+      params.showType = pass ? 1 : 0;
+      return params;
     }
   }
 };

@@ -17,6 +17,7 @@ Vue.prototype.cookieStore = {
   getCookie, setCookie, clearCookie
 };
 Vue.prototype.http = axios;
+
 // axios.interceptors.request.use(
 //   config => {
 //     const token = this.cookieStore.getCookie('session'); //获取Cookie
