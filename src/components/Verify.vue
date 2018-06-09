@@ -83,12 +83,16 @@ export default {
   },
   methods: {
     verify: function(id, pass) {
-      this.http.post(this._global.UPDATE_RECRUIT)
-      let params = this.generateParams(id, pass);
       this.http
-        .post(this._global.UPDATE_RECRUIT, params)
-        .then(res => {
+        .get(this._global.UPDATE_RECRUIT, {
+          params: this.generateParams(id, pass)
+        }).then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
+          if (res.data.success) {
+            alert('操作成功！');
+          } else {
+            alert('操作失败！' + res.data.errorMsg);
+          }
           // this.clearInput();
         })
         .catch(function(error) {
@@ -96,24 +100,24 @@ export default {
         });
     },
     generateParams: function(ids, pass) {
-      let params = new URLSearchParams();
-      params.append("userName", this.cookieStore.getCookie("username"));
-      // ids=1,2&showType=0
-      params.append("ids", ids);
-      params.append("showType", pass ? 1 : 0);
-      return params;
-      // let params = {};
-      // params.userName = this.cookieStore.getCookie("username");
-      // params.ids = ids;
-      // params.showType = pass ? 1 : 0;
+      // let params = new URLSearchParams();
+      // params.append("userName", this.cookieStore.getCookie("username"));
+      // // ids=1,2&showType=0
+      // params.append("ids", ids);
+      // params.append("showType", pass ? 1 : 0);
       // return params;
+      let params = {};
+      params.userName = this.cookieStore.getCookie("username");
+      params.ids = ids;
+      params.showType = pass ? 1 : 0;
+      return params;
     },
     doQueryList: function() {
       this.http
       .get(this._global.GET_RECRUIT_LIST, {
         params: {
           userName: this.cookieStore.getCookie("username"),
-          showType: 1,
+          showType: 0,
           pageNumber: this.pagiData.pageNumber
         }
       })
