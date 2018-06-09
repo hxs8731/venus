@@ -184,10 +184,6 @@ export default {
           }
           console.log('handleSelected [watch]==>new: %s, params: %s', JSON.stringify(this.selectedValue), JSON.stringify(params));
           this.updateListData(params);
-          // this.getInfoByWorkType(params, (lists) => {
-          //   this.requestLists = lists.data;
-          //   this.pageCount = lists.totalPages; // update pagecount
-          // });
       },
       updateListData: function(params) {
           this.getInfoByWorkType(params, (lists) => {
