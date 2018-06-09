@@ -13,7 +13,7 @@
     </div>
     <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
       <div class="col-md-2 list-row" :title="list.recruitCitys"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
-      <div class="col-md-2 list-row" :title="list.companyName"><span class="label label-primary" v-if="list.companyTags && '' !== list.companyTags">{{list.companyTags}}</span>{{ list.companyName }}</div>
+      <div class="col-md-2 list-row" :title="list.companyName"><span class="label label-success" v-if="list.companyTags && '' !== list.companyTags">{{list.companyTags}}</span>{{ list.companyName }}</div>
       <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#" :title="list.school">{{ list.school }}</a></div>
       <div class="col-md-2 list-row">{{ list.xjTime }}</div>
       <div class="col-md-3 list-row" :title="list.teachInsAddress">{{ list.teachInsAddress }}</div>

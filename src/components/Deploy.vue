@@ -25,6 +25,10 @@
       <div v-if="1 === workType" class="form-root">
           <h3 class="header">招聘信息</h3>
           <div class="form-group">
+              <label>*招聘城市:</label>
+              <input type="text" class="form-control" ref="recruit_city" v-model="recruitCity" />
+          </div>
+          <div class="form-group">
               <label>*招聘标题:</label>
               <input type="text" class="form-control" ref="recruit_title" v-model="recruitTitle" />
           </div>
@@ -48,19 +52,19 @@
       <div v-if="2 === workType" class="form-root">
           <h3 class="header">宣讲会信息</h3>
           <div class="form-group">
-              <label>宣讲城市:</label>
+              <label>*宣讲城市:</label>
               <input type="text" class="form-control" ref="preach_city" v-model="preachCity" />
           </div>
           <div class="form-group">
-              <label>宣讲学校:</label>
+              <label>*宣讲学校:</label>
               <input type="text" class="form-control" ref="preach_school" v-model="preachSchool" />
           </div>
           <div class="form-group">
-              <label>宣讲教室:</label>
+              <label>*宣讲教室:</label>
               <input type="text" class="form-control" ref="preach_room" v-model="preachRoom" />
           </div>
           <div class="form-group">
-              <label>宣讲时间:</label>
+              <label>*宣讲时间:</label>
               <p><datepicker class="form-control" type="text" @selected="selectXjtime" placeholder="宣讲时间" language="zh" :format="customFormatter" /></p>
           </div>
           <div class="form-group">
@@ -121,6 +125,7 @@ export default {
       companyName: "",
       companyDesc: "",
       companyTags: "",
+      recruitCity: "",
       recruitTitle: "",
       recruitUrl: "",
       resumeLink: "",
@@ -133,12 +138,26 @@ export default {
       preachRoom: "",
       preachTime: "",
       rearuitUrl: "",
-      preachJob: ""
+      preachJob: "",
+      xjTime: null
     };
   },
   computed: {
     checkInputValue: function() {
-      return "" !== this.companyName && "" !== this.companyDesc;
+      // return "" !== this.companyName && "" !== this.companyDesc;
+      let invalide = true;
+      invalide &= "" !== this.companyName;
+      invalide &= "" !== this.companyDesc;
+      if (1 === this.workType) {
+        invalide &= "" !== this.recruitCity;
+        invalide &= "" !== this.recruitTitle;
+        invalide &= "" !== this.recruitUrl;
+      } else {
+        invalide &= "" !== this.preachCity;
+        invalide &= "" !== this.preachSchool;
+        invalide &= null !== this.xjTime;
+      }
+      return invalide;
     }
   },
   methods: {
@@ -146,6 +165,7 @@ export default {
       this.companyName = "";
       this.companyDesc = "";
       this.companyTags = "";
+      this.recruitCity = "",
       this.recruitTitle = "";
       this.recruitUrl = "";
       this.resumeLink = "";
@@ -158,6 +178,7 @@ export default {
       this.preachTime = "";
       this.rearuitUrl = "";
       this.preachJob = "";
+      this.xjTime = null;
     },
     doDeploy: function() {
       let params = this.generateParams();
@@ -179,10 +200,11 @@ export default {
         });
     },
     customFormatter: function(date) {
-      return this.moment(date).format("YYYY-MM-DD hh:mm:ss");
+      return this.moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
     selectXjtime: function(value) {
-      this.xjTime = value;
+      this.xjTime = this.customFormatter(value);
+      // console.log(`selectXjtime ==> ${this.xjTime}`);
     },
     generateParams: function() {
       // {
