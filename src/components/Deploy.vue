@@ -169,6 +169,8 @@ export default {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
           if (res.data && res.data.success) {
             alert("发布成功！");
+          } else {
+            alert("发布失败！" + res.data.errMsg);
           }
           this.clearInput();
         })
@@ -209,7 +211,7 @@ export default {
       recruitInfo.companyTags = this.companyTags;
       recruitInfo.workType = this.workType;
 
-      if (2 === this.workType) {
+      if (1 === this.workType) {
         recruitInfo.title = this.recruitTitle;
         recruitInfo.recruitUrl = this.recruitUrl;
         let workDetail = {
@@ -218,8 +220,8 @@ export default {
           jobDisc: this.jobDisc,
           jobRequire: this.jobRequire
         };
-        recruitInfo.recruitWork = workDetail;
-      } else if (1 === this.workType) {
+        recruitInfo.recruitWork = JSON.stringify(workDetail);
+      } else if (2 === this.workType) {
         recruitInfo.recruitCitys = this.preachCity;
         recruitInfo.school = this.preachSchool;
         recruitInfo.teachInsAddress = this.preachRoom;

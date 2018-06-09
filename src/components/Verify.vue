@@ -10,7 +10,7 @@
         <div class="col-md-3 list-header">审核操作</div>
       </div>
       <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
-        <div class="col-md-2 list-row">{{ 2 === list.workType ? '校园招聘' : '校园宣讲会' }}</div>
+        <div class="col-md-2 list-row">{{ 1 === list.workType ? '校园招聘' : '校园宣讲会' }}</div>
         <div class="col-md-2 list-row">{{ list.recruitUrl }}</div>
         <div class="col-md-3 list-row">{{ list.title }}</div>
         <div class="col-md-2 list-row">{{ 1 === list.showType ? '已通过' : '待审核'}}</div>
