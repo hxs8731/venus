@@ -1,6 +1,6 @@
 <template>
 <div class="root">
-	<navigator-bar :navInfos="naviLists" :loginNavInfos="loginNavLists"/>
+	<navigator-bar :activeId="3"/>
   <div class="form_content">
       <p>
         <button @click="switchWorkType(1)" :class="1===workType ? 'active' : 'default'">发布招聘会</button>
@@ -94,34 +94,6 @@ export default {
   },
   data() {
     return {
-      naviLists: [
-        {
-          text: "校园招聘",
-          to: "/",
-          className: "nav-pills",
-          id: "campus"
-        },
-        {
-          text: "校园宣讲会",
-          to: "/preach",
-          className: "nav-pills",
-          id: "preach"
-        }
-      ],
-      loginNavLists: [
-        {
-          text: "发布信息",
-          to: "/deploy",
-          className: "active nav-pills",
-          id: "deploy"
-        },
-        {
-          text: "审核信息",
-          to: "/verify",
-          className: "nav-pills",
-          id: "verify"
-        }
-      ],
       companyName: "",
       companyDesc: "",
       companyTags: "",
@@ -141,6 +113,17 @@ export default {
       preachJob: "",
       xjTime: null
     };
+  },
+  mounted() {
+    let user = this.cookieStore.getCookie("username");
+    let type = this.cookieStore.getCookie("userType");
+    if (user && type >= 2) {
+      console.log("check permission pass");
+    } else {
+      alert("没有权限操作，请联系管理员！");
+      this.$router.push('/');
+    }
+    console.log("checkUserExist type" + user + ", user type = " + type);
   },
   computed: {
     checkInputValue: function() {

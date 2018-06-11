@@ -53,18 +53,6 @@ export default {
   methods: {
     doSubmit: function() {
       if (this.checkInputValue) {
-        // let options = {
-        //   userName: this.username,
-        //   password: this.password
-        // };
-        // this.http.get(this._global.USER_LOGIN_ACTION, {
-        //   params: options
-        // }).then((res) => {
-        //   console.log(`doSubmit callback ${JSON.stringify(res)}`);
-        //   this.cookieStore.setCookie('username', this.username, 1);
-        //   // 跳转到主页面；
-        //   // userType: 3 发布权限  2 系统管理员  1 普通用户
-        // });
         let params = new URLSearchParams();
         params.append('userName', this.username);
         params.append('password', this.password);

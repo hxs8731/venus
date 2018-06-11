@@ -7,9 +7,11 @@
       </div>
       <div>
         <ul class="nav navbar-nav">
-          <router-link tag="li" :to="list.to" :key="list.id" v-for="list in navInfos" :class="list.className"><a>{{list.text}}</a></router-link>
-          <li class="nav-pills" @click="callLink(_global.EDUCATION_URL)"><a href="#">求职学院</a></li>
-          <router-link tag="li" :to="list.to" :key="list.id" v-if="userType >= 2 && userName" v-for="list in loginNavInfos" :class="list.className"><a>{{list.text}}</a></router-link>
+          <li v-for="info in naviLists" :key="info.id" @click="clickNavlink(info)" :class='activeId === info.position ? "active nav-pills" : "nav-pills"' ><a href="#">{{info.title}}</a></li>
+          <!-- <router-link tag="li" :to="list.to" :key="list.id" v-for="list in navInfos" :class="list.className"><a>{{list.text}}</a></router-link> -->
+          <!-- <li class="nav-pills" @click="callLink(_global.EDUCATION_URL)"><a href="#">求职学院</a></li> -->
+          <li v-if="userType >= 2 && userName" v-for="info in loginNavLists" :key="info.id" @click="clickNavlink(info)" :class='activeId === info.position ? "active nav-pills" : "nav-pills"' ><a href="#">{{info.title}}</a></li>
+          <!-- <router-link tag="li" :to="list.to" :key="list.id" v-if="userType >= 2 && userName" v-for="list in loginNavInfos" :class="list.className"><a>{{list.text}}</a></router-link> -->
         </ul>
       </div>
       <ul class="form-inline form-group nav navbar-nav search_nav">
@@ -39,7 +41,45 @@ export default {
     return {
       companyName: "",
       userName: null,
-      userType: 1
+      userType: 1,
+      naviLists: [{
+          title: "校园招聘",
+          to: "/",
+          className: "nav-pills",
+          id: "campus",
+          position: 0
+        },
+        {
+          title: "校园宣讲会",
+          to: "/preach",
+          className: "nav-pills",
+          id: "preach",
+          position: 1
+        },
+        {
+          title: "求职学院",
+          to: this._global.EDUCATION_URL,
+          className: "nav-pills",
+          id: "jobhunting",
+          position: 2
+        }
+      ],
+      loginNavLists: [
+        {
+          title: "发布信息",
+          to: "/deploy",
+          className: "nav-pills",
+          id: "deploy",
+          position: 3
+        },
+        {
+          title: "审核信息",
+          to: "/verify",
+          className: "nav-pills",
+          id: "verify",
+          position: 4
+        }
+      ]
     };
   },
   mounted() {
@@ -63,6 +103,13 @@ export default {
       this.cookieStore.clearCookie("username");
       this.userName = null;
       this.$router.push('/');
+    },
+    clickNavlink: function(info) {
+      if (info.to.startsWith('/')) {
+        this.$router.push(info.to);
+      } else {
+        this.callLink(info.to);
+      }
     }
   }
 };

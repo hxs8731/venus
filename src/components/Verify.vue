@@ -1,6 +1,6 @@
 <template>
 <div class="root">
-	<navigator-bar :navInfos="naviLists" :loginNavInfos="loginNavLists"/>
+	<navigator-bar :navInfos="naviLists" :loginNavInfos="loginNavLists" :activeId="4"/>
   <div class="container-fluid content-list">
       <div class="row list-title">
         <div class="col-md-2 list-header">招聘类型</div>
@@ -78,6 +78,15 @@ export default {
     }
   },
   mounted() {
+    let user = this.cookieStore.getCookie("username");
+    let type = this.cookieStore.getCookie("userType");
+    if (user && type >= 2) {
+      console.log("check permission pass");
+    } else {
+      alert("没有权限操作，请联系管理员！");
+      this.$router.push('/');
+      return;
+    }
     // GET_RECRUIT_LIST
     this.doQueryList();
   },

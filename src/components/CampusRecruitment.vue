@@ -1,6 +1,6 @@
 <template>
 <div>
-  <navigator-bar :navInfos="naviLists" :loginNavInfos="loginNavLists" @search-nav="handleNavbarSearch"/>
+  <navigator-bar :activeId="0" @search-nav="handleNavbarSearch"/>
   <search-bar :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid content-list">
     <div class="row list-title">
@@ -66,47 +66,6 @@ export default {
               endDate: -1
           }
       },
-      naviLists: [{
-          text: "校园招聘",
-          to: "/",
-          className: "active nav-pills",
-          id: "campus"
-        },
-        {
-          text: "校园宣讲会",
-          to: "/preach",
-          className: "nav-pills",
-          id: "preach"
-        }
-        // ,
-        // {
-        //   text: "实习",
-        //   to: "/internship",
-        //   className: "nav-pills",
-        //   id: "internship"
-        // },
-        // {
-        //   text: "求职学院",
-        //   to: "/jobhunting",
-        //   className: "nav-pills",
-        //   id: "jobhunting"
-        // }
-      ],
-      loginNavLists: [
-        {
-          text: "发布信息",
-          to: "/deploy",
-          className: "nav-pills",
-          id: "deploy"
-        },
-        {
-          text: "审核信息",
-          to: "/verify",
-          className: "nav-pills",
-          id: "verify"
-        }
-      ],
-      
       selectedValue: null,
       requestLists: [],
       pageCount: -1,
