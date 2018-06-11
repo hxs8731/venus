@@ -1,6 +1,6 @@
 <template>
 <div>
-  <navigator-bar :navInfos="naviLists" />
+  <navigator-bar />
   <search-bar />
   <h1>求职学院</h1>
 </div>
@@ -16,31 +16,6 @@ export default {
   },
   data() {
     return {
-        naviLists: [{
-            text: "校园招聘",
-            to: "/",
-            className: "nav-pills",
-            id: "campus"
-          },
-          {
-            text: "校园宣讲会",
-            to: "/preach",
-            className: "nav-pills",
-            id: "preach"
-          },
-        //   {
-        //     text: "实习",
-        //     to: "/internship",
-        //     className: "nav-pills",
-        //     id: "internship"
-        //   },
-          {
-            text: "求职学院",
-            to: "/jobhunting",
-            className: "active nav-pills",
-            id: "jobhunting"
-          }
-        ]
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <navigator-bar :navInfos="naviLists" />
+  <navigator-bar />
   <search-bar />
   <h3>实习</h3>
   <!-- <div class="container-fluid">
@@ -46,31 +46,6 @@ export default {
     });
 
     return {
-        naviLists: [{
-            text: "校园招聘",
-            to: "/",
-            className: "nav-pills",
-            id: "campus"
-          },
-          {
-            text: "校园宣讲会",
-            to: "/preach",
-            className: "nav-pills",
-            id: "preach"
-          },
-          {
-            text: "实习",
-            to: "/internship",
-            className: "active nav-pills",
-            id: "internship"
-          },
-          {
-            text: "求职学院",
-            to: "/jobhunting",
-            className: "nav-pills",
-            id: "jobhunting"
-          }
-        ],
       requestLists: [],
       school: "",
       city: "",

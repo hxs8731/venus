@@ -45,21 +45,18 @@ export default {
       naviLists: [{
           title: "校园招聘",
           to: "/",
-          className: "nav-pills",
           id: "campus",
           position: 0
         },
         {
           title: "校园宣讲会",
           to: "/preach",
-          className: "nav-pills",
           id: "preach",
           position: 1
         },
         {
           title: "求职学院",
           to: this._global.EDUCATION_URL,
-          className: "nav-pills",
           id: "jobhunting",
           position: 2
         }
@@ -68,14 +65,12 @@ export default {
         {
           title: "发布信息",
           to: "/deploy",
-          className: "nav-pills",
           id: "deploy",
           position: 3
         },
         {
           title: "审核信息",
           to: "/verify",
-          className: "nav-pills",
           id: "verify",
           position: 4
         }

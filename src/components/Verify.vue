@@ -1,6 +1,6 @@
 <template>
 <div class="root">
-	<navigator-bar :navInfos="naviLists" :loginNavInfos="loginNavLists" :activeId="4"/>
+	<navigator-bar :activeId="4"/>
   <div class="container-fluid content-list">
       <div class="row list-title">
         <div class="col-md-2 list-header">招聘类型</div>
@@ -41,35 +41,7 @@ export default {
           pageNumber: 0,
           pageSize: 10
       },
-      pageCount: -1,
-      naviLists: [
-        {
-          text: "校园招聘",
-          to: "/",
-          className: "nav-pills",
-          id: "campus"
-        },
-        {
-          text: "校园宣讲会",
-          to: "/preach",
-          className: "nav-pills",
-          id: "preach"
-        }
-      ],
-      loginNavLists: [
-        {
-          text: "发布信息",
-          to: "/deploy",
-          className: "nav-pills",
-          id: "deploy"
-        },
-        {
-          text: "审核信息",
-          to: "/verify",
-          className: "active nav-pills",
-          id: "verify"
-        }
-      ]
+      pageCount: -1
     };
   },
   computed: {
