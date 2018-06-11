@@ -5,18 +5,18 @@
   <div class="container-fluid content-list">
     <div class="row list-title">
       <div class="col-md-2 list-header">城市</div>
-      <div class="col-md-2 list-header">公司</div>
+      <div class="col-md-3 list-header">公司</div>
       <div class="col-md-2 list-header">学校</div>
       <div class="col-md-2 list-header">举办时间</div>
-      <div class="col-md-3 list-header">举办地点</div>
+      <div class="col-md-2 list-header">举办地点</div>
       <div class="col-md-1 list-header">订阅</div>
     </div>
     <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
       <div class="col-md-2 list-row" :title="list.recruitCitys"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
-      <div class="col-md-2 list-row" :title="list.companyName"><span class="label label-success" v-if="list.companyTags && '' !== list.companyTags">{{list.companyTags}}</span>{{ list.companyName }}</div>
+      <div class="col-md-3 list-row" :title="list.companyName"><span class="gap-right label label-success" v-if="list.companyTags && '' !== list.companyTags">{{list.companyTags}}</span>{{ list.companyName }}</div>
       <div class="col-md-2 list-row" @click="callLink(list.recruitUrl)"><a href="#" :title="list.school">{{ list.school }}</a></div>
       <div class="col-md-2 list-row">{{ list.xjTime }}</div>
-      <div class="col-md-3 list-row" :title="list.teachInsAddress">{{ list.teachInsAddress }}</div>
+      <div class="col-md-2 list-row" :title="list.teachInsAddress">{{ list.teachInsAddress }}</div>
       <div class="col-md-1 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">订阅</button></div>
     </div>
 </div>

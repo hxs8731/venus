@@ -66,6 +66,9 @@ line-height: 40px;
     background: #bedeea;
     /*background: rgba(255, 255, 255, 0.5);*/
 }
+.gap-right {
+    margin-right: 8px;
+}
 .gray {
   background-color: #e3f5fc;
 }
