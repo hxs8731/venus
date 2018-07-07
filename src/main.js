@@ -66,7 +66,9 @@ Vue.prototype.callLink = function (linkUrl, newWindow) {
     window.location.href = linkUrl;
   }
 };
-
+Vue.prototype.linkToCV = function () {
+  router.push('/curriculumVitae');
+};
 Vue.prototype.getRequestUrl = function (workType) {
   if (this._global.TEST_MODE) {
     return this._global.TEST_URL;

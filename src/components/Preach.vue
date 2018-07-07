@@ -1,5 +1,5 @@
 <template>
-<div class="center-block">
+<div>
   <navigator-bar :activeId="1" @search-nav="handleNavbarSearch"/>
   <search-bar  :searchProps="searchInfos" @selected-info="handleSelected"/>
   <div class="container-fluid content-list">
@@ -174,7 +174,7 @@ export default {
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;
             this.pageCount = lists.totalPages; // update pagecount
-            console.log(`updateListData ${JSON.stringify(lists.data)}, ${lists.totalPages}`);
+            // console.log(`updateListData ${JSON.stringify(lists.data)}, ${lists.totalPages}`);
           });
       }
   }

@@ -1,6 +1,6 @@
 <template>
 <div class="root">
-	<navigator-bar :navInfos="naviLists"/>
+	<navigator-bar/>
 	<div class="form_content">
       <div class="form-group">
           <label>用户名</label>
@@ -28,21 +28,7 @@ export default {
     return {
       isdisabled: true,
       username: "",
-      password: "",
-      naviLists: [
-        {
-          text: "校园招聘",
-          to: "/",
-          className: "nav-pills",
-          id: "campus"
-        },
-        {
-          text: "校园宣讲会",
-          to: "/preach",
-          className: "nav-pills",
-          id: "preach"
-        }
-      ]
+      password: ""
     };
   },
   computed: {

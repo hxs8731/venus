@@ -190,24 +190,6 @@ export default {
       // console.log(`selectXjtime ==> ${this.xjTime}`);
     },
     generateParams: function() {
-      // {
-      // "userName":"admin",
-      // "recruit":{
-      //   "companyName":"test",
-      //   "companyDesc":"testdesc",
-      //   "companyTags":"公司标签",
-      //   "title":"我在招聘it",
-      //   "recruitCitys":"北京,上海",
-      //   "school":"北大",
-      //   "teachInsAddress":"地点",
-      //   "recruitUrl":"www.baidu.com",
-      //   "workType":"2",
-      //   "xjTime": "2018-06-18 00:00:00"
-      //   }
-
-      // }
-      // let params = new URLSearchParams();
-      // params.append("userName", this.cookieStore.getCookie("username"));
       let params = {};
       params.userName = this.cookieStore.getCookie("username");
       let recruitInfo = {};

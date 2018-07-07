@@ -7,6 +7,8 @@ import Internship from '@/components/Internship'
 import Loging from '@/components/Loging'
 import Deploy from '@/components/Deploy'
 import Verify from '@/components/Verify'
+import CurriculumVitae from '@/components/CurriculumVitae'
+import Register from '@/components/Register'
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +36,14 @@ export default new Router({
     path: '/verify',
     name: 'Verify',
     component: Verify
+  }, {
+    path: '/curriculumVitae',
+    name: 'CurriculumVitae',
+    component: CurriculumVitae
+  }, {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }, {
     path: '/Loging',
     name: 'Loging',

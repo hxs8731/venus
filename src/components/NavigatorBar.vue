@@ -22,6 +22,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" v-if="userName">
+        <li><a @click="inputCV" href="#"><label class="glyphicon glyphicon-book"></label><span class="left-tip">录入简历</span></a></li>
         <li><a @click="loginOut" href="#"><label class="glyphicon glyphicon-log-out"></label><span class="left-tip">注销</span></a></li>
         <li><a href="#"><span class="glyphicon glyphicon-user"></span><span class="left-tip">当前用户： {{userName}}</span></a></li>
       </ul>
@@ -93,6 +94,9 @@ export default {
   methods: {
     doSearchCompany: function() {
       this.$emit("search-nav", this.$refs.input1.value);
+    },
+    inputCV: function() {
+      this.$router.push('/curriculumVitae');
     },
     loginOut: function(){
       this.cookieStore.clearCookie("username");

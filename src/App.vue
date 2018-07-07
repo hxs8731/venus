@@ -1,6 +1,7 @@
 <template>
 <div id="app" class="root">
   <router-view />
+  <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div>
   <footer class="footer">
     <!-- <ul class="nav navbar-nav－center">
       <li>友情链接</li>
@@ -186,5 +187,11 @@ text-overflow:ellipsis;    /*溢出时显示省略标记...；需与overflow:hid
     /*border: 1px solid transparent;*/
     /*border-radius: 4px;*/
     border-radius: 0px;
+}
+
+.right-fix-banner{
+    position:fixed;
+    right: 20px;
+    top: 150px;
 }
 </style>

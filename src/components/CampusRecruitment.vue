@@ -147,7 +147,7 @@ export default {
       updateListData: function(params) {
           this.getInfoByWorkType(params, (lists) => {
             this.requestLists = lists.data;
-            console.log("updateListData ==> " + JSON.stringify(this.requestLists));
+            // console.log("updateListData ==> " + JSON.stringify(this.requestLists));
             this.pageCount = lists.totalPages; // update pagecount
           });
       }
