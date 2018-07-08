@@ -5,35 +5,35 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#">
-                        简历信息
-                    </a>
-                </li>
-                <li>
-                    <a href="#">求职意向</a>
-                </li>
-                <li>
-                    <a href="#">教育经历</a>
-                </li>
-                <li>
-                    <a href="#">实习经历</a>
-                </li>
-                <li>
-                    <a href="#">项目经验</a>
-                </li>
-                <li>
-                    <a href="#">荣誉奖项</a>
-                </li>
-                <li>
-                    <a href="#">社团经历</a>
-                </li>
-                <li>
-                    <a href="#">技能特长</a>
-                </li>
-                <li>
-                    <a href="#">附加信息</a>
-                </li>
+              <li class="sidebar-brand">
+                  <a href="#baseInfo">
+                      简历信息
+                  </a>
+              </li>
+              <li>
+                  <a href="#jobIntention">求职意向</a>
+              </li>
+              <li>
+                  <a href="#educationExp">教育经历</a>
+              </li>
+              <li>
+                  <a href="#intershipExp">实习经历</a>
+              </li>
+              <li>
+                  <a href="#projectExp">项目经验</a>
+              </li>
+              <li>
+                  <a href="#honoraryAward">荣誉奖项</a>
+              </li>
+              <li>
+                  <a href="#clubExp">社团经历</a>
+              </li>
+              <li>
+                  <a href="#skills">技能特长</a>
+              </li>
+              <li>
+                  <a href="#additionalInfo">附加信息</a>
+              </li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -41,154 +41,231 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="page-main">
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="baseInfo">
                     <div class="panel-heading">
                         基本信息
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!editMode.baseInfo" class=" card-info-edit pull-right padding left right edit"
+                        @click="changeEditMode('baseInfo', !editMode.baseInfo)">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div class="card_info">
-                            <div class="card-item headphoto">
+                            <div class="card-item headphoto" v-if="!editMode.baseInfo">
                                 <div class="user-img">
-                                    <!-- <img ng-src="{{cardInfo.avatarUrl}}"> -->
+                                    <img src="../assets/images/avtar.png" width="100" height="100" />
                                     <p class="text-success" data-toggle="modal" data-target="#headModal">上传头像</p>
                                 </div>
                                 <div class="user-info">
                                     <div class="user-info-left">
                                         <div class="user-name">
                                             姓名：
-                                            <span ng-bind="cardInfo.name"></span>
+                                            <span>{{cardDataInfo.name}}</span>
                                         </div>
                                         <div class="user-gender">
                                             性别：
-                                            <span class="person-content" ng-show="cardInfo.sex=='1'">男</span>
-                                            <span class="person-content" ng-show="cardInfo.sex=='2'">女</span>
+                                            <span class="person-content" v-if="cardDataInfo.sex=='1'">男</span>
+                                            <span class="person-content" v-if="cardDataInfo.sex=='2'">女</span>
                                         </div>
                                         <div class="user-phone">
                                             电话：
-                                            <span class="person-content" ng-bind="cardInfo.phone"></span>
+                                            <span class="person-content">{{cardDataInfo.phone}}</span>
                                         </div>
                                         <div class="user-email text-ellipsis">
                                             邮箱：
-                                            <span class="person-content text-ellipsis" ng-bind="cardInfo.email"></span>
+                                            <span class="person-content text-ellipsis">{{cardDataInfo.email}}</span>
                                         </div>
                                     </div>
                                     <div class="user-info-right">
                                         <div class="user-college  text-ellipsis">
                                             毕业院校：
-                                            <span class="person-content text-ellipsis" ng-bind="cardInfo.college_name"></span>
+                                            <span class="person-content text-ellipsis">{{cardDataInfo.college_name}}</span>
                                         </div>
                                         <div class="user-major text-ellipsis">
                                             专业院系：
-                                            <span class="person-content text-ellipsis" ng-bind="cardInfo.majorName"></span>
+                                            <span class="person-content text-ellipsis">{{cardDataInfo.majorName}}</span>
                                         </div>
                                         <div class="user-education">
                                             最高学历：
-                                            <span class="person-content" ng-bind="eduBgItems[cardInfo.degree].name"></span>
+                                            <span class="person-content">{{eduBgItems[cardDataInfo.degree].name}}</span>
                                         </div>
                                         <div class="user-graduate-year">
                                             毕业年份：
-                                            <span class="person-content" ng-bind="cardInfo.graduation_date ? (graduation_year + '年') : ''"></span>
+                                            <!-- <span class="person-content" v-bind="cardDataInfo.graduation_date ? (graduation_year + '年') : ''">{{}}</span> -->
                                         </div>
                                     </div>
-                                    <!-- <div class="clear"></div> -->
+                                    <div class="clear"></div>
                                 </div>
                             </div>
+                            <!-- 编辑界面 -->
+                            <form name="updateBaseForm" role="form" v-else novalidate>
+                              <h5>基本信息的编辑页面</h5>
+                                <div class="form-horizontal animated fadeIn">
+                                    <div class="card-item-edit">
+                                        <div class="user-img">
+                                            <img src="../assets/images/avtar.png" width="100" height="100" />
+                                        </div>
+                                        <div class="user-info">
+                                            <div class="user-info-left">
+                                                <div class="user-name left-item">
+                                                    <span class="item-label">姓名</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                      <input type="text" class="form-control" id="form_name" v-model="cardDataInfo.name" />
+                                                    </div>
+                                                </div>
+                                                <div class="user-gender left-item">
+                                                    <span class="item-label">性别</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                        <input readonly class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                    </div>
+                                                </div>
+                                                <div class="user-phone left-item">
+                                                    <span class="item-label">电话</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                        <input type="text" class="form-control" v-bind="cardDataInfo.phone"
+                                                           v-model="cardDataInfo.phone" name="phone">
+                                                    </div>
+                                                </div>
+                                                <div class="user-email left-item">
+                                                    <span class="item-label">邮箱</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                        <input type="email" class="form-control" v-model="cardDataInfo.email" name="email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="user-info-right">
+                                                <div class="user-college right-item">
+                                                    <span class="item-label">毕业院校</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                        <input class="form-control typeahead"
+                                                               id="college_search"
+                                                               type="text"
+                                                               autocomplete="off"
+                                                               v-model="cardDataInfo.college_name">
+                                                    </div>
+                                                </div>
+                                                <div class="user-major right-item">
+                                                    <span class="item-label">专业院系</span>
+                                                    <div class="major-wrap" style="display: inline-block; position: relative;">
+                                                        <input readonly class="form-control dropdown-toggle" autocomplete="off" v-model="cardDataInfo.majorName">
+                                                    </div>
+                                                </div>
+                                                <div class="user-education right-item">
+                                                    <span class="item-label">最高学历</span>
+                                                    <div class="education-wrap" style="display: inline-block;">
+                                                        <input readonly class="form-control dropdown-toggle">
+                                                    </div>
+                                                </div>
+                                                <div class="user-graduate-year right-item" style="display: inline-block;">
+                                                    <span class="item-label">毕业年份</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                        <input readonly class="form-control dropdown-toggle">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="user-handle pull-right">
+                                            <a href="javascript:void(0)" type="submit" class="btn btn-success save add_save"
+                                               @click="updateCardInfo();">保存</a>
+                                            <a href="javascript:void(0)" type="submit" class="btn btn-default cancel add_cancel"
+                                               @click="changeEditMode('baseInfo', false)">取消</a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         求职意向
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         教育经历
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         实习经历
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         项目经历
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         荣誉奖项
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         社团经历
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         技能特长
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" ng-controller="cardInfoCtrl" ng-cloak>
+                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
                     <div class="panel-heading">
                         获得证书
-                        <a href="#" ng-show="!isEdit" class=" card-info-edit pull-right padding left right edit"
-                        ng-click="editCardInfo();">
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                     </div>
                 </div>
-                <button >保存</button><button >预览</button><button >简历打分</button><button >导出</button>
+                <button class="btn btn-primary">保存</button><button class="btn btn-primary">预览</button><button class="btn btn-primary">简历打分</button><button class="btn btn-primary">导出</button>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -210,7 +287,38 @@ export default {
     return {
       isdisabled: true,
       username: "",
-      password: ""
+      password: "",
+      editMode: {
+        baseInfo: false,
+        jobIntention: false,
+        educationExp: false,
+        intershipExp: false,
+        projectExp: false,
+        honoraryAward: false,
+        clubExp: false,
+        skills: false,
+        additionalInfo: false
+      },
+      eduBgItems: [
+        {name: "高中"},
+        {name: "大学"}
+      ],
+      cardDataInfo: {
+        avatarUrl: "",
+        name: "test",
+        sex: 1,
+        sexValues: [
+            {name: "男"},
+            {name: "女"}
+        ],
+        allCollege: "",
+        phone: "111111",
+        email: "11111",
+        college_name: "1111",
+        majorName: "11111",
+        degree: 0,
+        graduation_date: "2017-06-28"
+      }
     };
   },
   computed: {
@@ -220,34 +328,12 @@ export default {
   },
   methods: {
     doSubmit: function() {
-      if (this.checkInputValue) {
-        let params = new URLSearchParams();
-        params.append('userName', this.username);
-        params.append('password', this.password);
-        this.http.post(this._global.USER_LOGIN_ACTION, params).then((res) => {
-          console.log(`doSubmit callback ${JSON.stringify(res)}`);
-          if (res.data.success) {
-            let type = res.data.data.userType;
-            this.cookieStore.setCookie('username', this.username, 1);
-            this.cookieStore.setCookie('userType', type, 1);
-            if (3 === type) {
-              this.$router.push('/deploy');
-            } else if (2 === type) {
-              this.$router.push('/verify');
-            } else {
-              this.$router.push('/');
-            }
-          } else {
-            alert(res.data.errMsg);
-          }
-          // 跳转到主页面；
-          // userType: 3 发布权限  2 系统管理员  1 普通用户
-        }).catch(function (error) {
-        　　alert(error);
-        });
-      } else {
-        console.log("input value is empty.");
-      }
+
+    },
+
+    changeEditMode: function(item, value) {
+      console.log(`changeEditMode: ${item}, ${value}`);
+      this.editMode[item] = value;
     }
   }
 };
@@ -404,6 +490,93 @@ export default {
     /* border-bottom: 1px dashed #eeeeee; */
     padding: 10px 20px 20px;
     position: relative;
+}
+
+.page-main .panel-body .card-item-edit input, .page-main .panel-body .card-item-edit .user-info .gender {
+    border-radius: 0;
+    height: 38px;
+    line-height: 38px;
+    width: 198px !important;
+    padding-left: 12px;
+    background-color: #F8F9FA;
+    display: inline-block;
+}
+
+.page-main .panel-body .card-item-edit .user-img {
+    height: 136px;
+    width: 136px;
+    text-align: center;
+    position: relative;
+}
+
+.page-main .panel-body .card-item-edit .user-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.page-main .panel-body .card-item-edit .user-info {
+    float: left;
+    width: 100%;
+    margin-top: -136px;
+    padding-left: 176px;
+}
+
+.page-main .panel-body .card-item-edit .user-info .user-info-left, .page-main .panel-body .card-item-edit .user-info .user-info-right {
+    float: left;
+}
+
+.page-main .panel-body .card-item-edit .user-info .user-info-left {
+    margin-right: 20px;
+}
+
+.page-main .panel-body .card-item-edit .user-info .left-item .item-label, .page-main .panel-body .card-item-edit .user-info .right-item .item-label {
+    width: 60px;
+    text-align: center;
+    display: inline-block;
+}
+
+.page-main .panel-body .card-item-edit .user-info .user-info-left .left-item, .page-main .panel-body .card-item-edit .user-info .user-info-right .right-item {
+    font-size: 14px;
+    height: 38px;
+    margin-bottom: 16px;
+    line-height: 38px;
+    margin-right: 12px;
+}
+
+.page-main .panel-body .card-item-edit .user-info .user-gender .dropdown-menu {
+    height: auto !important;
+    width: 198px !important;
+    right: auto;
+}
+
+.page-main .panel-body .card-item-edit .user-info .user-education .education-menu, .card-item-edit .user-info .user-graduate-year .dropdown-menu, .card-item-edit .user-info .user-gender .dropdown-menu {
+    top: auto !important;
+    left: auto !important;
+}
+
+.page-main .panel-body .card-item-edit .user-handle {
+    margin-top: 2px;
+    margin-right: 42px;
+}
+
+.page-main .panel-body .card-item-edit .user-handle a {
+    border-radius: 2px;
+    height: 32px;
+    width: 68px;
+    line-height: 32px;
+    margin-left: 12px;
+    padding: 0;
+}
+
+.page-main .panel-body .card-item-edit .user-handle .cancel {
+    background-color: #eeeeee;
+}
+
+.page-main .panel-body .card-item-edit .user-graduate-year .date-drop {
+    width: 280px;
+    font-size: 12px;
+    overflow: hidden;
+    padding: 0;
 }
 
 .page-main .panel-body .card-item .user-img {

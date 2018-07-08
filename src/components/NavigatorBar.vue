@@ -190,6 +190,11 @@ ul.nav {
 ul.nav li a {
   font-size: 16px;
 }
+
+ul.navbar-right li a {
+  font-size: 12px;
+}
+
 ul.nav li.nav-pills {
   margin: 0 15px;
 }

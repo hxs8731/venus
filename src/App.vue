@@ -169,7 +169,7 @@ text-overflow:ellipsis;    /*溢出时显示省略标记...；需与overflow:hid
 .btn {
     display: inline-block;
     padding: 6px 12px;
-    margin-bottom: 0;
+    margin-right: 5px;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.42857143;
