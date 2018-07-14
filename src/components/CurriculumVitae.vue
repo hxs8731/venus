@@ -1,7 +1,7 @@
 <template>
 <div>
     <navigator-bar/>
-<div id="wrapper" class="toggled">
+    <div id="wrapper" class="toggled">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -99,7 +99,7 @@
                             </div>
                             <!-- 编辑界面 -->
                             <form name="updateBaseForm" role="form" v-else novalidate>
-                              <h5>基本信息的编辑页面</h5>
+                              <!-- <h5>基本信息的编辑页面</h5> -->
                                 <div class="form-horizontal animated fadeIn">
                                     <div class="card-item-edit">
                                         <div class="user-img">
@@ -177,92 +177,166 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="jobIntention">
                     <div class="panel-heading">
                         求职意向
-                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        <!-- <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
-                        </a>
+                        </a> -->
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <ul class="panel-content">
+                            <li>
+                                <span>意向城市<label> <a href="`"></a>*</label></span>
+                                <button class="btn btn-default">杭州</button>
+                                <button class="btn btn-default">上海</button>
+                                <button class="btn btn-default">北京</button>
+                                <a href="#" @click="toggleMore(showCity), blur()" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多城市</a>
+                            </li>
+                            <li>
+                                <span>意向职位<label> <a href="`"></a>*</label></span>
+                                <button class="btn btn-default">程序员</button>
+                                <button class="btn btn-default">产品经理</button>
+                                <button class="btn btn-default">Java开发</button>
+                                <a href="#" @click="toggleMore(showCity), blur()" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多岗位</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="educationExp">
                     <div class="panel-heading">
                         教育经历
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i> +教育经历
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div v-for="(info, index) in educationExps">
+                            <p class="col-xs-2">{{info.edu_school}}</p>
+                            <p class="col-xs-3">{{info.edu_profession}}</p>
+                            <p class="col-xs-2">{{info.edu_degree}}</p>
+                            <p class="col-xs-3">{{info.edu_times}}</p>
+                            <p class="col-xs-2"><span>编辑</span>｜<span>删除</span></p>
+                        </div> 
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="intershipExp">
                     <div class="panel-heading">
                         实习经历
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i>+实习经历
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div v-for="(info, index) in intershipExps">
+                            <div>
+                                <p class="col-xs-4">{{info.intership_company}}</p>
+                                <p class="col-xs-4">{{info.intership_postion}}</p>
+                                <p class="col-xs-4">{{info.intership_times}}</p>
+                            </div>
+                            <div>
+                                <p class="col-xs-2">工作内容</p>
+                                <p class="col-xs-10">{{info.intership_content}}</p>
+                            </div>
+                        </div> 
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="projectExp">
                     <div class="panel-heading">
                         项目经历
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i>+项目经历
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div v-for="(info, index) in projectExps">
+                            <div>
+                                <p class="col-xs-4">{{info.project_name}}</p>
+                                <p class="col-xs-4">{{info.project_position}}</p>
+                                <p class="col-xs-4">{{info.project_times}}</p>
+                            </div>  
+                            <div>
+                                <p class="col-xs-2">项目内容</p>
+                                <p class="col-xs-10">{{info.project_content}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="honoraryAward">
                     <div class="panel-heading">
                         荣誉奖项
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i>+荣誉奖项
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div v-for="(info, index) in honoraryAwards">
+                            <p class="col-xs-4">{{info.award_name}}</p>
+                            <p class="col-xs-4">{{info.award_degree}}</p>
+                            <p class="col-xs-4">{{info.award_time}}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="clubExp">
                     <div class="panel-heading">
                         社团经历
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i>+社团经历
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+
+                        <div v-for="(info, index) in clubExps">
+                            <p class="col-xs-4">{{info.club_name}}</p>
+                            <p class="col-xs-4">{{info.club_position}}</p>
+                            <p class="col-xs-4">{{info.club_times}}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="skills">
                     <div class="panel-heading">
                         技能特长
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i>+技能特长
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <p>
+                            <label v-for="(info, index) in skills" class="label label-default">{{info}}</label>
+                        </p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="card_info" v-controller="cardInfoCtrl">
+                <div class="panel panel-default" id="certifications">
                     <div class="panel-heading">
                         获得证书
                         <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
                         @click="editCardInfo();">
-                            <i class="fa fa-pencil"></i> 编辑
+                            <i class="fa fa-pencil"></i>+获得证书
                         </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <p>
+                            <label v-for="(info, index) in certificates" class="label label-default">{{info}}s</label>
+                        </p>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="additionalInfo">
+                    <div class="panel-heading">
+                        附加信息
+                        <a href="#" v-if="!isEdit" class=" card-info-edit pull-right padding left right edit"
+                        @click="editCardInfo();">
+                            <i class="fa fa-pencil"></i>+附加信息
+                        </a>
+                    </div>
+                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        {{additionalInfo}}
                     </div>
                 </div>
                 <button class="btn btn-primary">保存</button><button class="btn btn-primary">预览</button><button class="btn btn-primary">简历打分</button><button class="btn btn-primary">导出</button>
@@ -318,7 +392,34 @@ export default {
         majorName: "11111",
         degree: 0,
         graduation_date: "2017-06-28"
-      }
+      },
+      educationExps: [
+          {edu_school: "浙江大学", edu_profession: "计算机工程与技术", edu_degree: "研究生", edu_times: "2010-9至2013-7"},
+          {edu_school: "浙江工业大学", edu_profession: "计算机工程与技术", edu_degree: "本科", edu_times: "2010-9至2013-7"}
+      ],
+      intershipExps: [
+          {intership_company: "阿里巴巴", intership_postion: "测试工程师", intership_times:"2010-9至2013-7", intership_content: "主要是负责测试工作！"},
+          {intership_company: "湖畔大学", intership_postion: "开发工程师", intership_times:"2010-9至2013-7", intership_content: "主要是负责开发工作！"}
+      ],
+      projectExps: [
+          {project_name: "项目名称1", project_position: "测试工程师", project_times:"2010-9至2013-7", project_content: "项目内容1"},
+          {project_name: "项目名称2", project_position: "开发工程师", project_times:"2010-9至2013-7", project_content: "项目内容2"}
+      ],
+      honoraryAwards: [
+          {award_name: "奖项名称", award_degree: "奖项级别", award_time: "2010-9"},
+          {award_name: "奖项名称2", award_degree: "奖项级别2", award_time: "2010-9"}
+      ],
+      clubExps: [
+          {club_name: "社团名称", club_position: "担任位置", club_times: "2010-9至2013-7"},
+          {club_name: "社团名称2", club_position: "担任位置2", club_times: "2010-9至2013-7"}
+      ],
+      skills: [
+          "专业技能1", "专业技能2", "专业技能3"
+      ],
+      certificates: [
+          "证书1", "证书2", "证书3"
+      ],
+      additionals: "这里是附加信息"
     };
   },
   computed: {
@@ -485,7 +586,9 @@ export default {
     padding-left: 176px;
     height: 136px;
 }
-
+.page-main .panel-body ul.panel-content li{
+    line-height: 40px;
+}
 .page-main .panel-body .card-item, .page-main .panel-body .card-item-edit {
     /* border-bottom: 1px dashed #eeeeee; */
     padding: 10px 20px 20px;
