@@ -277,7 +277,7 @@
                     <div class="panel-heading">
                         荣誉奖项
                         <a href="#" class=" card-info-edit pull-right padding left right edit"
-                        data-toggle="modal" data-target="#honoraryAwardsModal">
+                        data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(this.honoraryAwardsFormInfo)">
                             <i class="fa fa-pencil"></i>+荣誉奖项
                         </a>
                         <form-model-view :singleSelect="false" :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
@@ -287,7 +287,7 @@
                             <p class="col-xs-4">{{info.award_name}}</p>
                             <p class="col-xs-2">{{info.award_degree}}</p>
                             <p class="col-xs-4">{{info.award_time}}</p>
-                            <p class="col-xs-2"><span>编辑</span>｜<span>删除</span></p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(this.honoraryAwardsFormInfo, info)">编辑</span>｜<span @click="deleteListInfo(this.honoraryAwards, info)">删除</span></p>
                         </div>
                         <p v-show="honoraryAwards.length <= 0">暂无内容</p>
                     </div>
@@ -456,6 +456,7 @@ export default {
         infoType: "educationExps",
         index: -1,
         title: "教育经历",
+        state: "initial",
         data: [
           {
             label: "学校名称",
@@ -530,6 +531,7 @@ export default {
         infoType: "internshipExps",
         index: -1,
         title: "实习经历",
+        state: "initial",
         data: [
           {
             label: "实习公司",
@@ -584,6 +586,7 @@ export default {
         infoType: "projectExps",
         index: -1,
         title: "项目经历",
+        state: "initial",
         data: [
           {
             label: "项目名称",
@@ -638,6 +641,7 @@ export default {
         infoType: "honoraryAwards",
         index: -1,
         title: "获得奖项",
+        state: "initial",
         data: [
           {
             label: "奖项名称",
@@ -678,6 +682,7 @@ export default {
         infoType: "clubExps",
         index: -1,
         title: "社团经历",
+        state: "initial",
         data: [
           {
             label: "社团名称",
@@ -733,6 +738,7 @@ export default {
         infoType: "skillInfos",
         index: -1,
         title: "专业技能",
+        state: "initial",
         data: [
           {
             label: "技能名称",
@@ -749,6 +755,7 @@ export default {
         infoType: "certificates",
         index: -1,
         title: "获得证书",
+        state: "initial",
         data: [
           {
             label: "证书名称",
@@ -869,6 +876,19 @@ export default {
         listArray.push(newObject);
       }
       console.log(`updateListInfos => end ${JSON.stringify(listArray)}`);
+    },
+
+    updateFormInfo: function(forInfos, info) {
+        if (!info) {
+            // do clear form infos;
+        } else {
+            // fill infos to form;
+
+        }
+    },
+
+    deleteListInfo: function(listInfos, info) {
+        listInfos.splice(listInfos.indexof(info), 1);
     }
   }
 };
