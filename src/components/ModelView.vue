@@ -10,10 +10,10 @@
                     <div class="modal-main" v-for="letterData in modelData">
                       <p class="modal-subtitle">{{ letterData.letter }}</p>
                       <button v-for="info in letterData.data" class="btn btn-default" data-dismiss="modal" data-target="#myModal" @click="selectInfo(selectedInfos, info, singleSelect)"> {{ info.city }} </button>
-                  </div>
+                    </div>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
+            </div>
+        </div>
     </div>
 </template>
 <script>

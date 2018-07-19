@@ -38,7 +38,6 @@ export default {
   name: 'SearchBar',
   components: {
     Datepicker,
-    Datepicker,
     ModelView
   },
   props: ['searchProps', 'searchCity'],
