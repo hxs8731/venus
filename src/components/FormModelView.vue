@@ -13,9 +13,9 @@
                                 <label>{{info.label}}: &nbsp;&nbsp;</label>
                                 <input v-if="'input' === info.form_type" :type="info.type" v-model="info.value" :name="info.name" class="form-control" />
                                 <label class="checkbox-inline" v-for="(radioInfo, rindex) in info.radioInfos">
-                                    <input type="radio" :name="radioInfo.name" :id="radioInfo.id" v-model="radioInfo.value" :checked="radioInfo.checked">&nbsp;&nbsp;{{radioInfo.radio_tip}}
+                                    <input type="radio" :name="radioInfo.name" :id="radioInfo.id" v-model="info.value" :value="radioInfo.radio_tip">&nbsp;&nbsp;{{radioInfo.radio_tip}}
                                 </label>
-                                <datepicker v-for="(pickerInfo, pindex) in info.datePickers" v-model="pickerInfo.value" class="form-control" :id="pickerInfo.id" @selected="selectDate" @closed="datepickerClosedFunction(index, pindex)" :placeholder="pickerInfo.placeholder" language="zh" format="yyyy-MM-dd" />
+                                <datepicker v-for="(pickerInfo, pindex) in info.datePickers" v-model="pickerInfo.value" class="form-control" :key="pickerInfo.id" @selected="selectDate" @closed="datepickerClosedFunction(index, pindex)" :placeholder="pickerInfo.placeholder" language="zh" format="yyyy-MM-dd" />
                             </p>
                     </form>
                     </div>

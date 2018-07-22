@@ -44,7 +44,7 @@
                 <div class="panel panel-default" id="baseInfo">
                     <div class="panel-heading">
                         基本信息
-                        <a href="#" v-if="!editMode.baseInfo" class=" card-info-edit pull-right padding left right edit"
+                        <a href="####" v-if="!editMode.baseInfo" class=" card-info-edit pull-right padding left right edit"
                         @click="changeEditMode('baseInfo', !editMode.baseInfo)">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
@@ -64,34 +64,34 @@
                                         </div>
                                         <div class="user-gender">
                                             性别：
-                                            <span class="person-content" v-if="cardDataInfo.sex=='1'">男</span>
-                                            <span class="person-content" v-if="cardDataInfo.sex=='2'">女</span>
+                                            <span class="person-content" v-if="cardDataInfo.sex=='0'">男</span>
+                                            <span class="person-content" v-if="cardDataInfo.sex=='1'">女</span>
                                         </div>
                                         <div class="user-phone">
                                             电话：
                                             <span class="person-content">{{cardDataInfo.phone}}</span>
                                         </div>
-                                        <div class="user-email text-ellipsis">
-                                            邮箱：
-                                            <span class="person-content text-ellipsis">{{cardDataInfo.email}}</span>
-                                        </div>
                                     </div>
                                     <div class="user-info-right">
-                                        <div class="user-college  text-ellipsis">
+                                        <!-- <div class="user-college  text-ellipsis">
                                             毕业院校：
                                             <span class="person-content text-ellipsis">{{cardDataInfo.college_name}}</span>
                                         </div>
                                         <div class="user-major text-ellipsis">
                                             专业院系：
                                             <span class="person-content text-ellipsis">{{cardDataInfo.majorName}}</span>
-                                        </div>
+                                        </div> -->
                                         <div class="user-education">
                                             最高学历：
                                             <span class="person-content">{{eduBgItems[cardDataInfo.degree].name}}</span>
                                         </div>
                                         <div class="user-graduate-year">
-                                            毕业年份：
+                                            出生年月：
                                             <!-- <span class="person-content" v-bind="cardDataInfo.graduation_date ? (graduation_year + '年') : ''">{{}}</span> -->
+                                        </div>
+                                        <div class="user-email text-ellipsis">
+                                            邮箱：
+                                            <span class="person-content text-ellipsis">{{cardDataInfo.email}}</span>
                                         </div>
                                     </div>
                                     <div class="clear"></div>
@@ -116,7 +116,15 @@
                                                 <div class="user-gender left-item">
                                                     <span class="item-label">性别</span>
                                                     <div class="gender-wrap" style="display: inline-block;">
-                                                        <input readonly class="form-control dropdown-toggle" data-toggle="dropdown">
+                                                        <input readonly class="form-control dropdown-toggle" data-toggle="dropdown"
+                                                              v-model="sexValues[cardDataInfo.sex].name">
+                                                        <span class="caret"></span>
+                                                        <div class="dropdown-menu" role="menu">
+                                                            <ul>
+                                                                <li v-for="(sexVal, index) in sexValues"
+                                                                    @click="cardDataInfo.sex=index"> {{sexVal.name}}</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="user-phone left-item">
@@ -126,40 +134,73 @@
                                                            v-model="cardDataInfo.phone" name="phone">
                                                     </div>
                                                 </div>
-                                                <div class="user-email left-item">
-                                                    <span class="item-label">邮箱</span>
-                                                    <div class="gender-wrap" style="display: inline-block;">
-                                                        <input type="email" class="form-control" v-model="cardDataInfo.email" name="email">
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="user-info-right">
-                                                <div class="user-college right-item">
+                                                <!-- <div class="user-college user-education right-item">
                                                     <span class="item-label">毕业院校</span>
-                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                    <div class="education-wrap" style="display: inline-block;">
                                                         <input class="form-control typeahead"
-                                                               id="college_search"
-                                                               type="text"
-                                                               autocomplete="off"
-                                                               v-model="cardDataInfo.college_name">
+                                                            id="college_search"
+                                                            type="text"
+                                                            autocomplete="off"
+                                                            data-provide="typeahead"
+                                                            :data-source="cardDataInfo.allCollege"
+                                                            v-model="cardDataInfo.college_name">
                                                     </div>
                                                 </div>
                                                 <div class="user-major right-item">
                                                     <span class="item-label">专业院系</span>
                                                     <div class="major-wrap" style="display: inline-block; position: relative;">
-                                                        <input readonly class="form-control dropdown-toggle" autocomplete="off" v-model="cardDataInfo.majorName">
+                                                        <input readonly class="form-control dropdown-toggle"
+                                                              myrequired=""
+                                                              autocomplete="off"
+                                                              data-toggle="dropdown"
+                                                              v-model="cardDataInfo.majorName">
+                                                        <span class="caret"></span>
+                                                        <div class="dropdown-menu animated fadeIn major-box2" role="menu">
+                                                            <div class="row-item" v-for="(majorItem,majorValue) in majorLists">
+                                                                <div class="item-title text-right">{{majorValue.name}}</div>
+                                                                <div class="major-items">
+                                                                    <span class="item text-center"
+                                                                          ng-repeat="(item,value) in majorList[majorValue.name]">
+                                                                        <a href="javascript:void(0);"
+                                                                          class="btn major-item"
+                                                                          title="{{value.name}}"
+                                                                          ng-class="{'selected':value.id==cardDataInfo.major}"
+                                                                          ng-click="setMajor(value.id,value.name, $event)"
+                                                                          ng-bind="value.name"></a>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="user-education right-item">
                                                     <span class="item-label">最高学历</span>
                                                     <div class="education-wrap" style="display: inline-block;">
-                                                        <input readonly class="form-control dropdown-toggle">
+                                                        <input readonly class="form-control dropdown-toggle" data-toggle="dropdown"
+                                                              v-model="eduBgItems[cardDataInfo.degree].name" myrequired>
+                                                        <span class="caret"></span>
+                                                        <div class="dropdown-menu education-menu" role="menu">
+                                                            <ul>
+                                                                <li v-for="eduBgItem in eduBgItems" @click="cardDataInfo.degree=eduBgItem.id">{{eduBgItem.name}}</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="user-graduate-year right-item" style="display: inline-block;">
-                                                    <span class="item-label">毕业年份</span>
-                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                <div class="user-graduate-year right-item form-inline">
+                                                    <span class="item-label">出生年月</span>
+                                                    <datepicker class="form-control" id="startDate" type="text" @selected="selectStartDate" placeholder="选择出生年月" language="zh" format="yyyy-MM-dd"></datepicker>
+                                                    <!-- <div class="gender-wrap" style="display: inline-block;">
                                                         <input readonly class="form-control dropdown-toggle">
+                                                    </div> -->
+                                                </div>
+                                                <div class="user-email right-item">
+                                                    <span class="item-label">邮箱</span>
+                                                    <div class="gender-wrap" style="display: inline-block;">
+                                                        <input type="email" class="form-control" v-model="cardDataInfo.email" name="email">
                                                     </div>
                                                 </div>
                                             </div>
@@ -207,7 +248,7 @@
                     <div class="panel-heading">
                         教育经历
                         <a href="#" class=" card-info-edit pull-right padding left right edit"
-                        data-toggle="modal" data-target="#eduModal">
+                        data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo)">
                             <i class="fa fa-pencil"></i> +教育经历
                         </a>
                         <form-model-view :singleSelect="false" :formInfos="educationFormInfo" modelId="eduModal" @modal-positive="handlePositive($event)" />
@@ -218,7 +259,7 @@
                             <p class="col-xs-3">{{info.edu_profession}}</p>
                             <p class="col-xs-2">{{info.edu_degree}}</p>
                             <p class="col-xs-3">{{info.edu_startTime}} 至 {{info.edu_endTime}}</p>
-                            <p class="col-xs-2"><span>编辑</span>｜<span>删除</span></p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationExps, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="educationExps.length <= 0">暂无内容</p>
                     </div>
@@ -238,7 +279,7 @@
                                 <p class="col-xs-4">{{info.internship_company}}</p>
                                 <p class="col-xs-2">{{info.internship_postion}}</p>
                                 <p class="col-xs-4">{{info.internship_startTime}} 至 {{info.internship_endTime}}</p>
-                                <p class="col-xs-2"><span>编辑</span>｜<span>删除</span></p>
+                                <p class="col-xs-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipExps, info, index)"><a href="####">删除</a></span></p>
                             </div>
                             <div>
                                 <p class="col-xs-2">工作内容:</p>
@@ -263,7 +304,7 @@
                                 <p class="col-xs-4">{{info.project_name}}</p>
                                 <p class="col-xs-2">{{info.project_position}}</p>
                                 <p class="col-xs-4">{{info.project_startTime}} 至 {{info.project_endTime}}</p>
-                                <p class="col-xs-2"><span>编辑</span>｜<span>删除</span></p>
+                                <p class="col-xs-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectExps, info, index)"><a href="####">删除</a></span></p>
                             </div>
                             <div>
                                 <p class="col-xs-2">项目内容:</p>
@@ -277,7 +318,7 @@
                     <div class="panel-heading">
                         荣誉奖项
                         <a href="#" class=" card-info-edit pull-right padding left right edit"
-                        data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(this.honoraryAwardsFormInfo)">
+                        data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo)">
                             <i class="fa fa-pencil"></i>+荣誉奖项
                         </a>
                         <form-model-view :singleSelect="false" :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
@@ -287,7 +328,7 @@
                             <p class="col-xs-4">{{info.award_name}}</p>
                             <p class="col-xs-2">{{info.award_degree}}</p>
                             <p class="col-xs-4">{{info.award_time}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(this.honoraryAwardsFormInfo, info)">编辑</span>｜<span @click="deleteListInfo(this.honoraryAwards, info)">删除</span></p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwards, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="honoraryAwards.length <= 0">暂无内容</p>
                     </div>
@@ -306,7 +347,7 @@
                             <p class="col-xs-4">{{info.club_name}}</p>
                             <p class="col-xs-2">{{info.club_position}}</p>
                             <p class="col-xs-4">{{info.club_startTime}} 至 {{info.club_endTime}}</p>
-                            <p class="col-xs-2"><span>编辑</span>｜<span>删除</span></p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(clubExps, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="clubExps.length <= 0">暂无内容</p>
                     </div>
@@ -321,10 +362,17 @@
                         <form-model-view :singleSelect="false" :formInfos="skillFormInfo" modelId="skillModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <p>
-                            <label v-for="(info, index) in skillInfos" class="label label-default">{{info.skill_name}}</label>
-                        </p>
+                        <div v-for="(info, index) in skillInfos">
+                            <p class="col-xs-4">{{info.skill_name}}</p>
+                            <p class="col-xs-5">{{info.skill_degree}}</p>
+                            <p class="col-xs-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(skillInfos, info, index)"><a href="####">删除</a></span></p>
+                        </div>
                         <p v-show="skillInfos.length <= 0">暂无内容</p>
+
+                        <!-- <p>
+                            <label v-for="(info, index) in skillInfos" class="label label-gap label-info">{{info.skill_name}}</label>
+                        </p>
+                        <p v-show="skillInfos.length <= 0">暂无内容</p> -->
                     </div>
                 </div>
                 <div class="panel panel-default" id="certifications">
@@ -338,7 +386,7 @@
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <p>
-                            <label v-for="(info, index) in certificates" class="label label-default">{{info.certificate_name}}</label>
+                            <label v-for="(info, index) in certificates" class="label label-gap label-info">{{info.certificate_name}}</label>
                         </p>
                         <p v-show="certificates.length <= 0">暂无内容</p>
                     </div>
@@ -349,9 +397,9 @@
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div class="form-inline">
-                            <p>{{additionalInfo}}</p>
-                            <input type="text" class="form-control" v-model="additionalInfo"/>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="positiveHandle()">确定</button>
+                            <span v-if="showAddInfoTip" @click="showAddInfoTip = false">{{additionalInfo}}</span>
+                            <input v-else type="text" class="form-control" v-model="additionalInfo"/>
+                            <button type="button" class="btn btn-primary" :disabled="showAddInfoTip" @click="showAddInfoTip = true" data-dismiss="modal">确定</button>
                         </div>
                     </div>
                 </div>
@@ -370,12 +418,14 @@ import "../assets/bootstrap.min.js";
 import NavigatorBar from "@/components/NavigatorBar";
 import ModelView from "@/components/ModelView";
 import FormModelView from "@/components/FormModelView";
+import Datepicker from 'vuejs-datepicker';
 export default {
   name: "CurriculumVitae",
   components: {
     NavigatorBar,
     ModelView,
-    FormModelView
+    FormModelView,
+    Datepicker
   },
   data() {
     this.getCityByIp(
@@ -438,18 +488,19 @@ export default {
         additionalInfo: false
       },
       intendedCitys: ["北京", "杭州", "上海"],
-      eduBgItems: [{ name: "高中" }, { name: "大学" }],
+      sexValues: [{ name: "男" }, { name: "女" }],
+      eduBgItems: [{ name: "中专", id: 0 }, { name: "大专", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士及以上", id: 4}],
       cardDataInfo: {
         avatarUrl: "",
         name: "test",
-        sex: 1,
-        sexValues: [{ name: "男" }, { name: "女" }],
-        allCollege: "",
+        sex: 0,
+        degree: 0,
+        eduBg: "",
         phone: "111111",
         email: "11111",
         college_name: "1111",
+        allCollege: ["清华大学","北京大学","中国人民大学","北京航空航天大学","北京师范大学","中国农业大学","北京理工大学"],
         majorName: "11111",
-        degree: 0,
         graduation_date: "2017-06-28"
       },
       educationFormInfo: {
@@ -487,13 +538,11 @@ export default {
               {
                 type: "radio",
                 radio_tip: "是",
-                checked: true,
                 name: "isNationalOption"
               },
               {
                 type: "radio",
                 radio_tip: "否",
-                checked: false,
                 name: "isNationalOption"
               }
             ],
@@ -741,11 +790,38 @@ export default {
         state: "initial",
         data: [
           {
-            label: "技能名称",
+            label: "专业技能",
             form_type: "input",
             type: "text",
             value: "",
             id: "skill_name"
+          }, {
+            label: "精通程度",
+            form_type: "radio",
+            value: "",
+            radioInfos: [
+              {
+                type: "radio",
+                radio_tip: "一般",
+                name: "skill_degree"
+              },
+              {
+                type: "radio",
+                radio_tip: "良好",
+                name: "skill_degree"
+              },
+              {
+                type: "radio",
+                radio_tip: "熟练",
+                name: "skill_degree"
+              },
+              {
+                type: "radio",
+                radio_tip: "精通",
+                name: "skill_degree"
+              }
+            ],
+            id: "skill_degree"
           }
         ]
       },
@@ -786,20 +862,25 @@ export default {
     //       certificate_name: "计算机二级"
     //   }],
       certificates: [],
-      additionalInfo: "这里是附加信息"
+      additionalInfo: "这里是附加信息",
+      showAddInfoTip: false
     };
   },
-  computed: {
-    checkInputValue: function() {
-      return "" !== this.username && "" !== this.password;
-    }
-  },
+  // computed: {
+  //   checkInputValue: function() {
+  //     return "" !== this.username && "" !== this.password;
+  //   }
+  // },
   methods: {
     doSubmit: function() {},
 
     changeEditMode: function(item, value) {
       console.log(`changeEditMode: ${item}, ${value}`);
       this.editMode[item] = value;
+    },
+
+    updateCardInfo: function() {
+      this.changeEditMode('baseInfo', false);
     },
 
     handlePositive: function(res) {
@@ -850,7 +931,7 @@ export default {
           // console.log(`bindListInfos => need New object ${JSON.stringify(newObject)}`);
         } else {
           for (var k in updateObject) {
-            if (updateObject.hasOwnProperty(k) === true) {
+            if (true === updateObject.hasOwnProperty(k)) {
               if (k === key) {
                 updateObject[k] = value;
                 // console.log(`bindListInfos ==> match the key ${key}, ${value}`);
@@ -871,24 +952,58 @@ export default {
         updateObject = listArray[index];
       }
       this.bindListInfos(listArray, dataArray, newObject, updateObject);
-      // console.log(`updateListInfos => bindListInfos end ${JSON.stringify(newObject)}`);
+      console.log(`updateListInfos => bindListInfos end ${JSON.stringify(newObject)}`);
       if (needNew) {
         listArray.push(newObject);
       }
       console.log(`updateListInfos => end ${JSON.stringify(listArray)}`);
     },
 
-    updateFormInfo: function(forInfos, info) {
+    updateFormInfo: function(formInfos, info, index) {
         if (!info) {
             // do clear form infos;
+            this.clearFormInfo(formInfos); // new form info
         } else {
             // fill infos to form;
-
+            this.fillFormInfos(formInfos, info, index); // edit form info;
         }
     },
 
-    deleteListInfo: function(listInfos, info) {
-        listInfos.splice(listInfos.indexof(info), 1);
+    clearFormInfo: function(formInfos) {
+        if (!formInfos) {
+          console.log("clearFormInfo, Error: ---> formInfos is not setted ");
+          return;
+        }
+        let data = formInfos.data;
+        for (let len = data.length, i = 0; i < len; i++) {
+          let formData = data[i];
+          console.log(`${JSON.stringify(formData)}`);
+          formData.value = "";
+        }
+    },
+
+    fillFormInfos: function(formInfos, info, index) {
+        if (!formInfos) {
+          console.log("fillFormInfos, Error: ---> formInfos is not setted ");
+          return;
+        }
+        formInfos.index = index; // used for update or new compare.
+        let data = formInfos.data;
+        for (let len = data.length, i = 0; i < len; i++) {
+          let formData = data[i];
+          let id = formData.id;
+          console.log(`fillFormInfos [${i}], ${id}, ${JSON.stringify(formData)}` );
+          if (info.hasOwnProperty(id)) {
+            formData.value = info[id];
+            console.log(`fillFormInfos match id ${id}, formData.value = ${formData.value}`);
+          }
+        }
+    },
+
+    deleteListInfo: function(listInfos, info, index) {
+        console.log(`deleteListInfo listInfos ==> ${JSON.stringify(listInfos)}`);
+        console.log(`deleteListInfo info ==> ${info}`);
+        listInfos.splice(index, 1);
     }
   }
 };
@@ -948,7 +1063,9 @@ export default {
 }
 
 #wrapper.toggled #page-content-wrapper {
-  position: absolute;
+  /* position: absolute;
+  margin-right: -250px; */
+  position: fixed;
   margin-right: -250px;
 }
 
@@ -957,6 +1074,8 @@ export default {
 .sidebar-nav {
   position: absolute;
   top: 0;
+  /* position:fixed;
+  top: 100px; */
   width: 250px;
   margin: 0;
   padding: 0;
@@ -1197,6 +1316,15 @@ export default {
 .page-main .panel-body .card-item .user-info .user-info-right div {
   font-size: 14px;
   line-height: 40px;
+}
+
+.padding {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.label-gap {
+  margin-right: 5px;
 }
 
 .clear {
