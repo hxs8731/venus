@@ -36,13 +36,21 @@ const SCHOOL_BY_CITY_ID_URI = BASE_PREFIX + "getSchoolByParams"; //获取市学�
 //Long provinceId, Long cityId, String provinceName, String cityName,String competent,Integer level, Integer order
 
 const SCHOOL_BY_PROVINCE_ID_URI = BASE_PREFIX + "getSchoolByProvince"; //获取省下的学校
-
-const LOGIN_PREFIX = API_PREFIX + "user/";
-const USER_LOGIN_ACTION = LOGIN_PREFIX + "login";
-const USER_EXSIT_ACTION = LOGIN_PREFIX + "exsitLogin";
+// 用户相关的API
+const USER_PREFIX = API_PREFIX + "user/";
+const USER_LOGIN_ACTION = USER_PREFIX + "login";
+const USER_EXSIT_ACTION = USER_PREFIX + "exsitLogin";
+const UPDATE_USER_INFO = USER_PREFIX + "updateUser"; // 更新用户信息
+// 发布，审核相关
 const DEPLOY_ACTION = API_PREFIX + "recruit/publishRecruit";
 const UPDATE_RECRUIT = API_PREFIX + "recruit/updateRecruitsStatus";
 const GET_RECRUIT_LIST = API_PREFIX + "recruit/getRecruitsByType";
+//简历相关
+const RESUME_PREFIX = API_PREFIX + "resume/";
+const GET_EDU_INFOS = RESUME_PREFIX + "getUserEduInfos/"; // 获取教育信息
+const GET_SKILL_INFOS = RESUME_PREFIX + "getSkillInfos/"; // 获取技能信息
+const GET_AWARDS = RESUME_PREFIX + "getAwards/"; // 获取奖项信息
+
 const TEST_RESULT = {
   data: {
     success: true,
@@ -4943,6 +4951,10 @@ export default {
   USER_EXSIT_ACTION,
   DEPLOY_ACTION,
   UPDATE_RECRUIT,
-  GET_RECRUIT_LIST
+  GET_RECRUIT_LIST,
+  UPDATE_USER_INFO,
+  GET_EDU_INFOS,
+  GET_SKILL_INFOS,
+  GET_AWARDS
 };
 </script>

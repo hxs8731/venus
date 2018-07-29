@@ -136,47 +136,6 @@
                                                 </div>
                                             </div>
                                             <div class="user-info-right">
-                                                <!-- <div class="user-college user-education right-item">
-                                                    <span class="item-label">毕业院校</span>
-                                                    <div class="education-wrap" style="display: inline-block;">
-                                                        <input class="form-control typeahead"
-                                                            id="college_search"
-                                                            type="text"
-                                                            autocomplete="off"
-                                                            data-provide="typeahead"
-                                                            :data-source="cardDataInfo.allCollege"
-                                                            v-model="cardDataInfo.college_name">
-                                                    </div>
-                                                </div>
-                                                <div class="user-major right-item">
-                                                    <span class="item-label">专业院系</span>
-                                                    <div class="major-wrap" style="display: inline-block; position: relative;">
-                                                        <input readonly class="form-control dropdown-toggle"
-                                                              myrequired=""
-                                                              autocomplete="off"
-                                                              data-toggle="dropdown"
-                                                              v-model="cardDataInfo.majorName">
-                                                        <span class="caret"></span>
-                                                        <div class="dropdown-menu animated fadeIn major-box2" role="menu">
-                                                            <div class="row-item" v-for="(majorItem,majorValue) in majorLists">
-                                                                <div class="item-title text-right">{{majorValue.name}}</div>
-                                                                <div class="major-items">
-                                                                    <span class="item text-center"
-                                                                          ng-repeat="(item,value) in majorList[majorValue.name]">
-                                                                        <a href="javascript:void(0);"
-                                                                          class="btn major-item"
-                                                                          title="{{value.name}}"
-                                                                          ng-class="{'selected':value.id==cardDataInfo.major}"
-                                                                          ng-click="setMajor(value.id,value.name, $event)"
-                                                                          ng-bind="value.name"></a>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="clearfix"></div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div> -->
                                                 <div class="user-education right-item">
                                                     <span class="item-label">最高学历</span>
                                                     <div class="education-wrap" style="display: inline-block;">
@@ -192,10 +151,7 @@
                                                 </div>
                                                 <div class="user-graduate-year right-item form-inline">
                                                     <span class="item-label">出生年月</span>
-                                                    <datepicker class="form-control" id="startDate" type="text" @selected="selectStartDate" placeholder="选择出生年月" language="zh" format="yyyy-MM-dd"></datepicker>
-                                                    <!-- <div class="gender-wrap" style="display: inline-block;">
-                                                        <input readonly class="form-control dropdown-toggle">
-                                                    </div> -->
+                                                    <datepicker class="form-control" id="startDate" type="text" placeholder="选择出生年月" language="zh" format="yyyy-MM-dd"></datepicker>
                                                 </div>
                                                 <div class="user-email right-item">
                                                     <span class="item-label">邮箱</span>
@@ -232,7 +188,7 @@
                                 <span>意向城市<label> <a href="`"></a>*</label></span>
                                 <button v-for="(info, index) in intendedCitys" class="btn btn-default">{{info}}</button>
                                 <a href="#" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>选择城市</a>
-                                <model-view modelTitle="自定义城市" :singleSelect="false" :modelData="letters" modelId="cityModal" @modal-selected="selectInfoFromModal($event)" />
+                                <model-view modelTitle="自定义城市" :singleSelect="false" :modelData="letters" modelId="cityModal" />
                             </li>
                             <li>
                                 <span>意向职位<label> <a href="`"></a>*</label></span>
@@ -494,6 +450,7 @@ export default {
         avatarUrl: "",
         name: "test",
         sex: 0,
+        id: 0,
         degree: 0,
         eduBg: "",
         phone: "111111",
@@ -881,6 +838,7 @@ export default {
 
     updateCardInfo: function() {
       this.changeEditMode('baseInfo', false);
+      this.updateUserInfo();
     },
 
     handlePositive: function(res) {
@@ -1004,6 +962,32 @@ export default {
         console.log(`deleteListInfo listInfos ==> ${JSON.stringify(listInfos)}`);
         console.log(`deleteListInfo info ==> ${info}`);
         listInfos.splice(index, 1);
+    },
+
+    updateUserInfo: function() {
+      let params = {
+        name: this.cardDataInfo.name,
+        id: this.cardDataInfo.id,
+        headImg: "../assets/images/avtar.png",
+        sex: this.sexValues[this.cardDataInfo.sex].name,
+        telephone: this.cardDataInfo.phone,
+        hignEdu: this.eduBgItems[this.cardDataInfo.degree].name
+      };
+      this.http
+        .post(this._global.UPDATE_USER_INFO, params)
+        .then(res => {
+          console.log(`updateLoginInfo callback ${JSON.stringify(res)}`);
+          if (res.data.success) {
+            // handle update login info success.
+          } else {
+            alert(res.data.errMsg);
+          }
+          // 跳转到主页面；
+          // userType: 3 发布权限  2 系统管理员  1 普通用户
+        })
+        .catch(function(error) {
+          alert(error);
+        });
     }
   }
 };
