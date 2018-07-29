@@ -42,12 +42,12 @@ export default {
         let params = new URLSearchParams();
         params.append("userName", this.username);
         params.append("password", this.password);
-        this.doLogin();
+        this.doLogin(params);
       } else {
         console.log("input value is empty.");
       }
     },
-    doLogin: function() {
+    doLogin: function(params) {
       this.http
         .post(this._global.USER_LOGIN_ACTION, params)
         .then(res => {
