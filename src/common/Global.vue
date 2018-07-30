@@ -47,10 +47,34 @@ const UPDATE_RECRUIT = API_PREFIX + "recruit/updateRecruitsStatus";
 const GET_RECRUIT_LIST = API_PREFIX + "recruit/getRecruitsByType";
 //简历相关
 const RESUME_PREFIX = API_PREFIX + "resume/";
+
+const GET_RESUME_ALL = RESUME_PREFIX + "getResume/"; // 获取简历的所有信息
+
 const GET_EDU_INFOS = RESUME_PREFIX + "getUserEduInfos/"; // 获取教育信息
 const GET_SKILL_INFOS = RESUME_PREFIX + "getSkillInfos/"; // 获取技能信息
 const GET_AWARDS = RESUME_PREFIX + "getAwards/"; // 获取奖项信息
+const GET_ATTACHES = RESUME_PREFIX + "getAttachs/"; // 获取附加信息
+const GET_PRACTICES = RESUME_PREFIX + "getPractices/"; // 获取实习信息
+const GET_RESUME_INTENT = RESUME_PREFIX + "getResumeIntent/"; // 查询用户期望城市信息
+const GET_SCHOOL_WORKS = RESUME_PREFIX + "getSchoolWorks/"; // 获取社团信息
 
+const MODIFY_ATTACHES = RESUME_PREFIX + "modifyAttachs"; // 修改简历附加信息
+const MODIFY_AWARDS = RESUME_PREFIX + "modifyAwards"; // 修改用户奖项信息
+const MODIFY_PRACTICES = RESUME_PREFIX + "modifyPractices"; //修改用户工作信息
+const MODIFY_RESUME_INTENT = RESUME_PREFIX + "modifyResumeIntent"; // 修改用户期望城市信息
+const MODIFY_SCHOOL_WORKS = RESUME_PREFIX + "modifySchoolWorks"; // 修改用户学校工作信息
+const MODIFY_SKILLS = RESUME_PREFIX + "modifySkills"; // 修改用户技能信息
+const MODIFY_USER_EDUS = RESUME_PREFIX + "modifyUserEdus"; // 修改用户教育信息
+// enum modify uri
+const MODIFY_RESUME_API = {
+  modifyUserEdus: MODIFY_USER_EDUS,
+  modifyPractices: MODIFY_PRACTICES,
+  modifyAttachs: MODIFY_ATTACHES,
+  modifyAwards: MODIFY_AWARDS,
+  modifyResumeIntent: MODIFY_RESUME_INTENT,
+  modifySchoolWorks: MODIFY_SCHOOL_WORKS,
+  modifySkills: MODIFY_SKILLS
+};
 const TEST_RESULT = {
   data: {
     success: true,
@@ -4953,8 +4977,21 @@ export default {
   UPDATE_RECRUIT,
   GET_RECRUIT_LIST,
   UPDATE_USER_INFO,
+  GET_RESUME_ALL,
   GET_EDU_INFOS,
   GET_SKILL_INFOS,
-  GET_AWARDS
+  GET_AWARDS,
+  GET_PRACTICES,
+  GET_RESUME_INTENT,
+  GET_SCHOOL_WORKS,
+  GET_ATTACHES,
+  MODIFY_AWARDS,
+  MODIFY_RESUME_INTENT,
+  MODIFY_SCHOOL_WORKS,
+  MODIFY_PRACTICES,
+  MODIFY_SKILLS,
+  MODIFY_USER_EDUS,
+  MODIFY_ATTACHES,
+  MODIFY_RESUME_API
 };
 </script>

@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="col-xs-3" style="padding-top: 20px; padding-bottom: 20px;" @click="refreshCode">
-                    <s-identify :identifyCode="identifyCode"></s-identify>
+                    <s-identify :identifyCode="identifyCode" />
                     <span style="padding-top: 20px">点击图片刷新</span>
                 </div>
             </div>

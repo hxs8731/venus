@@ -67,9 +67,9 @@
                                             <span class="person-content" v-if="cardDataInfo.sex=='0'">男</span>
                                             <span class="person-content" v-if="cardDataInfo.sex=='1'">女</span>
                                         </div>
-                                        <div class="user-phone">
+                                        <div class="user-telephone">
                                             电话：
-                                            <span class="person-content">{{cardDataInfo.phone}}</span>
+                                            <span class="person-content">{{cardDataInfo.telephone}}</span>
                                         </div>
                                     </div>
                                     <div class="user-info-right">
@@ -127,11 +127,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="user-phone left-item">
+                                                <div class="user-telephone left-item">
                                                     <span class="item-label">电话</span>
                                                     <div class="gender-wrap" style="display: inline-block;">
-                                                        <input type="text" class="form-control" v-bind="cardDataInfo.phone"
-                                                           v-model="cardDataInfo.phone" name="phone">
+                                                        <input type="text" class="form-control" v-bind="cardDataInfo.telephone"
+                                                           v-model="cardDataInfo.telephone" name="telephone">
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,14 +210,14 @@
                         <form-model-view :singleSelect="false" :formInfos="educationFormInfo" modelId="eduModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in educationExps">
-                            <p class="col-xs-2">{{info.edu_school}}</p>
+                        <div v-for="(info, index) in userEduInfos">
+                            <p class="col-xs-2">{{info.schooName}}</p>
                             <p class="col-xs-3">{{info.edu_profession}}</p>
-                            <p class="col-xs-2">{{info.edu_degree}}</p>
-                            <p class="col-xs-3">{{info.edu_startTime}} 至 {{info.edu_endTime}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationExps, info, index)"><a href="####">删除</a></span></p>
+                            <p class="col-xs-2">{{info.eduLevel}}</p>
+                            <p class="col-xs-3">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationFormInfo.apiType, userEduInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
-                        <p v-show="educationExps.length <= 0">暂无内容</p>
+                        <p v-show="userEduInfos.length <= 0">暂无内容</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="internshipExp">
@@ -230,19 +230,19 @@
                         <form-model-view :singleSelect="false" :formInfos="internshipFormInfo" modelId="internshipModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in internshipExps">
-                            <div>
-                                <p class="col-xs-4">{{info.internship_company}}</p>
-                                <p class="col-xs-2">{{info.internship_postion}}</p>
-                                <p class="col-xs-4">{{info.internship_startTime}} 至 {{info.internship_endTime}}</p>
-                                <p class="col-xs-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipExps, info, index)"><a href="####">删除</a></span></p>
+                        <div v-for="(info, index) in practiceInfos">
+                            <div v-show="3 === info.workType">
+                                <p class="col-xs-4">{{info.company}}</p>
+                                <p class="col-xs-2">{{info.jobName}}</p>
+                                <p class="col-xs-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                                <p class="col-xs-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
-                            <div>
+                            <div v-show="3 === info.workType">
                                 <p class="col-xs-2">工作内容:</p>
-                                <p class="col-xs-10">{{info.internship_content}}</p>
+                                <p class="col-xs-10">{{info.content}}</p>
                             </div>
                         </div> 
-                        <p v-show="internshipExps.length <= 0">暂无内容</p>
+                        <p v-show="filterInfos(practiceInfos, 3, 'workType').length <= 0">暂无内容</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="projectExp">
@@ -255,19 +255,19 @@
                         <form-model-view :singleSelect="false" :formInfos="projectFormInfo" modelId="projectModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in projectExps">
-                            <div>
-                                <p class="col-xs-4">{{info.project_name}}</p>
-                                <p class="col-xs-2">{{info.project_position}}</p>
-                                <p class="col-xs-4">{{info.project_startTime}} 至 {{info.project_endTime}}</p>
-                                <p class="col-xs-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectExps, info, index)"><a href="####">删除</a></span></p>
+                        <div v-for="(info, index) in practiceInfos">
+                            <div v-show="4 === info.workType">
+                                <p class="col-xs-4">{{info.company}}</p>
+                                <p class="col-xs-2">{{info.jobName}}</p>
+                                <p class="col-xs-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                                <p class="col-xs-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
-                            <div>
+                            <div v-show="4 === info.workType">
                                 <p class="col-xs-2">项目内容:</p>
-                                <p class="col-xs-10">{{info.project_content}}</p>
+                                <p class="col-xs-10">{{info.content}}</p>
                             </div>
                         </div>
-                        <p v-show="projectExps.length <= 0">暂无内容</p>
+                        <p v-show="filterInfos(practiceInfos, 4, 'workType').length <= 0">暂无内容</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="honoraryAward">
@@ -280,13 +280,13 @@
                         <form-model-view :singleSelect="false" :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in honoraryAwards">
-                            <p class="col-xs-4">{{info.award_name}}</p>
-                            <p class="col-xs-2">{{info.award_degree}}</p>
-                            <p class="col-xs-4">{{info.award_time}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwards, info, index)"><a href="####">删除</a></span></p>
+                        <div v-for="(info, index) in awardInfos">
+                            <p class="col-xs-4">{{info.name}}</p>
+                            <p class="col-xs-2">{{info.level}}</p>
+                            <p class="col-xs-4">{{info.awardDate}}</p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.apiType, awardInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
-                        <p v-show="honoraryAwards.length <= 0">暂无内容</p>
+                        <p v-show="awardInfos.length <= 0">暂无内容</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="clubExp">
@@ -299,13 +299,13 @@
                         <form-model-view :singleSelect="false" :formInfos="clubFormInfo" modelId="clubModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in clubExps">
-                            <p class="col-xs-4">{{info.club_name}}</p>
-                            <p class="col-xs-2">{{info.club_position}}</p>
-                            <p class="col-xs-4">{{info.club_startTime}} 至 {{info.club_endTime}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(clubExps, info, index)"><a href="####">删除</a></span></p>
+                        <div v-for="(info, index) in schoolWorks">
+                            <p class="col-xs-4">{{info.name}}</p>
+                            <p class="col-xs-2">{{info.job}}</p>
+                            <p class="col-xs-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                            <p class="col-xs-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(clubFormInfo.apiType, schoolWorks, info, index)"><a href="####">删除</a></span></p>
                         </div>
-                        <p v-show="clubExps.length <= 0">暂无内容</p>
+                        <p v-show="schoolWorks.length <= 0">暂无内容</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="skills">
@@ -319,14 +319,14 @@
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div v-for="(info, index) in skillInfos">
-                            <p class="col-xs-4">{{info.skill_name}}</p>
-                            <p class="col-xs-5">{{info.skill_degree}}</p>
-                            <p class="col-xs-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(skillInfos, info, index)"><a href="####">删除</a></span></p>
+                            <p v-show="1 === info.skillType" class="col-xs-4">{{info.name}}</p>
+                            <p v-show="1 === info.skillType" class="col-xs-5">{{info.level}}</p>
+                            <p v-show="1 === info.skillType" class="col-xs-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
-                        <p v-show="skillInfos.length <= 0">暂无内容</p>
+                        <p v-show="filterInfos(skillInfos, 1, 'skillType').length <= 0">暂无内容</p>
 
                         <!-- <p>
-                            <label v-for="(info, index) in skillInfos" class="label label-gap label-info">{{info.skill_name}}</label>
+                            <label v-for="(info, index) in skillInfos" class="label label-gap label-info">{{info.name}}</label>
                         </p>
                         <p v-show="skillInfos.length <= 0">暂无内容</p> -->
                     </div>
@@ -341,21 +341,31 @@
                         <form-model-view :singleSelect="false" :formInfos="certificatesFormInfo" modelId="certificateModal" @modal-positive="handlePositive($event)" />
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <p>
+                        <div v-for="(info, index) in skillInfos">
+                            <p v-show="2 === info.skillType" class="col-xs-4">{{info.name}}</p>
+                            <p v-show="2 === info.skillType" class="col-xs-5">{{info.level}}</p>
+                            <p v-show="2 === info.skillType" class="col-xs-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                        </div>
+                        <p v-show="filterInfos(skillInfos, 2, 'skillType').length <= 0">暂无内容</p>
+                        <!-- <p>
                             <label v-for="(info, index) in certificates" class="label label-gap label-info">{{info.certificate_name}}</label>
                         </p>
-                        <p v-show="certificates.length <= 0">暂无内容</p>
+                        <p v-show="certificates.length <= 0">暂无内容</p> -->
                     </div>
                 </div>
                 <div class="panel panel-default" id="additionalInfo">
                     <div class="panel-heading">
                         附加信息
+                        <a href="#additionalInfo" class=" card-info-edit pull-right padding left right edit"
+                        @click="addAttachInfo()">
+                            <i class="fa fa-pencil"></i>+附加信息
+                        </a>
                     </div>
                     <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div class="form-inline">
-                            <span v-if="showAddInfoTip" @click="showAddInfoTip = false">{{additionalInfo}}</span>
-                            <input v-else type="text" class="form-control" v-model="additionalInfo"/>
-                            <button type="button" class="btn btn-primary" :disabled="showAddInfoTip" @click="showAddInfoTip = true" data-dismiss="modal">确定</button>
+                        <div class="form-inline" v-for="(info, index) in attachInfos">
+                            <span v-if="showAddInfoTip" @click="showAddInfoTip = false">{{info.content}}</span>
+                            <input v-else type="text" class="form-control" v-model="info.content"/>
+                            <button type="button" class="btn btn-primary" :disabled="showAddInfoTip" @click="updateAttachInfos()">确定</button>
                         </div>
                     </div>
                 </div>
@@ -400,10 +410,12 @@ export default {
         }
       }
     );
+    this.getResumeAllInfos();
     return {
       isdisabled: true,
       username: "",
       password: "",
+      userId: null,
       letters: [
         { letter: "A", data: [] },
         { letter: "B", data: [] },
@@ -443,6 +455,9 @@ export default {
         skills: false,
         additionalInfo: false
       },
+      resumeInfos: {
+
+      },
       intendedCitys: ["北京", "杭州", "上海"],
       sexValues: [{ name: "男" }, { name: "女" }],
       eduBgItems: [{ name: "中专", id: 0 }, { name: "大专", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士及以上", id: 4}],
@@ -453,7 +468,7 @@ export default {
         id: 0,
         degree: 0,
         eduBg: "",
-        phone: "111111",
+        telephone: "111111",
         email: "11111",
         college_name: "1111",
         allCollege: ["清华大学","北京大学","中国人民大学","北京航空航天大学","北京师范大学","中国农业大学","北京理工大学"],
@@ -461,7 +476,8 @@ export default {
         graduation_date: "2017-06-28"
       },
       educationFormInfo: {
-        infoType: "educationExps",
+        infoType: "userEduInfos",
+        apiType: "modifyUserEdus",
         index: -1,
         title: "教育经历",
         state: "initial",
@@ -471,7 +487,7 @@ export default {
             form_type: "input",
             type: "text",
             value: "",
-            id: "edu_school"
+            id: "schooName"
           },
           {
             label: "专业名称",
@@ -485,7 +501,7 @@ export default {
             form_type: "input",
             type: "text",
             value: "",
-            id: "edu_degree"
+            id: "eduLevel"
           },
           {
             label: "是否统招",
@@ -511,13 +527,13 @@ export default {
             datePickers: [
               {
                 type: "date",
-                id: "edu_startTime",
+                id: "startDate",
                 value: "",
                 placeholder: "开始时间"
               },
               {
                 type: "date",
-                id: "edu_endTime",
+                id: "endDate",
                 value: "",
                 placeholder: "结束时间"
               }
@@ -528,30 +544,31 @@ export default {
           }
         ]
       },
-      //   educationExps: [
-      //       {edu_school: "浙江大学", edu_profession: "计算机工程与技术", edu_degree: "研究生", edu_startTime: "2010-9", edu_endTime: "2013-7"},
-      //       {edu_school: "浙江工业大学", edu_profession: "计算机工程与技术", edu_degree: "本科", edu_startTime: "2010-9", edu_endTime: "2013-7"}
+      //   userEduInfos: [
+      //       {schooName: "浙江大学", edu_profession: "计算机工程与技术", eduLevel: "研究生", startDate: "2010-9", endDate: "2013-7"},
+      //       {schooName: "浙江工业大学", edu_profession: "计算机工程与技术", eduLevel: "本科", startDate: "2010-9", endDate: "2013-7"}
       //   ],
-      educationExps: [],
+      userEduInfos: [],
       internshipFormInfo: {
-        infoType: "internshipExps",
+        infoType: "practiceInfos",
         index: -1,
         title: "实习经历",
         state: "initial",
+        apiType: "modifyPractices",
         data: [
           {
             label: "实习公司",
             form_type: "input",
             type: "text",
             value: "",
-            id: "internship_company"
+            id: "company"
           },
           {
             label: "实习岗位",
             form_type: "input",
             type: "text",
             value: "",
-            id: "internship_postion"
+            id: "jobName"
           },
           {
             label: "实习时间",
@@ -561,13 +578,13 @@ export default {
                 type: "date",
                 value: "",
                 placeholder: "开始时间",
-                id: "internship_startTime"
+                id: "startDate"
               },
               {
                 type: "date",
                 value: "",
                 placeholder: "结束时间",
-                id: "internship_endTime"
+                id: "endDate"
               }
             ],
             recursion: "true",
@@ -579,34 +596,40 @@ export default {
             form_type: "input",
             type: "text",
             value: "",
-            id: "internship_content"
+            id: "content"
+          },
+          {
+            value: 3,
+            id: "workType",
+            invisible: true
           }
         ]
       },
-      //   internshipExps: [
-      //       {internship_company: "阿里巴巴", internship_postion: "测试工程师", internship_times:"2010-9至2013-7", internship_content: "主要是负责测试工作！"},
-      //       {internship_company: "湖畔大学", internship_postion: "开发工程师", internship_times:"2010-9至2013-7", internship_content: "主要是负责开发工作！"}
+      //   practiceInfos: [
+      //       {company: "阿里巴巴", jobName: "测试工程师", internship_times:"2010-9至2013-7", content: "主要是负责测试工作！"},
+      //       {company: "湖畔大学", jobName: "开发工程师", internship_times:"2010-9至2013-7", content: "主要是负责开发工作！"}
       //   ],
-      internshipExps: [],
+      practiceInfos: [],
       projectFormInfo: {
-        infoType: "projectExps",
+        infoType: "practiceInfos",
         index: -1,
         title: "项目经历",
         state: "initial",
+        apiType: "modifyPractices",
         data: [
           {
             label: "项目名称",
             form_type: "input",
             type: "text",
             value: "",
-            id: "project_name"
+            id: "company"
           },
           {
             label: "项目角色",
             form_type: "input",
             type: "text",
             value: "",
-            id: "project_position"
+            id: "jobName"
           },
           {
             label: "工作时间",
@@ -616,13 +639,13 @@ export default {
                 type: "date",
                 value: "",
                 placeholder: "开始时间",
-                id: "project_startTime"
+                id: "startDate"
               },
               {
                 type: "date",
                 value: "",
                 placeholder: "结束时间",
-                id: "project_endTime"
+                id: "endDate"
               }
             ],
             recursion: "true",
@@ -634,34 +657,40 @@ export default {
             form_type: "input",
             type: "text",
             value: "",
-            id: "project_content"
+            id: "content"
+          },
+          {
+            value: 4,
+            id: "workType",
+            invisible: true
           }
         ]
       },
-      //   projectExps: [
-      //       {project_name: "项目名称1", project_position: "测试工程师", project_times:"2010-9至2013-7", project_content: "项目内容1"},
-      //       {project_name: "项目名称2", project_position: "开发工程师", project_times:"2010-9至2013-7", project_content: "项目内容2"}
+      //   practiceInfos: [
+      //       {company: "项目名称1", jobName: "测试工程师", project_times:"2010-9至2013-7", content: "项目内容1"},
+      //       {company: "项目名称2", jobName: "开发工程师", project_times:"2010-9至2013-7", content: "项目内容2"}
       //   ],
-      projectExps: [],
+      practiceInfos: [],
       honoraryAwardsFormInfo: {
-        infoType: "honoraryAwards",
+        infoType: "awardInfos",
         index: -1,
         title: "获得奖项",
         state: "initial",
+        apiType: "modifyAwards",
         data: [
           {
             label: "奖项名称",
             form_type: "input",
             type: "text",
             value: "",
-            id: "award_name"
+            id: "name"
           },
           {
             label: "奖项级别",
             form_type: "input",
             type: "text",
             value: "",
-            id: "award_degree"
+            id: "level"
           },
           {
             label: "得奖时间",
@@ -671,7 +700,7 @@ export default {
                 type: "date",
                 value: "",
                 placeholder: "得奖时间",
-                id: "award_time"
+                id: "awardDate"
               }
             ],
             recursion: "true",
@@ -679,30 +708,31 @@ export default {
           }
         ]
       },
-      //   honoraryAwards: [
-      //       {award_name: "奖项名称", award_degree: "奖项级别", award_time: "2010-9"},
-      //       {award_name: "奖项名称2", award_degree: "奖项级别2", award_time: "2010-9"}
+      //   awardInfos: [
+      //       {name: "奖项名称", level: "奖项级别", awardDate: "2010-9"},
+      //       {name: "奖项名称2", level: "奖项级别2", awardDate: "2010-9"}
       //   ],
-      honoraryAwards: [],
+      awardInfos: [],
       clubFormInfo: {
-        infoType: "clubExps",
+        infoType: "schoolWorks",
         index: -1,
         title: "社团经历",
         state: "initial",
+        apiType: "modifySchoolWorks",
         data: [
           {
             label: "社团名称",
             form_type: "input",
             type: "text",
             value: "",
-            id: "club_name"
+            id: "name"
           },
           {
             label: "负责岗位",
             form_type: "input",
             type: "text",
             value: "",
-            id: "club_position"
+            id: "job"
           },
           {
             label: "参加时间",
@@ -712,13 +742,13 @@ export default {
                 type: "date",
                 value: "",
                 placeholder: "开始时间",
-                id: "club_startTime"
+                id: "startDate"
               },
               {
                 type: "date",
                 value: "",
                 placeholder: "结束时间",
-                id: "club_endTime"
+                id: "endDate"
               }
             ],
             recursion: "true",
@@ -727,31 +757,32 @@ export default {
           }
         ]
       },
-    //   clubExps: [
+    //   schoolWorks: [
     //     {
-    //       club_name: "社团名称",
-    //       club_position: "担任位置",
+    //       name: "社团名称",
+    //       job: "担任位置",
     //       club_times: "2010-9至2013-7"
     //     },
     //     {
-    //       club_name: "社团名称2",
-    //       club_position: "担任位置2",
+    //       name: "社团名称2",
+    //       job: "担任位置2",
     //       club_times: "2010-9至2013-7"
     //     }
     //   ],
-      clubExps: [],
+      schoolWorks: [],
       skillFormInfo: {
         infoType: "skillInfos",
         index: -1,
         title: "专业技能",
         state: "initial",
+        apiType: "modifySkills",
         data: [
           {
             label: "专业技能",
             form_type: "input",
             type: "text",
             value: "",
-            id: "skill_name"
+            id: "name"
           }, {
             label: "精通程度",
             form_type: "radio",
@@ -760,33 +791,39 @@ export default {
               {
                 type: "radio",
                 radio_tip: "一般",
-                name: "skill_degree"
+                name: "level"
               },
               {
                 type: "radio",
                 radio_tip: "良好",
-                name: "skill_degree"
+                name: "level"
               },
               {
                 type: "radio",
                 radio_tip: "熟练",
-                name: "skill_degree"
+                name: "level"
               },
               {
                 type: "radio",
                 radio_tip: "精通",
-                name: "skill_degree"
+                name: "level"
               }
             ],
-            id: "skill_degree"
-          }
+            id: "level"
+          },
+          {
+            value: 1,
+            id: "skillType",
+            invisible: true
+          } 
         ]
       },
-    //   skillInfos: [{skill_name: "专业技能1"}, {skill_name: "专业技能2"}, {skill_name: "专业技能3"}],
+    //   skillInfos: [{name: "专业技能1"}, {name: "专业技能2"}, {name: "专业技能3"}],
       skillInfos: [],
       certificatesFormInfo: {
         infoType: "certificates",
         index: -1,
+        // apiType: "modifySkills",
         title: "获得证书",
         state: "initial",
         data: [
@@ -810,6 +847,11 @@ export default {
             ],
             recursion: "true",
             recursion_key: "datePickers"
+          },
+          {
+            value: 2,
+            id: "skillType",
+            invisible: true
           }
         ]
       },
@@ -820,17 +862,36 @@ export default {
     //   }],
       certificates: [],
       additionalInfo: "这里是附加信息",
+      attachInfos: [],
       showAddInfoTip: false
     };
   },
   // computed: {
-  //   checkInputValue: function() {
-  //     return "" !== this.username && "" !== this.password;
+  //   filterInfos: function(infos, value, key) {
+  //     console.log(`filterWorkType ${infos}, ${value}, ${key}`);
+  //     if (!infos || infos.length <= 0) {
+  //       console.log(`filterWorkType empty array`);
+  //       return [];
+  //     }
+  //     return infos.filter(function (info) {
+  //       console.log(`filterWorkType ${info[key]}, ${value}, ${key} !!`);
+  //       return info[key].match(value);
+  //     });
   //   }
   // },
   methods: {
     doSubmit: function() {},
-
+    filterInfos: function(infos, value, key) {
+      console.log(`filterWorkType ${infos}, ${value}, ${key}`);
+      if (!infos || infos.length <= 0) {
+        console.log(`filterWorkType empty array`);
+        return [];
+      }
+      return infos.filter(function (info) {
+        console.log(`filterWorkType ${info[key]}, ${value}, ${key} !!`);
+        return info[key] === value;
+      });
+    },
     changeEditMode: function(item, value) {
       console.log(`changeEditMode: ${item}, ${value}`);
       this.editMode[item] = value;
@@ -851,15 +912,16 @@ export default {
       let listInfos = eval('this.' + infos.infoType);
       if (listInfos) {
           this.updateListInfos(listInfos, infos.data, infos.index);
+          this.updateResumeInfo(infos.apiType, listInfos);
       } else {
           console.log(`infoType [ ${infos.infoType} ] not supported ! `);
       }
     //   switch (infos.infoType) {
-    //     case "educationExps":
-    //       this.updateListInfos(this.educationExps, infos.data, infos.index);
+    //     case "userEduInfos":
+    //       this.updateListInfos(this.userEduInfos, infos.data, infos.index);
     //       break;
-    //     case "internshipExps":
-    //       this.updateListInfos(this.internshipExps, infos.data, infos.index);
+    //     case "practiceInfos":
+    //       this.updateListInfos(this.practiceInfos, infos.data, infos.index);
     //     default:
     //       break;
     //   }
@@ -958,10 +1020,11 @@ export default {
         }
     },
 
-    deleteListInfo: function(listInfos, info, index) {
+    deleteListInfo: function(apiType, listInfos, info, index) {
         console.log(`deleteListInfo listInfos ==> ${JSON.stringify(listInfos)}`);
         console.log(`deleteListInfo info ==> ${info}`);
         listInfos.splice(index, 1);
+        this.updateResumeInfo(apiType);
     },
 
     updateUserInfo: function() {
@@ -970,11 +1033,13 @@ export default {
         id: this.cardDataInfo.id,
         headImg: "../assets/images/avtar.png",
         sex: this.sexValues[this.cardDataInfo.sex].name,
-        telephone: this.cardDataInfo.phone,
+        telephone: this.cardDataInfo.telephone,
         hignEdu: this.eduBgItems[this.cardDataInfo.degree].name
       };
       this.http
-        .post(this._global.UPDATE_USER_INFO, params)
+        .post(this._global.UPDATE_USER_INFO, params, {
+          headers: {'Content-Type': 'application/json'} // must add content type
+        })
         .then(res => {
           console.log(`updateLoginInfo callback ${JSON.stringify(res)}`);
           if (res.data.success) {
@@ -984,6 +1049,59 @@ export default {
           }
           // 跳转到主页面；
           // userType: 3 发布权限  2 系统管理员  1 普通用户
+        })
+        .catch(function(error) {
+          alert(error);
+        });
+    },
+
+    updateResumeInfo: function(apiType, info) {
+      if (!apiType) {
+        console.log(` not support this api type.`);
+        return;
+      }
+      let uri = this._global.MODIFY_RESUME_API[apiType];
+      console.log(`updateResumeInfo ${apiType}, ${JSON.stringify(info)}`);
+      let params = {};
+      params.list = info;
+      this.http
+        .post(uri, params, {
+          headers: {'Content-Type': 'application/json'} // must add content type
+        })
+        .then()
+        .catch(function(error) {
+          alert(error);
+        });
+    },
+
+    addAttachInfo: function() {
+      if (this.attachInfos.length <= 0) {
+        this.attachInfos.push({content: ""});
+      } else {
+        alert(`只允许添加一条附加信息！`);
+      }
+    },
+
+    updateAttachInfos: function() {
+      this.showAddInfoTip = true;
+      this.updateResumeInfo("modifyAttachs", this.attachInfos);
+    },
+    
+    getResumeAllInfos: function() {
+      this.http
+        .get(this._global.GET_RESUME_ALL)
+        .then(res => {
+          console.log(`getResumeAllInfos callback ${JSON.stringify(res)}`);
+          if (res.data.success) {
+            // handle update login info success.
+            let result = res.data.data;
+            for (var k in result) {
+              console.log(`getResumeAllInfos => ${k}, ${result[k]}`);
+              this[k] = result[k]; // fill resume info to list.
+            }
+          } else {
+            alert(res.data.errMsg);
+          }
         })
         .catch(function(error) {
           alert(error);

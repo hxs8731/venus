@@ -10,7 +10,7 @@
                     <div class="modal-main">
                       <form>
                             <p v-for="(info, index) in formInfos.data" class="form-inline">
-                                <label>{{info.label}}: &nbsp;&nbsp;</label>
+                                <label v-show="info.label">{{info.label}}: &nbsp;&nbsp;</label>
                                 <input v-if="'input' === info.form_type" :type="info.type" v-model="info.value" :name="info.name" class="form-control" />
                                 <label class="checkbox-inline" v-for="(radioInfo, rindex) in info.radioInfos">
                                     <input type="radio" :name="radioInfo.name" :id="radioInfo.id" v-model="info.value" :value="radioInfo.radio_tip">&nbsp;&nbsp;{{radioInfo.radio_tip}}
