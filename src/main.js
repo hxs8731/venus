@@ -8,6 +8,19 @@ import moment from 'moment';
 import $ from 'jquery';
 import _global from './common/Global';
 import { getCookie, setCookie, clearCookie } from './common/Cookie';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import solid from '@fortawesome/fontawesome-free-solid';
+import regular from '@fortawesome/fontawesome-free-regular';
+import brands from '@fortawesome/fontawesome-free-brands';
+library.add(solid);
+library.add(regular);
+library.add(brands);
+library.add(faCoffee);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.config.productionTip = false;
+
 // import bootstrap from 'bootstrap';
 Vue.config.productionTip = false;
 
@@ -86,6 +99,11 @@ Vue.prototype.getRequestUrl = function (workType) {
   }
   return uri;
 };
+
+Vue.prototype.isProdMode = function() {
+  console.log(`isProdMode = ${process.env.NODE_ENV}`);
+  return "development" !== process.env.NODE_ENV;
+}
 
 Vue.prototype.getSchoolByParams = function (options, response) {
   this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.SCHOOL_BY_CITY_ID_URI, {

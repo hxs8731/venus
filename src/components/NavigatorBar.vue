@@ -1,34 +1,29 @@
 <template>
-<div class="center-block">
-  <nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <img src="../assets/logo.png" />
-      </div>
-      <div>
-        <ul class="nav navbar-nav">
-          <li v-for="info in naviLists" :key="info.id" @click="clickNavlink(info)" :class='activeId === info.position ? "active nav-pills" : "nav-pills"' ><a href="#">{{info.title}}</a></li>
-          <!-- <router-link tag="li" :to="list.to" :key="list.id" v-for="list in navInfos" :class="list.className"><a>{{list.text}}</a></router-link> -->
-          <!-- <li class="nav-pills" @click="callLink(_global.EDUCATION_URL)"><a href="#">求职学院</a></li> -->
-          <li v-if="userType >= 2 && userName" v-for="info in loginNavLists" :key="info.id" @click="clickNavlink(info)" :class='activeId === info.position ? "active nav-pills" : "nav-pills"' ><a href="#">{{info.title}}</a></li>
-          <!-- <router-link tag="li" :to="list.to" :key="list.id" v-if="userType >= 2 && userName" v-for="list in loginNavInfos" :class="list.className"><a>{{list.text}}</a></router-link> -->
-        </ul>
-      </div>
-      <ul class="form-inline form-group nav navbar-nav search_nav">
-        <li>
-          <label class="sr-only" for="name">名称</label>
-          <input type="text" class="form-control" v-model="companyName" ref="input1" placeholder="输入网申或企业名称">
-          <button type="button" class="btn btn-primary" @click="doSearchCompany">搜索</button>
-        </li>
+<div class="mx-auto">
+  <nav class="navbar navbar-expand-lg navbar-primary nav-bgColor">
+    <a href="#"><img src="../assets/logo.png" /></a>
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li v-for="info in naviLists" :key="info.id" @click="clickNavlink(info)" :class='activeId === info.position ? "active nav-item" : "nav-item"' ><a class="nav-link" href="#">{{info.title}}</a></li>
+        <li v-if="userType >= 2 && userName" v-for="info in loginNavLists" :key="info.id" @click="clickNavlink(info)" :class='activeId === info.position ? "active nav-item" : "nav-item"' ><a class="nav-link" href="#">{{info.title}}</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" v-if="userName">
-        <li><a @click="inputCV" href="#"><label class="glyphicon glyphicon-book"></label><span class="left-tip">录入简历</span></a></li>
-        <li><a @click="loginOut" href="#"><label class="glyphicon glyphicon-log-out"></label><span class="left-tip">注销</span></a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span><span class="left-tip">当前用户： {{userName}}</span></a></li>
+      <form class="form-inline my-2 my-lg-0" style="margin-right: 30px">
+        <label class="sr-only" for="name">名称</label>
+        <input class="form-control mr-sm-2" type="search" v-model="companyName" ref="input1" placeholder="输入网申或企业名称">
+        <button type="button" class="btn btn-primary" @click="doSearchCompany">搜索</button>
+      </form>
+      <ul class="nav nav-item my-2 my-lg-0" v-if="userName">
+        <li v-show="isProdMode"><a @click="inputCV" href="#"><font-awesome-icon icon="file-alt" /><span class="left-tip">录入简历</span></a></li>
+        <li><a @click="loginOut" href="#"><font-awesome-icon icon="sign-out-alt" /><span class="left-tip">注销</span></a></li>
+        <li><a href="#"><font-awesome-icon icon="stream" /><span class="left-tip">当前用户： {{userName}}</span></a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" v-else>
-        <li><a @click="callLink(_global.REGISTER_URL)" href="#"><label class="glyphicon glyphicon-user"></label><span class="left-tip">注册</span></a></li>
-        <li><router-link tag="a" to="/Loging" key="Loging"><span class="glyphicon glyphicon-log-in"></span><span class="left-tip">登录</span></router-link></li>
+      <ul class="nav nav-item my-2 my-lg-0" v-else>
+        <li><a @click="callLink(_global.REGISTER_URL)" href="#"><font-awesome-icon icon="unlock-alt" /><span class="left-tip">注册</span></a></li>
+        <li><router-link tag="a" to="/Loging" key="Loging"><font-awesome-icon icon="sign-in-alt" /><span class="left-tip">登录</span></router-link></li>
       </ul>
     </div>
   </nav>
@@ -115,10 +110,18 @@ export default {
 </script>
 
 <style>
+.nav-bgColor {
+  background-color: #0099cc;
+}
 /* navbar */
 .navbar-default {
   background-color: #0099cc;
   border: none;
+}
+.nav li a{
+  color: #FFFFFF;
+  list-style: none;
+  margin-left: 10px;
 }
 /* title */
 .navbar-default .navbar-brand {
@@ -129,38 +132,38 @@ export default {
   color: #5e5e5e;
 }
 /* link */
-.navbar-default .navbar-nav > li > a {
+.navbar-default .nav-item > li > a {
   color: #fff;
 }
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
+.navbar-default .nav-item > li > a:hover,
+.navbar-default .nav-item > li > a:focus {
   color: #333;
 }
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
+.navbar-default .nav-item > .active > a,
+.navbar-default .nav-item > .active > a:hover,
+.navbar-default .nav-item > .active > a:focus {
   color: #fff;
   background-color: #0fa9dd; /*navigator focus bg color*/
 }
-.navbar-default .navbar-nav > .open > a,
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
+.navbar-default .nav-item > .open > a,
+.navbar-default .nav-item > .open > a:hover,
+.navbar-default .nav-item > .open > a:focus {
   color: #555;
   background-color: #d5d5d5;
 }
 /* caret */
-.navbar-default .navbar-nav > .dropdown > a .caret {
+.navbar-default .nav-item > .dropdown > a .caret {
   border-top-color: #777;
   border-bottom-color: #777;
 }
-.navbar-default .navbar-nav > .dropdown > a:hover .caret,
-.navbar-default .navbar-nav > .dropdown > a:focus .caret {
+.navbar-default .nav-item > .dropdown > a:hover .caret,
+.navbar-default .nav-item > .dropdown > a:focus .caret {
   border-top-color: #333;
   border-bottom-color: #333;
 }
-.navbar-default .navbar-nav > .open > a .caret,
-.navbar-default .navbar-nav > .open > a:hover .caret,
-.navbar-default .navbar-nav > .open > a:focus .caret {
+.navbar-default .nav-item > .open > a .caret,
+.navbar-default .nav-item > .open > a:hover .caret,
+.navbar-default .nav-item > .open > a:focus .caret {
   border-top-color: #555;
   border-bottom-color: #555;
 }
@@ -176,18 +179,18 @@ export default {
   background-color: #ccc;
 }
 @media (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+  .navbar-default .nav-item .open .dropdown-menu > li > a {
     color: #777;
   }
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+  .navbar-default .nav-item .open .dropdown-menu > li > a:hover,
+  .navbar-default .nav-item .open .dropdown-menu > li > a:focus {
     color: #333;
   }
 }
-ul.nav {
+ul.navbar-nav {
   margin-top: 22px;
 }
-ul.nav li a {
+ul.navbar-nav li a {
   font-size: 16px;
 }
 
@@ -195,17 +198,17 @@ ul.navbar-right li a {
   font-size: 12px;
 }
 
-ul.nav li.nav-pills {
+ul.navbar-nav li.nav-item {
   margin: 0 15px;
 }
-ul.nav li.active a {
+ul.navbar-nav li.nav-item a {
   color: #fefefe;
 }
-ul.nav li.active a:hover {
+ul.navbar-nav li.active a:hover {
   color: #fefefe;
 }
-ul.nav li.active {
-  background: transparent;
+ul.navbar-nav li.active {
+  background: #0fa9dd;
 }
 .left-tip {
   padding-left: 5px;

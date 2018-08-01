@@ -1,11 +1,11 @@
 <template>
-<div class="center-block searchbar">
+<div class="mx-auto searchbar">
   <ul v-if="showCity.show">
     <li v-if="showCity.show">
       <span class="left-tip">城市: </span>
       <button v-for="info in mainCityInfos" :class="selectedCityInfos.indexOf(info) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedCityInfos, info, showCity.single)"> {{ info.city }} </button>
       <button v-for="info in selectedCityInfos" v-if="mainCityInfos.indexOf(info) < 0" class="btn btn-primary" @click="selectInfo(selectedCityInfos, info, showCity.single)">{{ info.city }}</button>
-      <a href="#" @click="toggleMore(showCity), blur()" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多城市</a>
+      <a href="#" @click="toggleMore(showCity), blur()" border=0 data-toggle="modal" data-target="#cityModal"><font-awesome-icon icon="plus-square" />更多城市</a>
       <model-view modelTitle="自定义城市" :singleSelect="showCity.single" :modelData="letters" :selectedInfos="selectedCityInfos" modelId="cityModal" @modal-selected="selectInfoFromModal($event)" />
     </li>
 
@@ -18,20 +18,21 @@
     <li v-if="!showTime.showMore" class="form-inline">
       <span class="left-tip">时间: </span>
       <button v-for="timeInfo in mainTimeInfos" :class="selectedTimeInfos.indexOf(timeInfo) < 0 ? 'btn btn-default' : 'btn btn-primary' " @click="selectInfo(selectedTimeInfos, timeInfo, showTime.single)"> {{ timeInfo.text }} </button>
-      <a href="#" @click="changeTimeMode(true, showTime)"><span class="glyphicon glyphicon-th"></span>自定义时间</a>
+      <a href="#" @click="changeTimeMode(true, showTime)"><font-awesome-icon icon="calendar-alt" />自定义时间</a>
     </li>
     <li v-if="showTime.showMore" class="form-inline">
       <span class="left-tip">时间: </span>
       <datepicker class="form-control" id="startDate" type="text" @selected="selectStartDate" placeholder="开始时间" language="zh" format="yyyy-MM-dd"></datepicker>
       <datepicker class="form-control" id="endDate" type="text" @selected="selectEndDate" placeholder="结束时间" language="zh" format="yyyy-MM-dd"></datepicker>
-      <a href="#" @click="changeTimeMode(false, showTime)"><span class="glyphicon glyphicon-th-large"></span>普通时间段</a>
+      <a href="#" @click="changeTimeMode(false, showTime)"><font-awesome-icon icon="calendar" />普通时间段</a>
     </li>
   </ul>
 </div>
 </template>
 </ul>
 <script>
-import "../assets/bootstrap.min.js";
+// import "../assets/bootstrap.min.js";
+import 'bootstrap/dist/js/bootstrap.min';
 import Datepicker from 'vuejs-datepicker';
 import ModelView from '@/components/ModelView';
 export default {

@@ -1,16 +1,18 @@
 <template>
 <div id="app" class="root">
   <router-view />
-  <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div>
-  <footer class="footer">
-    <!-- <ul class="nav navbar-nav－center">
-      <li>友情链接</li>
-      <li> | </li>
-      <li>版权信息</li>
-    </ul> -->
+  <!-- <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div> -->
+  <!-- <footer class="footer">
     <p class="nav">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号  </p>
     <p class="nav">杭州寻龙信息技术有限公司 All Rights Reserved</p>
-  </footer>
+  </footer> -->
+
+  <div class="card">
+  <div class="card-body">
+    <p class="card-text">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号</p>
+    <h5 class="card-text">杭州寻龙信息技术有限公司 All Rights Reserved</h5>
+  </div>
+</div>
 </div>
 </template>
 
@@ -21,11 +23,18 @@ export default {
 </script>
 
 <style>
-@import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+/* @import 'assets/css/bootstrap.min.css'; */
+
+/* @import 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'; */
+/* @import 'http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css'; */
  *{
      border: none;
      outline:none;
      box-shadow: none;
+}
+p.nav {
+    justify-content: center；
 }
 a:focus {
     border: none;

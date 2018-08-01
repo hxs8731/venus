@@ -12,7 +12,7 @@
     </div>
     <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
       <div class="col-md-1 list-row">&nbsp;</div>
-      <div class="col-md-2 list-row"><span class="label label-primary">{{ list.recruitCitys }}</span></div>
+      <div class="col-md-2 list-row"><span class="badge badge-primary">{{ list.recruitCitys }}</span></div>
       <div class="col-md-4 list-row" @click="callLink(list.recruitUrl)"><a :title="list.companyName" href="#">{{ list.companyName }}</a></div>
       <div class="col-md-2 list-row">{{ formatDate(list.gmtCreate)}}</div>
       <div class="col-md-3 list-row"><button class="btn btn-primary" @click="callLink(list.recruitUrl)">网申</button></div>
