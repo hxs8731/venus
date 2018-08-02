@@ -1,7 +1,7 @@
 <template>
 <div id="app" class="root">
   <router-view />
-  <!-- <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div> -->
+  <div v-show="'development' === prodMode" class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div>
   <!-- <footer class="footer">
     <p class="nav">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号  </p>
     <p class="nav">杭州寻龙信息技术有限公司 All Rights Reserved</p>
@@ -18,7 +18,16 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+      return {
+          prodMode: null
+      }
+  },
+  mounted() {
+      this.prodMode = process.env.NODE_ENV;
+      console.log("app initial this.prodMode = " + this.prodMode);
+  }
 }
 </script>
 

@@ -17,7 +17,7 @@
         <button type="button" class="btn btn-primary" @click="doSearchCompany">搜索</button>
       </form>
       <ul class="nav nav-item my-2 my-lg-0" v-if="userName">
-        <li v-show="isProdMode"><a @click="inputCV" href="#"><font-awesome-icon icon="file-alt" /><span class="left-tip">录入简历</span></a></li>
+        <li v-show="'development' === prodMode"><a @click="inputCV" href="#"><font-awesome-icon icon="file-alt" /><span class="left-tip">录入简历</span></a></li>
         <li><a @click="loginOut" href="#"><font-awesome-icon icon="sign-out-alt" /><span class="left-tip">注销</span></a></li>
         <li><a href="#"><font-awesome-icon icon="stream" /><span class="left-tip">当前用户： {{userName}}</span></a></li>
       </ul>
@@ -38,6 +38,7 @@ export default {
       companyName: "",
       userName: null,
       userType: 1,
+      prodMode: null,
       naviLists: [{
           title: "校园招聘",
           to: "/",
@@ -77,6 +78,8 @@ export default {
     let user = this.cookieStore.getCookie("username");
     let type = this.cookieStore.getCookie("userType");
     console.log("checkUserExist type" + user + ", user type = " + type);
+    console.log(`isProdMode11 = ${process.env.NODE_ENV}`);
+    this.prodMode = process.env.NODE_ENV;
     this.userName = user;
     this.userType = type;
   },

@@ -100,11 +100,6 @@ Vue.prototype.getRequestUrl = function (workType) {
   return uri;
 };
 
-Vue.prototype.isProdMode = function() {
-  console.log(`isProdMode = ${process.env.NODE_ENV}`);
-  return "development" !== process.env.NODE_ENV;
-}
-
 Vue.prototype.getSchoolByParams = function (options, response) {
   this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.SCHOOL_BY_CITY_ID_URI, {
     params: options
