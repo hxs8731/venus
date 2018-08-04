@@ -3,12 +3,12 @@
 	<navigator-bar/>
 	<div class="container">
     <div class="col-md-6 col-md-offset-3">
-        <form action="/education/register" class="" method="post">
+        <form action="/api/api/user/register" class="" method="post">
             <div class="form-group has-feedback">
-                <label for="username">用户名</label>
+                <label for="username">登录用户名<font color="red">*</font></label>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                    <input id="username" name="userName" class="form-control" placeholder="请输入用户名" maxlength="20"
+                    <input id="username" name="userName" class="form-control" placeholder="请输入登录用户名" maxlength="20"
                            type="text">
                 </div>
                 <span style="color:red;display: none;" class="tips"></span>
@@ -16,7 +16,52 @@
                 <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <label for="password">密码</label>
+                <label for="name">真实姓名<font color="red">*</font></label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input id="name" name="name" class="form-control" placeholder="请输入真实姓名" maxlength="20"
+                           type="text">
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="headImg">头像地址</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input id="headImg" name="headImg" value="null" class="form-control" placeholder="请输入头像地址" maxlength="20"
+                           type="text">
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <label for="sex">性别<font color="red">*</font>：</label>
+                    <input id="1" checked name="#var.check" type="radio"  value='1'/><label>男</label>
+			              <input id="2" name="#var.check"  type="radio" value='2'/><label>女</label>
+			              <input id="0" name="#var.check" type="radio" value='0'/><label>未知</label>
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="email-btn">邮箱<font color="red">*</font></label>
+                <div class="input-group">
+                    <!-- <span class="input-group-addon">@</span> -->
+                    <input class="form-control" type="email" placeholder="jane.doe@example.com" name="email"
+                           tips="请输入你常用的电子邮箱作为你的账号" value="" errortips="邮箱格式不正确">
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="password">密码<font color="red">*</font></label>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                     <input id="password" name="password" class="form-control" placeholder="请输入密码" maxlength="20"
@@ -27,29 +72,60 @@
                 <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <label for="passwordConfirm">确认密码</label>
+                <label for="telephone">电话<font color="red">*</font></label>
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                    <input id="passwordConfirm" name="repeatPWD" class="form-control" placeholder="请再次输入密码"
-                           maxlength="20"
-                           type="password">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input id="telephone" name="telephone" class="form-control" placeholder="请输入电话" maxlength="20"
+                           type="text">
                 </div>
                 <span style="color:red;display: none;" class="tips"></span>
-                <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
                 <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <label for="email-btn">邮箱</label>
+                <label for="age">年龄<font color="red">*</font></label>
                 <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input class="form-control" type="email" placeholder="jane.doe@example.com" name="email"
-                           tips="请输入你常用的电子邮箱作为你的账号" value="" errortips="邮箱格式不正确">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input id="age" name="age" class="form-control" placeholder="请输入年龄" maxlength="20"
+                           type="text">
                 </div>
                 <span style="color:red;display: none;" class="tips"></span>
-                <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
                 <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
             </div>
-
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <label for="sex">企业标志：</label>
+                    <input id="0" name="#var.check1" type="radio" value='0'/><label>非企业用户</label>
+                    <input id="1" name="#var.check1" type="radio"  value='1'/><label>企业用户员</label>
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <label for="sex">用户类型：</label>
+                    <input id="1" name="#var.check2" type="radio" value='1'/><label>普通用户</label>
+                    <input id="2" name="#var.check2" type="radio"  value='2'/><label>企业用户</label>
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="birthday">生日</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input id="birthday" name="birthday" class="form-control" placeholder="请输入生日" maxlength="20"
+                           type="text">
+                </div>
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
             <div class="row">
                 <div class="col-xs-7">
                     <div class="form-group has-feedback">
