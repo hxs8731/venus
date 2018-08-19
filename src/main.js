@@ -91,7 +91,7 @@ Vue.prototype.isArray = function(arg) {
   }
   return false;
 }
-Vue.prototype.goHome = function() {
+Vue.prototype.goHomeLogout = function() {
   this.$router.push("/");
   this.cookieStore.clearCookie("username");
 };

@@ -39,7 +39,7 @@ export default {
       companyName: "",
       userName: null,
       userType: 1,
-      prodMode: null,
+      // prodMode: null,
       naviLists: [{
           title: "校园招聘",
           to: "/",
@@ -79,8 +79,8 @@ export default {
     let user = this.cookieStore.getCookie("username");
     let type = this.cookieStore.getCookie("userType");
     console.log("checkUserExist type" + user + ", user type = " + type);
-    console.log(`isProdMode11 = ${process.env.NODE_ENV}`);
-    this.prodMode = process.env.NODE_ENV;
+    // console.log(`isProdMode11 = ${process.env.NODE_ENV}`);
+    // this.prodMode = process.env.NODE_ENV;
     this.userName = user;
     this.userType = type;
   },

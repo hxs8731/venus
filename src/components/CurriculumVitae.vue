@@ -1213,7 +1213,7 @@ export default {
           })
           .catch(function(error) {
             alert(error);
-            this.goHome();
+            this.goHomeLogout();
           });
     },
     getResumeAllInfos: function() {
@@ -1232,7 +1232,7 @@ export default {
             }
           } else {
             alert(res.data.errMsg);
-            this.goHome();
+            this.goHomeLogout();
           }
         })
         .catch(function(error) {

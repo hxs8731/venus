@@ -77,7 +77,7 @@
           </div>
       </div>
       <div class="form-group">
-          <button type="submit" @click="doDeploy" :class="checkInputValue ? 'btn btn-primary' : 'btn btn-disabled'">发布</button>
+          <button type="text" @click="doDeploy" :class="checkInputValue() ? 'btn btn-primary' : 'btn btn-disabled'">发布</button>
       </div>
   </div>
 </div>
@@ -125,24 +125,8 @@ export default {
     }
     console.log("checkUserExist type" + user + ", user type = " + type);
   },
-  computed: {
-    checkInputValue: function() {
-      // return "" !== this.companyName && "" !== this.companyDesc;
-      let invalide = true;
-      invalide &= "" !== this.companyName;
-      invalide &= "" !== this.companyDesc;
-      if (1 === this.workType) {
-        invalide &= "" !== this.recruitCity;
-        invalide &= "" !== this.recruitTitle;
-        invalide &= "" !== this.recruitUrl;
-      } else {
-        invalide &= "" !== this.preachCity;
-        invalide &= "" !== this.preachSchool;
-        invalide &= null !== this.xjTime;
-      }
-      return invalide;
-    }
-  },
+  // computed: {
+  // },
   methods: {
     clearInput: function() {
       this.companyName = "";
@@ -163,7 +147,30 @@ export default {
       this.preachJob = "";
       this.xjTime = null;
     },
+    checkInputValue: function() {
+      // return "" !== this.companyName && "" !== this.companyDesc;
+      console.log(`start check value!`);
+      let invalide = true;
+      invalide &= "" !== this.companyName;
+      invalide &= "" !== this.companyDesc;
+      if (1 === this.workType) {
+        invalide &= "" !== this.recruitCity;
+        invalide &= "" !== this.recruitTitle;
+        invalide &= "" !== this.recruitUrl;
+      } else {
+        invalide &= "" !== this.preachCity;
+        invalide &= "" !== this.preachSchool;
+        invalide &= null !== this.xjTime;
+      }
+      console.log(`end check value, invalide = ${invalide} !`);
+      return invalide;
+    },
     doDeploy: function() {
+      if (!this.checkInputValue()) {
+        console.log(`disable do nothing`);
+        alert("请填写信息！");
+        return;
+      }
       let params = this.generateParams();
       this.http
         .post(this._global.DEPLOY_ACTION, params, {
@@ -175,6 +182,9 @@ export default {
             alert("发布成功！");
           } else {
             alert("发布失败！" + res.data.errMsg);
+              if ("user_error" === res.data.errCode) {
+                this.goHomeLogout();
+              }
           }
           this.clearInput();
         })

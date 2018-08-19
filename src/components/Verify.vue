@@ -73,6 +73,9 @@ export default {
             alert('操作成功！');
           } else {
             alert('操作失败！' + res.data.errorMsg);
+              if ("user_error" === res.data.errCode) {
+                this.goHomeLogout();
+              }
           }
           // this.clearInput();
         })
