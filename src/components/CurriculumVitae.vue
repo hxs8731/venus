@@ -41,15 +41,15 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="page-main">
-                <div class="panel panel-default" id="baseInfo">
-                    <div class="panel-heading">
+                <div class="card card-default" id="baseInfo">
+                    <div class="card-heading">
                         基本信息
-                        <a href="####" v-if="!editMode.baseInfo" class=" card-info-edit pull-right padding left right edit"
+                        <a href="####" v-if="!editMode.baseInfo" class=" card-info-edit float-right padding left right edit"
                         @click="changeEditMode('baseInfo', !editMode.baseInfo)">
                             <i class="fa fa-pencil"></i> 编辑
                         </a>
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div class="card_info">
                             <div class="card-item headphoto" v-if="!editMode.baseInfo">
                                 <div class="user-img">
@@ -65,7 +65,7 @@
                                         <div class="user-gender">
                                             性别：
                                             <span class="person-content" v-if="cardDataInfo.sex=='0'">男</span>
-                                            <span class="person-content" v-if="cardDataInfo.sex=='1'">女</span>
+                                            <span class="person-content" v-else>女</span>
                                         </div>
                                         <div class="user-telephone">
                                             电话：
@@ -83,11 +83,11 @@
                                         </div> -->
                                         <div class="user-education">
                                             最高学历：
-                                            <span class="person-content">{{eduBgItems[cardDataInfo.degree].name}}</span>
+                                            <span class="person-content">{{eduLevelArray[cardDataInfo.hignEdu].name}}</span>
                                         </div>
                                         <div class="user-graduate-year">
                                             出生年月：
-                                            <!-- <span class="person-content" v-bind="cardDataInfo.graduation_date ? (graduation_year + '年') : ''">{{}}</span> -->
+                                            <span class="person-content">{{formatDate(cardDataInfo.birthday)}}</span>
                                         </div>
                                         <div class="user-email text-ellipsis">
                                             邮箱：
@@ -98,9 +98,8 @@
                                 </div>
                             </div>
                             <!-- 编辑界面 -->
-                            <form name="updateBaseForm" role="form" v-else novalidate>
                               <!-- <h5>基本信息的编辑页面</h5> -->
-                                <div class="form-horizontal animated fadeIn">
+                                <div v-else class="form-horizontal animated fadeIn">
                                     <div class="card-item-edit">
                                         <div class="user-img">
                                             <img src="../assets/images/avtar.png" width="100" height="100" />
@@ -116,7 +115,12 @@
                                                 <div class="user-gender left-item">
                                                     <span class="item-label">性别</span>
                                                     <div class="gender-wrap" style="display: inline-block;">
-                                                        <input readonly class="form-control dropdown-toggle" data-toggle="dropdown"
+                                                      <select class="custom-select" v-model="cardDataInfo.sex">
+                                                        <option v-for="(sexVal, index) in sexValues" v-bind:value="index">{{sexVal.name}}</option>
+                                                      </select>
+
+
+                                                        <!-- <input readonly class="form-control dropdown-toggle" data-toggle="dropdown"
                                                               v-model="sexValues[cardDataInfo.sex].name">
                                                         <span class="caret"></span>
                                                         <div class="dropdown-menu" role="menu">
@@ -124,7 +128,7 @@
                                                                 <li v-for="(sexVal, index) in sexValues"
                                                                     @click="cardDataInfo.sex=index"> {{sexVal.name}}</li>
                                                             </ul>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="user-telephone left-item">
@@ -139,19 +143,23 @@
                                                 <div class="user-education right-item">
                                                     <span class="item-label">最高学历</span>
                                                     <div class="education-wrap" style="display: inline-block;">
-                                                        <input readonly class="form-control dropdown-toggle" data-toggle="dropdown"
-                                                              v-model="eduBgItems[cardDataInfo.degree].name" myrequired>
+                                                        <select class="custom-select" v-model="cardDataInfo.hignEdu">
+                                                          <option v-for="eduBgItem in eduLevelArray" v-bind:value="eduBgItem.id">{{eduBgItem.name}}</option>
+                                                        </select>
+
+                                                        <!-- <input readonly class="form-control dropdown-toggle" data-toggle="dropdown"
+                                                              v-model="eduLevelArray[cardDataInfo.degree].name" myrequired>
                                                         <span class="caret"></span>
                                                         <div class="dropdown-menu education-menu" role="menu">
                                                             <ul>
-                                                                <li v-for="eduBgItem in eduBgItems" @click="cardDataInfo.degree=eduBgItem.id">{{eduBgItem.name}}</li>
+                                                                <li v-for="eduBgItem in eduLevelArray" @click="cardDataInfo.degree=eduBgItem.id">{{eduBgItem.name}}</li>
                                                             </ul>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="user-graduate-year right-item form-inline">
                                                     <span class="item-label">出生年月</span>
-                                                    <datepicker class="form-control" id="startDate" type="text" placeholder="选择出生年月" language="zh" format="yyyy-MM-dd"></datepicker>
+                                                    <datepicker class="form-control" id="startDate" v-model="cardDataInfo.birthday" type="text" placeholder="选择出生年月" language="zh" format="yyyy-MM-dd"></datepicker>
                                                 </div>
                                                 <div class="user-email right-item">
                                                     <span class="item-label">邮箱</span>
@@ -161,169 +169,170 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="user-handle pull-right">
-                                            <a href="javascript:void(0)" type="submit" class="btn btn-success save add_save"
-                                               @click="updateCardInfo();">保存</a>
-                                            <a href="javascript:void(0)" type="submit" class="btn btn-default cancel add_cancel"
-                                               @click="changeEditMode('baseInfo', false)">取消</a>
+                                        <div class="user-handle float-right">
+                                            <button href="javascript:void(0)" class="btn btn-success save add_save"
+                                               @click="updateCardInfo();">保存</button>
+                                            <button href="javascript:void(0)" class="btn btn-default cancel add_cancel"
+                                               @click="changeEditMode('baseInfo', false)">取消</button>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default" id="jobIntention">
-                    <div class="panel-heading">
+                <div class="card card-default" id="jobIntention">
+                    <div class="card-heading">
                         求职意向
-                        <!-- <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <!-- <a href="#" class=" card-info-edit float-right padding left right edit"
                         @click="editCardInfo();">
                             <i class="fa fa-pencil"></i> 编辑
                         </a> -->
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <ul class="panel-content">
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <ul class="card-content">
                             <li>
                                 <span>意向城市<label> <a href="`"></a>*</label></span>
-                                <button v-for="(info, index) in intendedCitys" class="btn btn-default">{{info}}</button>
+                                <button v-for="(info, index) in resumeIntent.cityName.split(',')" class="btn btn-default">{{info}}</button>
                                 <a href="#" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>选择城市</a>
-                                <model-view modelTitle="自定义城市" :singleSelect="false" :modelData="letters" modelId="cityModal" />
+                                <model-view modelTitle="自定义城市" :singleSelect="false" :selectedInfos="resumeIntent.cityName.split(',')" @modal-selected="selectInfoFromModal($event)" :modelData="letters" modelId="cityModal" />
                             </li>
                             <li>
                                 <span>意向职位<label> <a href="`"></a>*</label></span>
-                                <button class="btn btn-default">程序员</button>
-                                <button class="btn btn-default">产品经理</button>
-                                <button class="btn btn-default">Java开发</button>
-                                <a href="#" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>更多岗位</a>
+                                <span v-if="!resumeIntent.intentPosition">暂无意向职位</span>
+                                <button v-else v-for="(info, index) in resumeIntent.intentPosition.replace(/，/g, ',').split(',')" class="btn btn-default">{{ info }}</button>
+                                <a href="#" border=0 data-toggle="modal" data-target="#intentModal"><label class="glyphicon glyphicon-plus"></label>更多岗位</a>
+                                <form-model-view :formInfos="intentFormInfo" modelId="intentModal" @modal-positive="handlePositive($event)" />
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="panel panel-default" id="educationExp">
-                    <div class="panel-heading">
+                <div class="card card-default" id="educationExp">
+                    <div class="card-heading">
                         教育经历
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo)">
                             <i class="fa fa-pencil"></i> +教育经历
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="educationFormInfo" modelId="eduModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="educationFormInfo" modelId="eduModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in userEduInfos">
-                            <p class="col-xs-2">{{info.schooName}}</p>
-                            <p class="col-xs-3">{{info.edu_profession}}</p>
-                            <p class="col-xs-2">{{info.eduLevel}}</p>
-                            <p class="col-xs-3">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationFormInfo.apiType, userEduInfos, info, index)"><a href="####">删除</a></span></p>
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div class="row cv-item cv-item-border" v-for="(info, index) in userEduInfos">
+                            <p class="col-2">{{info.schooName}}</p>
+                            <p class="col-3">{{info.professional}}</p>
+                            <p class="col-2">{{eduLevelArray[info.eduLevel].name}}</p>
+                            <p class="col-3">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationFormInfo.apiType, userEduInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="userEduInfos.length <= 0">暂无内容</p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="internshipExp">
-                    <div class="panel-heading">
+                <div class="card card-default" id="internshipExp">
+                    <div class="card-heading">
                         实习经历
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#internshipModal">
                             <i class="fa fa-pencil"></i>+实习经历
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="internshipFormInfo" modelId="internshipModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="internshipFormInfo" modelId="internshipModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div v-for="(info, index) in practiceInfos">
-                            <div v-show="3 === info.workType">
-                                <p class="col-xs-4">{{info.company}}</p>
-                                <p class="col-xs-2">{{info.jobName}}</p>
-                                <p class="col-xs-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                                <p class="col-xs-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
+                            <div class="row cv-item" v-show="3 === info.workType">
+                                <p class="col-4">{{info.company}}</p>
+                                <p class="col-2">{{info.jobName}}</p>
+                                <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                                <p class="col-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
-                            <div v-show="3 === info.workType">
-                                <p class="col-xs-2">工作内容:</p>
-                                <p class="col-xs-10">{{info.content}}</p>
+                            <div class="row cv-item cv-item-border" v-show="3 === info.workType">
+                                <p class="col-2">工作内容:</p>
+                                <p class="col-10">{{info.content}}</p>
                             </div>
                         </div> 
                         <p v-show="filterInfos(practiceInfos, 3, 'workType').length <= 0">暂无内容</p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="projectExp">
-                    <div class="panel-heading">
+                <div class="card card-default" id="projectExp">
+                    <div class="card-heading">
                         项目经历
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#projectModal">
                             <i class="fa fa-pencil"></i>+项目经历
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="projectFormInfo" modelId="projectModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="projectFormInfo" modelId="projectModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div v-for="(info, index) in practiceInfos">
-                            <div v-show="4 === info.workType">
-                                <p class="col-xs-4">{{info.company}}</p>
-                                <p class="col-xs-2">{{info.jobName}}</p>
-                                <p class="col-xs-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                                <p class="col-xs-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
+                            <div class="row cv-item" v-show="4 === info.workType">
+                                <p class="col-4">{{info.company}}</p>
+                                <p class="col-2">{{info.jobName}}</p>
+                                <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                                <p class="col-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
-                            <div v-show="4 === info.workType">
-                                <p class="col-xs-2">项目内容:</p>
-                                <p class="col-xs-10">{{info.content}}</p>
+                            <div class="row cv-item cv-item-border" v-show="4 === info.workType">
+                                <p class="col-2">项目内容:</p>
+                                <p class="col-10">{{info.content}}</p>
                             </div>
                         </div>
                         <p v-show="filterInfos(practiceInfos, 4, 'workType').length <= 0">暂无内容</p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="honoraryAward">
-                    <div class="panel-heading">
+                <div class="card card-default" id="honoraryAward">
+                    <div class="card-heading">
                         荣誉奖项
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo)">
                             <i class="fa fa-pencil"></i>+荣誉奖项
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in awardInfos">
-                            <p class="col-xs-4">{{info.name}}</p>
-                            <p class="col-xs-2">{{info.level}}</p>
-                            <p class="col-xs-4">{{info.awardDate}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.apiType, awardInfos, info, index)"><a href="####">删除</a></span></p>
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div class="row cv-item cv-item-border" v-for="(info, index) in awardInfos">
+                            <p class="col-4">{{info.name}}</p>
+                            <p class="col-2">{{awardLevelArray[info.level].name}}</p>
+                            <p class="col-4">{{info.awardDate}}</p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.apiType, awardInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="awardInfos.length <= 0">暂无内容</p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="clubExp">
-                    <div class="panel-heading">
+                <div class="card card-default" id="clubExp">
+                    <div class="card-heading">
                         社团经历
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#clubModal">
                             <i class="fa fa-pencil"></i>+社团经历
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="clubFormInfo" modelId="clubModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="clubFormInfo" modelId="clubModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in schoolWorks">
-                            <p class="col-xs-4">{{info.name}}</p>
-                            <p class="col-xs-2">{{info.job}}</p>
-                            <p class="col-xs-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                            <p class="col-xs-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(clubFormInfo.apiType, schoolWorks, info, index)"><a href="####">删除</a></span></p>
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div class="row cv-item cv-item-border" v-for="(info, index) in schoolWorks">
+                            <p class="col-4">{{info.name}}</p>
+                            <p class="col-2">{{info.job}}</p>
+                            <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(clubFormInfo.apiType, schoolWorks, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="schoolWorks.length <= 0">暂无内容</p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="skills">
-                    <div class="panel-heading">
+                <div class="card card-default" id="skills">
+                    <div class="card-heading">
                         技能特长
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#skillModal">
                             <i class="fa fa-pencil"></i>+技能特长
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="skillFormInfo" modelId="skillModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="skillFormInfo" modelId="skillModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in skillInfos">
-                            <p v-show="1 === info.skillType" class="col-xs-4">{{info.name}}</p>
-                            <p v-show="1 === info.skillType" class="col-xs-5">{{info.level}}</p>
-                            <p v-show="1 === info.skillType" class="col-xs-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div v-if="filterInfos(skillInfos, 1, 'skillType').length >= 1" v-for="(info, index) in skillInfos">
+                            <div v-if="1 === info.skillType" class="row cv-item cv-item-border">
+                              <p class="col-4">{{info.name}}</p>
+                              <p class="col-5">{{skillLevelArray[info.level].name}}</p>
+                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                            </div>
                         </div>
-                        <p v-show="filterInfos(skillInfos, 1, 'skillType').length <= 0">暂无内容</p>
+                        <p v-else>暂无内容</p>
 
                         <!-- <p>
                             <label v-for="(info, index) in skillInfos" class="label label-gap label-info">{{info.name}}</label>
@@ -331,37 +340,39 @@
                         <p v-show="skillInfos.length <= 0">暂无内容</p> -->
                     </div>
                 </div>
-                <div class="panel panel-default" id="certifications">
-                    <div class="panel-heading">
+                <div class="card card-default" id="certifications">
+                    <div class="card-heading">
                         获得证书
-                        <a href="#" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
                         data-toggle="modal" data-target="#certificateModal">
                             <i class="fa fa-pencil"></i>+获得证书
                         </a>
-                        <form-model-view :singleSelect="false" :formInfos="certificatesFormInfo" modelId="certificateModal" @modal-positive="handlePositive($event)" />
+                        <form-model-view :formInfos="certificatesFormInfo" modelId="certificateModal" @modal-positive="handlePositive($event)" />
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div v-for="(info, index) in skillInfos">
-                            <p v-show="2 === info.skillType" class="col-xs-4">{{info.name}}</p>
-                            <p v-show="2 === info.skillType" class="col-xs-5">{{info.level}}</p>
-                            <p v-show="2 === info.skillType" class="col-xs-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)">编辑</span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div v-if="filterInfos(skillInfos, 2, 'skillType').length >= 1" v-for="(info, index) in skillInfos">
+                            <div v-if="2 === info.skillType" class="row cv-item cv-item-border">
+                              <p class="col-4">{{info.name}}</p>
+                              <p class="col-5">{{formatDate(info.startDate)}}</p>
+                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                          </div>
                         </div>
-                        <p v-show="filterInfos(skillInfos, 2, 'skillType').length <= 0">暂无内容</p>
+                        <p v-else>暂无内容</p>
                         <!-- <p>
                             <label v-for="(info, index) in certificates" class="label label-gap label-info">{{info.certificate_name}}</label>
                         </p>
                         <p v-show="certificates.length <= 0">暂无内容</p> -->
                     </div>
                 </div>
-                <div class="panel panel-default" id="additionalInfo">
-                    <div class="panel-heading">
+                <div class="card card-default" id="additionalInfo">
+                    <div class="card-heading">
                         附加信息
-                        <a href="#additionalInfo" class=" card-info-edit pull-right padding left right edit"
+                        <a href="#additionalInfo" class=" card-info-edit float-right padding left right edit"
                         @click="addAttachInfo()">
                             <i class="fa fa-pencil"></i>+附加信息
                         </a>
                     </div>
-                    <div class="panel-body" style="padding-top: 30px;padding-bottom: 30px;">
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div class="form-inline" v-for="(info, index) in attachInfos">
                             <span v-if="showAddInfoTip" @click="showAddInfoTip = false">{{info.content}}</span>
                             <input v-else type="text" class="form-control" v-model="info.content"/>
@@ -399,9 +410,8 @@ export default {
         // get totalCityInfos
         level: 2,
         order: 0
-      },
-      res => {
-        this.totalCityInfos = res;
+      }, (res) => {
+        // this.totalCityInfos = res;
         for (let i = 0, len = this.letters.length; i < len; i++) {
           let letterData = this.letters[i];
           letterData.data = res.filter(info => {
@@ -410,12 +420,22 @@ export default {
         }
       }
     );
+    this.getUserInfos();
     this.getResumeAllInfos();
+    this.sawardLevelArray = [{ name: "初级", id: 0 }, { name: "中级", id: 1 }, {name: "高级", id: 2}, {name: "特级", id: 3}];
+    this.seduLevelArray = [{ name: "未知", id: 0 }, { name: "专科", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士", id: 4}];
+    this.sskillLevelArray = [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "熟练", id: 2}, {name: "精通", id: 3}];
+    this.scertificateLevelArray = [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "优秀", id: 2}];
+    var self = this;
     return {
       isdisabled: true,
       username: "",
       password: "",
       userId: null,
+      awardLevelArray: [{ name: "初级", id: 0 }, { name: "中级", id: 1 }, {name: "高级", id: 2}, {name: "特级", id: 3}],
+      eduLevelArray: [{ name: "未知", id: 0 }, { name: "专科", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士", id: 4}],
+      skillLevelArray: [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "熟练", id: 2}, {name: "精通", id: 3}],
+      certificateLevelArray: [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "优秀", id: 2}],
       letters: [
         { letter: "A", data: [] },
         { letter: "B", data: [] },
@@ -455,25 +475,52 @@ export default {
         skills: false,
         additionalInfo: false
       },
-      resumeInfos: {
-
+      resumeIntent: {
+        "userId":2,
+        "cityName":"北京,上海",
+        "intentPosition":null
+        // ,
+        // "id":1,
+        // "resumeId":null,
+        // "recruitName":null,
+        // "gmtCreate":1532362210000,
+        // "gmtModified":1532362210000
       },
       intendedCitys: ["北京", "杭州", "上海"],
       sexValues: [{ name: "男" }, { name: "女" }],
-      eduBgItems: [{ name: "中专", id: 0 }, { name: "大专", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士及以上", id: 4}],
       cardDataInfo: {
         avatarUrl: "",
         name: "test",
         sex: 0,
         id: 0,
-        degree: 0,
+        hignEdu: 0,
         eduBg: "",
         telephone: "111111",
+        birthday: "string",
         email: "11111",
         college_name: "1111",
         allCollege: ["清华大学","北京大学","中国人民大学","北京航空航天大学","北京师范大学","中国农业大学","北京理工大学"],
         majorName: "11111",
-        graduation_date: "2017-06-28"
+        graduation_date: "2017-06-28",
+        age: 0,
+        address: "string"
+      },
+      intentFormInfo: {
+        infoType: "resumeIntent",
+        apiType: "modifyResumeIntent",
+        index: -1,
+        title: "意向岗位",
+        state: "initial",
+        notList: true,
+        data: [
+          {
+            label: "意向岗位",
+            form_type: "input",
+            type: "text",
+            value: "",
+            id: "intentPosition"
+          }
+        ]
       },
       educationFormInfo: {
         infoType: "userEduInfos",
@@ -494,13 +541,14 @@ export default {
             form_type: "input",
             type: "text",
             value: "",
-            id: "edu_profession"
+            id: "professional"
           },
           {
             label: "学历",
-            form_type: "input",
-            type: "text",
-            value: "",
+            form_type: "select",
+            form_data: this.seduLevelArray,
+            type: "select",
+            value: /*userEduInfos.eduLevel || */0,
             id: "eduLevel"
           },
           {
@@ -545,8 +593,8 @@ export default {
         ]
       },
       //   userEduInfos: [
-      //       {schooName: "浙江大学", edu_profession: "计算机工程与技术", eduLevel: "研究生", startDate: "2010-9", endDate: "2013-7"},
-      //       {schooName: "浙江工业大学", edu_profession: "计算机工程与技术", eduLevel: "本科", startDate: "2010-9", endDate: "2013-7"}
+      //       {schooName: "浙江大学", professional: "计算机工程与技术", eduLevel: "研究生", startDate: "2010-9", endDate: "2013-7"},
+      //       {schooName: "浙江工业大学", professional: "计算机工程与技术", eduLevel: "本科", startDate: "2010-9", endDate: "2013-7"}
       //   ],
       userEduInfos: [],
       internshipFormInfo: {
@@ -687,9 +735,9 @@ export default {
           },
           {
             label: "奖项级别",
-            form_type: "input",
-            type: "text",
-            value: "",
+            form_type: "select",
+            value: 0,
+            form_data: this.awardLevelArray,
             id: "level"
           },
           {
@@ -757,18 +805,6 @@ export default {
           }
         ]
       },
-    //   schoolWorks: [
-    //     {
-    //       name: "社团名称",
-    //       job: "担任位置",
-    //       club_times: "2010-9至2013-7"
-    //     },
-    //     {
-    //       name: "社团名称2",
-    //       job: "担任位置2",
-    //       club_times: "2010-9至2013-7"
-    //     }
-    //   ],
       schoolWorks: [],
       skillFormInfo: {
         infoType: "skillInfos",
@@ -785,7 +821,72 @@ export default {
             id: "name"
           }, {
             label: "精通程度",
+            form_type: "select",
+            form_data: this.sskillLevelArray,
+            value: 0,
+            id: "level"
+          },
+          {
+            label: "获得时间",
+            form_type: "date",
+            datePickers: [
+              {
+                type: "date",
+                value: "",
+                placeholder: "获得时间",
+                id: "startDate"
+              }
+            ],
+            recursion: "true",
+            recursion_key: "datePickers"
+          },
+          {
+            value: 1,
+            id: "skillType",
+            invisible: true
+          } 
+        ]
+      },
+    //   skillInfos: [{name: "专业技能1"}, {name: "专业技能2"}, {name: "专业技能3"}],
+      skillInfos: [],
+      certificatesFormInfo: {
+        infoType: "certificates",
+        index: -1,
+        apiType: "modifySkills",
+        title: "获得证书",
+        state: "initial",
+        data: [
+          // {
+          //   label: "证书名称",
+          //   form_type: "input",
+          //   type: "text",
+          //   value: "",
+          //   id: "certificate_name"
+          // },
+          // {
+          //   label: "获得时间",
+          //   form_type: "date",
+          //   datePickers: [
+          //     {
+          //       type: "date",
+          //       value: "",
+          //       placeholder: "获得时间",
+          //       id: "startDate"
+          //     }
+          //   ],
+          //   recursion: "true",
+          //   recursion_key: "datePickers"
+          // },
+          {
+            label: "证书名称",
+            form_type: "input",
+            type: "text",
+            value: "",
+            id: "name"
+          }, {
+            label: "级别",
             form_type: "radio",
+            radioItems: [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "优秀", id: 2}],
             value: "",
             radioInfos: [
               {
@@ -800,39 +901,11 @@ export default {
               },
               {
                 type: "radio",
-                radio_tip: "熟练",
-                name: "level"
-              },
-              {
-                type: "radio",
-                radio_tip: "精通",
+                radio_tip: "优秀",
                 name: "level"
               }
             ],
             id: "level"
-          },
-          {
-            value: 1,
-            id: "skillType",
-            invisible: true
-          } 
-        ]
-      },
-    //   skillInfos: [{name: "专业技能1"}, {name: "专业技能2"}, {name: "专业技能3"}],
-      skillInfos: [],
-      certificatesFormInfo: {
-        infoType: "certificates",
-        index: -1,
-        // apiType: "modifySkills",
-        title: "获得证书",
-        state: "initial",
-        data: [
-          {
-            label: "证书名称",
-            form_type: "input",
-            type: "text",
-            value: "",
-            id: "certificate_name"
           },
           {
             label: "获得时间",
@@ -842,7 +915,7 @@ export default {
                 type: "date",
                 value: "",
                 placeholder: "获得时间",
-                id: "certificate_time"
+                id: "startDate"
               }
             ],
             recursion: "true",
@@ -856,9 +929,9 @@ export default {
         ]
       },
     //   certificates: [{
-    //       certificate_name: "英语六级"
+    //       name: "英语六级", startDate: "2010-8-1"
     //   },{
-    //       certificate_name: "计算机二级"
+    //       name: "计算机二级", startDate: "2010-7-1"
     //   }],
       certificates: [],
       additionalInfo: "这里是附加信息",
@@ -880,15 +953,14 @@ export default {
   //   }
   // },
   methods: {
-    doSubmit: function() {},
     filterInfos: function(infos, value, key) {
-      console.log(`filterWorkType ${infos}, ${value}, ${key}`);
+      // console.log(`filterWorkType ${infos}, ${value}, ${key}`);
       if (!infos || infos.length <= 0) {
         console.log(`filterWorkType empty array`);
         return [];
       }
       return infos.filter(function (info) {
-        console.log(`filterWorkType ${info[key]}, ${value}, ${key} !!`);
+        // console.log(`filterWorkType ${info[key]}, ${value}, ${key} !!`);
         return info[key] === value;
       });
     },
@@ -911,7 +983,20 @@ export default {
       }
       let listInfos = eval('this.' + infos.infoType);
       if (listInfos) {
-          this.updateListInfos(listInfos, infos.data, infos.index);
+          if (infos.notList) {
+            // just set value to listInfos
+            let dataArray = infos.data;
+            for (let i = 0, len = dataArray.length; i < len; i++) {
+              let data = dataArray[i];
+              let key = data.id;
+              let value = data.value;
+              console.log(`set value to listInfos => ${key}, ${value}`);
+              listInfos[key] = value;
+            }
+          } else {
+            // update list.
+            this.updateListInfos(listInfos, infos.data, infos.index);
+          }
           this.updateResumeInfo(infos.apiType, listInfos);
       } else {
           console.log(`infoType [ ${infos.infoType} ] not supported ! `);
@@ -944,7 +1029,7 @@ export default {
         }
         let key = data.id;
         let value = data.value;
-        // console.log(`bindListInfos => ${key}, ${value}`);
+        console.log(`bindListInfos => ${key}, ${value}, ${JSON.stringify(data)}`);
         if (newObject) {
           // let o = {};
           newObject[key] = value;
@@ -1022,24 +1107,44 @@ export default {
 
     deleteListInfo: function(apiType, listInfos, info, index) {
         console.log(`deleteListInfo listInfos ==> ${JSON.stringify(listInfos)}`);
-        console.log(`deleteListInfo info ==> ${info}`);
+        console.log(`deleteListInfo info ==> ${JSON.stringify(info)}`);
         listInfos.splice(index, 1);
-        this.updateResumeInfo(apiType);
+        this.updateResumeInfo(apiType, listInfos);
+    },
+
+    updateHighEdu(index) {
+      this.cardDataInfo.hignEdu = index;
     },
 
     updateUserInfo: function() {
-      let params = {
-        name: this.cardDataInfo.name,
-        id: this.cardDataInfo.id,
-        headImg: "../assets/images/avtar.png",
-        sex: this.sexValues[this.cardDataInfo.sex].name,
-        telephone: this.cardDataInfo.telephone,
-        hignEdu: this.eduBgItems[this.cardDataInfo.degree].name
-      };
+      let params = new URLSearchParams();
+      params.append("name", this.cardDataInfo.name);
+      params.append("id", this.cardDataInfo.id);
+      params.append("headImg", "../assets/images/avtar.png");
+      params.append("sex", this.cardDataInfo.sex);
+
+      params.append("telephone", this.cardDataInfo.telephone);
+      params.append("hignEdu", this.cardDataInfo.hignEdu);
+      params.append("birthday", this.formatDate(this.cardDataInfo.birthday));
+      params.append("age", this.cardDataInfo.age);
+      params.append("address", this.cardDataInfo.address);
+      params.append("email", this.cardDataInfo.email);
+      // let params = {
+      //   name: this.cardDataInfo.name,
+      //   id: this.cardDataInfo.id,
+      //   headImg: "../assets/images/avtar.png",
+      //   sex: this.cardDataInfo.sex,
+      //   telephone: this.cardDataInfo.telephone,
+      //   hignEdu: this.cardDataInfo.degree,
+      //   birthday: this.cardDataInfo.birthday,
+      //   age: this.cardDataInfo.age,
+      //   address: this.cardDataInfo.address
+      // };
       this.http
-        .post(this._global.UPDATE_USER_INFO, params, {
+        .post(this._global.UPDATE_USER_INFO, params
+        /*, {
           headers: {'Content-Type': 'application/json'} // must add content type
-        })
+        }*/)
         .then(res => {
           console.log(`updateLoginInfo callback ${JSON.stringify(res)}`);
           if (res.data.success) {
@@ -1054,26 +1159,33 @@ export default {
           alert(error);
         });
     },
-
     updateResumeInfo: function(apiType, info) {
       if (!apiType) {
         console.log(` not support this api type.`);
         return;
       }
       let uri = this._global.MODIFY_RESUME_API[apiType];
-      console.log(`updateResumeInfo ${apiType}, ${JSON.stringify(info)}`);
+      console.log(`updateResumeInfo ${apiType}, ${JSON.stringify(info), this.isArray(info)}`);
       let params = {};
-      params.list = info;
-      this.http
-        .post(uri, params, {
+      let headerConfig;
+      if (this.isArray(info)) {
+        params.list = info;
+        headerConfig = {
           headers: {'Content-Type': 'application/json'} // must add content type
-        })
+        };
+      } else {
+        params = new URLSearchParams();
+        for (var k in info) {
+          params.append(k, info[k]);
+        }
+      }
+      this.http
+        .post(uri, params, headerConfig)
         .then()
         .catch(function(error) {
           alert(error);
         });
     },
-
     addAttachInfo: function() {
       if (this.attachInfos.length <= 0) {
         this.attachInfos.push({content: ""});
@@ -1086,10 +1198,29 @@ export default {
       this.showAddInfoTip = true;
       this.updateResumeInfo("modifyAttachs", this.attachInfos);
     },
-    
+    getUserInfos: function() {
+      this.http.get(this._global.GET_USER_INFO)
+          .then(res => {
+            console.log(`getUserInfos callback ${JSON.stringify(res)}`);
+            let result = res.data.data;
+            for (var k in result) {
+              if ("sex" === k) {
+                result[k] = result[k] === 1 ? 1 : 0; // only 0 & 1
+              }
+
+              this.cardDataInfo[k] = result[k];
+            }
+          })
+          .catch(function(error) {
+            alert(error);
+            this.goHome();
+          });
+    },
     getResumeAllInfos: function() {
       this.http
-        .get(this._global.GET_RESUME_ALL)
+        .post(this._global.GET_RESUME_ALL, null, {
+          headers: {'Content-Type': 'application/json'} // must add content type
+        })
         .then(res => {
           console.log(`getResumeAllInfos callback ${JSON.stringify(res)}`);
           if (res.data.success) {
@@ -1101,12 +1232,21 @@ export default {
             }
           } else {
             alert(res.data.errMsg);
+            this.goHome();
           }
         })
         .catch(function(error) {
           alert(error);
         });
-    }
+    },
+    selectInfoFromModal: function(options) { // 只能传一个参数；
+        console.log("selectInfoFromModal select city info = " + JSON.stringify(options));
+        if (options && options.infos) {
+            console.log("selectInfoFromModal ====>>>> select city infos = " + options.infos.toString());
+            this.resumeIntent.cityName = options.infos.toString();
+            this.updateResumeInfo("modifyResumeIntent", this.resumeIntent);
+        }
+    },
   }
 };
 </script>
@@ -1246,7 +1386,17 @@ export default {
 }
 
 /* main card */
+.card-default {
+  margin-bottom: 15px;
+}
+.cv-item {
+  /* border-bottom: #dadada dotted 0.05em; */
+  font-size: 13px;
+}
 
+.cv-item-border {
+  border-bottom: #dadada dotted 0.05em;
+}
 .page-main {
   min-height: 500px;
   width: 900px;
@@ -1254,26 +1404,26 @@ export default {
   padding: 0 20px;
 }
 
-.page-main .panel-body .card-item .user-info {
+.page-main .card-body .card-item .user-info {
   position: absolute;
   width: 100%;
   top: 0;
   padding-left: 176px;
   height: 136px;
 }
-.page-main .panel-body ul.panel-content li {
+.page-main .card-body ul.card-content li {
   line-height: 40px;
 }
-.page-main .panel-body .card-item,
-.page-main .panel-body .card-item-edit {
+.page-main .card-body .card-item,
+.page-main .card-body .card-item-edit {
   /* border-bottom: 1px dashed #eeeeee; */
   padding: 10px 20px 20px;
   position: relative;
 }
 
-.page-main .panel-body .card-item-edit input,
-.page-main .panel-body .card-item-edit .user-info .gender {
-  border-radius: 0;
+.page-main .card-body .card-item-edit input,
+.page-main .card-body .card-item-edit .user-info .gender {
+  /* border-radius: 0; */
   height: 38px;
   line-height: 38px;
   width: 198px !important;
@@ -1282,43 +1432,43 @@ export default {
   display: inline-block;
 }
 
-.page-main .panel-body .card-item-edit .user-img {
+.page-main .card-body .card-item-edit .user-img {
   height: 136px;
   width: 136px;
   text-align: center;
   position: relative;
 }
 
-.page-main .panel-body .card-item-edit .user-img img {
+.page-main .card-body .card-item-edit .user-img img {
   width: 100%;
   height: 100%;
 }
 
-.page-main .panel-body .card-item-edit .user-info {
+.page-main .card-body .card-item-edit .user-info {
   float: left;
   width: 100%;
   margin-top: -136px;
   padding-left: 176px;
 }
 
-.page-main .panel-body .card-item-edit .user-info .user-info-left,
-.page-main .panel-body .card-item-edit .user-info .user-info-right {
+.page-main .card-body .card-item-edit .user-info .user-info-left,
+.page-main .card-body .card-item-edit .user-info .user-info-right {
   float: left;
 }
 
-.page-main .panel-body .card-item-edit .user-info .user-info-left {
+.page-main .card-body .card-item-edit .user-info .user-info-left {
   margin-right: 20px;
 }
 
-.page-main .panel-body .card-item-edit .user-info .left-item .item-label,
-.page-main .panel-body .card-item-edit .user-info .right-item .item-label {
+.page-main .card-body .card-item-edit .user-info .left-item .item-label,
+.page-main .card-body .card-item-edit .user-info .right-item .item-label {
   width: 60px;
   text-align: center;
   display: inline-block;
 }
 
-.page-main .panel-body .card-item-edit .user-info .user-info-left .left-item,
-.page-main .panel-body .card-item-edit .user-info .user-info-right .right-item {
+.page-main .card-body .card-item-edit .user-info .user-info-left .left-item,
+.page-main .card-body .card-item-edit .user-info .user-info-right .right-item {
   font-size: 14px;
   height: 38px;
   margin-bottom: 16px;
@@ -1326,14 +1476,14 @@ export default {
   margin-right: 12px;
 }
 
-.page-main .panel-body .card-item-edit .user-info .user-gender .dropdown-menu {
+.page-main .card-body .card-item-edit .user-info .user-gender .dropdown-menu {
   height: auto !important;
   width: 198px !important;
   right: auto;
 }
 
 .page-main
-  .panel-body
+  .card-body
   .card-item-edit
   .user-info
   .user-education
@@ -1344,12 +1494,12 @@ export default {
   left: auto !important;
 }
 
-.page-main .panel-body .card-item-edit .user-handle {
+.page-main .card-body .card-item-edit .user-handle {
   margin-top: 2px;
   margin-right: 42px;
 }
 
-.page-main .panel-body .card-item-edit .user-handle a {
+.page-main .card-body .card-item-edit .user-handle a {
   border-radius: 2px;
   height: 32px;
   width: 68px;
@@ -1358,18 +1508,18 @@ export default {
   padding: 0;
 }
 
-.page-main .panel-body .card-item-edit .user-handle .cancel {
+.page-main .card-body .card-item-edit .user-handle .cancel {
   background-color: #eeeeee;
 }
 
-.page-main .panel-body .card-item-edit .user-graduate-year .date-drop {
+.page-main .card-body .card-item-edit .user-graduate-year .date-drop {
   width: 280px;
   font-size: 12px;
   overflow: hidden;
   padding: 0;
 }
 
-.page-main .panel-body .card-item .user-img {
+.page-main .card-body .card-item .user-img {
   height: 136px;
   width: 136px;
   /* background-color: red; */
@@ -1378,8 +1528,8 @@ export default {
   z-index: 100;
 }
 
-.page-main .panel-body .card-item .user-info .user-info-left,
-.page-main .panel-body .card-item .user-info .user-info-right {
+.page-main .card-body .card-item .user-info .user-info-left,
+.page-main .card-body .card-item .user-info .user-info-right {
   float: left;
   height: 100%;
   margin-top: -12px;
@@ -1402,7 +1552,7 @@ export default {
   /* justify-content: space-between; */
 }
 
-.panel-heading {
+.card-heading {
   padding: 0px 0px 0px 20px;
   height: 50px;
   line-height: 50px;
@@ -1414,8 +1564,8 @@ export default {
   border-top-left-radius: 3px;
 }
 
-.page-main .panel-body .card-item .user-info .user-info-left div,
-.page-main .panel-body .card-item .user-info .user-info-right div {
+.page-main .card-body .card-item .user-info .user-info-left div,
+.page-main .card-body .card-item .user-info .user-info-right div {
   font-size: 14px;
   line-height: 40px;
 }

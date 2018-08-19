@@ -9,7 +9,8 @@
                 <div class="modal-body">
                     <div class="modal-main" v-for="letterData in modelData">
                       <p class="modal-subtitle">{{ letterData.letter }}</p>
-                      <button v-for="info in letterData.data" class="btn btn-default" data-dismiss="modal" data-target="#myModal" @click="selectInfo(selectedInfos, info, singleSelect)"> {{ info.city }} </button>
+                      <button v-for="info in letterData.data" :class="isSelected(selectedInfos, info) ? 'btn btn-primary' : 'btn btn-default'" :data-dismiss="singleSelect ? 'modal' : ''" data-target="#myModal" @click="selectInfo(selectedInfos, info, singleSelect)"> {{ info.city }} </button>
+                      <!-- <button v-else v-for="info in letterData.data" :class="isSelected(selectedInfos, info) ? 'btn btn-primary' : 'btn btn-default'" data-target="#myModal" @click="selectInfo(selectedInfos, info, singleSelect)"> {{ info.city }} </button> -->
                     </div>
                 </div>
             </div>
@@ -28,8 +29,22 @@ export default {
   methods: {
       selectInfo(infos, info, single) {
           console.log("modal view selectInfo = " + JSON.stringify(info) + ", array = " + JSON.stringify(infos) + ", single = " + single);
+          this.toggleSelect(infos, info);
           this.$emit('modal-selected', {infos:infos, info:info, single:single});
+      },
+      toggleSelect(selectedInfos, info) {
+          let index = selectedInfos.indexOf(info.city);
+          if (index < 0) {
+              selectedInfos.push(info.city);
+          } else {
+              selectedInfos.splice(index, 1);
+          }
+      },
+      isSelected(selectedInfos, info) {
+        //   console.log(`isSelected ${info.city}, ${JSON.stringify(selectedInfos)}`);
+          return selectedInfos.indexOf(info) >= 0 || selectedInfos.indexOf(info.city) >= 0;
       }
+
   }
 }
 </script>

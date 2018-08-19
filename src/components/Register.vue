@@ -2,7 +2,7 @@
 <div class="root">
 	<navigator-bar/>
 	<div class="container">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3 mx-auto">
         <form action="/api/api/user/register" class="" method="post">
             <div class="form-group has-feedback">
                 <label for="username">登录用户名<font color="red">*</font></label>
@@ -126,7 +126,8 @@
                 <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
                 <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
             </div>
-            <div class="row">
+
+            <div class="row form-group" style="margin-left:0px;">
                 <div class="col-xs-7">
                     <div class="form-group has-feedback">
                         <label for="idcode-btn">验证码</label>
@@ -139,7 +140,7 @@
                         <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span> -->
                     </div>
                 </div>
-                <div class="col-xs-3" style="padding-top: 20px; padding-bottom: 20px;" @click="refreshCode">
+                <div class="col-xs-3" style="padding-top: 20px; padding-bottom: 20px; margin-left:10px;" @click="refreshCode">
                     <s-identify :identifyCode="identifyCode" />
                     <span style="padding-top: 20px">点击图片刷新</span>
                 </div>

@@ -41,6 +41,7 @@ const USER_PREFIX = API_PREFIX + "user/";
 const USER_LOGIN_ACTION = USER_PREFIX + "login";
 const USER_EXSIT_ACTION = USER_PREFIX + "exsitLogin";
 const UPDATE_USER_INFO = USER_PREFIX + "updateUser"; // 更新用户信息
+const GET_USER_INFO = USER_PREFIX + "getUserInfo"; // 获取用户信息
 // 发布，审核相关
 const DEPLOY_ACTION = API_PREFIX + "recruit/publishRecruit";
 const UPDATE_RECRUIT = API_PREFIX + "recruit/updateRecruitsStatus";
@@ -75,6 +76,11 @@ const MODIFY_RESUME_API = {
   modifySchoolWorks: MODIFY_SCHOOL_WORKS,
   modifySkills: MODIFY_SKILLS
 };
+const AWARD_LEVEL_ARRAY = [{ name: "初级", id: 0 }, { name: "中级", id: 1 }, {name: "高级", id: 2}, {name: "特级", id: 3}];
+const EDU_LEVEL_ARRAY = [{ name: "未知", id: 0 }, { name: "专科", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士", id: 4}];
+const SKILL_LEVEL_ARRAY = [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "熟练", id: 2}, {name: "精通", id: 3}];
+const CERT_LEVEL_ARRAY = [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "优秀", id: 2}];
+
 const TEST_RESULT = {
   data: {
     success: true,
@@ -4973,6 +4979,7 @@ export default {
   REGISTER_URL,
   USER_LOGIN_ACTION,
   USER_EXSIT_ACTION,
+  GET_USER_INFO,
   DEPLOY_ACTION,
   UPDATE_RECRUIT,
   GET_RECRUIT_LIST,
@@ -4992,6 +4999,7 @@ export default {
   MODIFY_SKILLS,
   MODIFY_USER_EDUS,
   MODIFY_ATTACHES,
-  MODIFY_RESUME_API
+  MODIFY_RESUME_API,
+  AWARD_LEVEL_ARRAY,EDU_LEVEL_ARRAY,SKILL_LEVEL_ARRAY,CERT_LEVEL_ARRAY
 };
 </script>

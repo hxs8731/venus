@@ -1,18 +1,14 @@
 <template>
 <div id="app" class="root">
   <router-view />
-  <div v-show="'development' === prodMode" class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div>
-  <!-- <footer class="footer">
-    <p class="nav">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号  </p>
-    <p class="nav">杭州寻龙信息技术有限公司 All Rights Reserved</p>
-  </footer> -->
-
+   <!-- v-show="'development' === prodMode" -->
+  <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div>
   <div class="card">
-  <div class="card-body">
-    <p class="card-text">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号</p>
-    <h5 class="card-text">杭州寻龙信息技术有限公司 All Rights Reserved</h5>
+    <div class="card-body">
+        <p class="card-text">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号</p>
+        <p class="card-text">杭州寻龙信息技术有限公司 All Rights Reserved</p>
+    </div>
   </div>
-</div>
 </div>
 </template>
 
@@ -71,6 +67,9 @@ a:focus {
 .row {
     clear: both;
     overflow: hidden; /*解决 float后*/
+}
+.row p {
+    margin-top: 1.0rem; /*solve p content vertical middle*/
 }
 .list-row {
 padding: 10px 2%;
@@ -165,7 +164,7 @@ text-overflow:ellipsis;    /*溢出时显示省略标记...；需与overflow:hid
     border-color: #0fa9dd;
 }
 
-.form-control {
+/* .form-control {
     display: block;
     width: 100%;
     height: 34px;
@@ -204,8 +203,8 @@ text-overflow:ellipsis;    /*溢出时显示省略标记...；需与overflow:hid
     background-image: none;
     /*border: 1px solid transparent;*/
     /*border-radius: 4px;*/
-    border-radius: 0px;
-}
+    /* border-radius: 0px; */
+/* } */
 
 .right-fix-banner{
     position:fixed;

@@ -79,6 +79,22 @@ Vue.prototype.callLink = function (linkUrl, newWindow) {
     window.location.href = linkUrl;
   }
 };
+/**
+ * 判断一个对象是否是数组，参数不是对象或者不是数组，返回false
+ *
+ * @param {Object} arg 需要测试是否为数组的对象
+ * @return {Boolean} 传入参数是数组返回true，否则返回false
+ */
+Vue.prototype.isArray = function(arg) {
+  if (typeof arg === 'object') {
+      return Object.prototype.toString.call(arg) === '[object Array]';
+  }
+  return false;
+}
+Vue.prototype.goHome = function() {
+  this.$router.push("/");
+  this.cookieStore.clearCookie("username");
+};
 Vue.prototype.linkToCV = function () {
   router.push('/curriculumVitae');
 };
@@ -103,6 +119,8 @@ Vue.prototype.getRequestUrl = function (workType) {
 Vue.prototype.getSchoolByParams = function (options, response) {
   this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.SCHOOL_BY_CITY_ID_URI, {
     params: options
+  }, {
+    headers: {'Content-Type': 'application/json'} // must add content type
   }).then((res) => {
     // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res));
     if (res.data) {
@@ -118,8 +136,8 @@ Vue.prototype.getSchoolByParams = function (options, response) {
 };
 
 Vue.prototype.getCityByIp = function (options, response) {
-  this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.CITY_BY_IP_URI, {
-    params: options
+  this.http.post(this._global.TEST_MODE ? this._global.TEST_URL : this._global.CITY_BY_IP_URI, options, {
+    headers: {'Content-Type': 'application/json'} // must add content type
   }).then((res) => {
     // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res) + ", " + this._global.TEST_MODE);
     if (this._global.TEST_MODE) {
@@ -140,8 +158,10 @@ Vue.prototype.getCityByIp = function (options, response) {
 };
 
 Vue.prototype.getInfoByWorkType = function (options, response) {
-  this.http.get(this.getRequestUrl(options.workType), {
+  this.http.post(this.getRequestUrl(options.workType), {
     params: options
+  }, {
+    headers: {'Content-Type': 'application/json'} // must add content type
   }).then((res) => {
     if (this._global.TEST_MODE) {
       console.log('GET ＝>>>>>>> getInfoByWorkType in test mode');

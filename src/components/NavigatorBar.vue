@@ -17,7 +17,8 @@
         <button type="button" class="btn btn-primary" @click="doSearchCompany">搜索</button>
       </form>
       <ul class="nav nav-item my-2 my-lg-0" v-if="userName">
-        <li v-show="'development' === prodMode"><a @click="inputCV" href="#"><font-awesome-icon icon="file-alt" /><span class="left-tip">录入简历</span></a></li>
+        <li><a @click="inputCV" href="#"><font-awesome-icon icon="file-alt" /><span class="left-tip">录入简历</span></a></li>
+<!-- <li v-show="'development' === prodMode"> -->
         <li><a @click="loginOut" href="#"><font-awesome-icon icon="sign-out-alt" /><span class="left-tip">注销</span></a></li>
         <li><a href="#"><font-awesome-icon icon="stream" /><span class="left-tip">当前用户： {{userName}}</span></a></li>
       </ul>
