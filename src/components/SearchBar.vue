@@ -43,14 +43,14 @@ export default {
   },
   props: ['searchProps', 'searchCity'],
   data() {
-    this.getCityByIp({
+    this.getCitysByOrder({
       level: 2,
       order: 1
     }, (res) => {
       this.mainCityInfos = res;
-        // console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
+        console.log('GET ＝>>>>>>> searchbar getCitysByOrder main start res = ' + JSON.stringify(res));
     });
-    this.getCityByIp({ // get totalCityInfos
+    this.getCitysByOrder({ // get totalCityInfos
       level: 2,
       order: 0
     }, (res) => {
@@ -146,7 +146,7 @@ export default {
                 }, (res) => {
                     this.mainSchoolInfos = res;
                     //   this.initialTimeInfo();
-                    console.log('GET ＝>>>>>>> searchbar getCityByIp main start res = ' + JSON.stringify(res));
+                    console.log('GET ＝>>>>>>> searchbar getCitysByOrder main start res = ' + JSON.stringify(res));
                 });
             }
         }

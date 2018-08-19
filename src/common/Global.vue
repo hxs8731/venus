@@ -29,7 +29,7 @@ const REGISTER_URL = "http://feiyujob.com/education/register";
 //level 2 市
 //level 1 省
 const BASE_PREFIX = API_PREFIX + "base/";
-const CITY_BY_IP_URI = BASE_PREFIX + "getCitysByOrder"; //获取城市
+const GET_CITYS_BY_ORDER = BASE_PREFIX + "getCitysByOrder"; //获取城市
 const ALL_PROVINCE_URI = BASE_PREFIX + "getAllProvince"; //获取所有省
 const CITY_BY_PROVINCE_ID_URI = BASE_PREFIX + "getCityByProvinceId"; //获取省下的市
 const SCHOOL_BY_CITY_ID_URI = BASE_PREFIX + "getSchoolByParams"; //获取市学校 @params (cityName, )
@@ -4967,7 +4967,7 @@ export default {
   XJ_TIME_RANGE_URI,
   PUBLISH_TIME_RANGE_URI,
   WHOLE_URI,
-  CITY_BY_IP_URI, //获取城市ip
+  GET_CITYS_BY_ORDER, //获取城市ip
   ALL_PROVINCE_URI, //获取所有省
   CITY_BY_PROVINCE_ID_URI, //获取省下的市
   SCHOOL_BY_CITY_ID_URI, //获取市学校

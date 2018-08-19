@@ -122,7 +122,7 @@ Vue.prototype.getSchoolByParams = function (options, response) {
   }, {
     headers: {'Content-Type': 'application/json'} // must add content type
   }).then((res) => {
-    // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res));
+    // console.log('GET ＝>>>>>>> getCitysByOrder start res = ' + JSON.stringify(res));
     if (res.data) {
       if (response) {
         response(res.data.data);
@@ -135,13 +135,13 @@ Vue.prototype.getSchoolByParams = function (options, response) {
   });
 };
 
-Vue.prototype.getCityByIp = function (options, response) {
-  this.http.post(this._global.TEST_MODE ? this._global.TEST_URL : this._global.CITY_BY_IP_URI, options, {
-    headers: {'Content-Type': 'application/json'} // must add content type
-  }).then((res) => {
-    // console.log('GET ＝>>>>>>> getCityByIp start res = ' + JSON.stringify(res) + ", " + this._global.TEST_MODE);
+Vue.prototype.getCitysByOrder = function (options, response) {
+
+  this.http.get(this._global.TEST_MODE ? this._global.TEST_URL : this._global.GET_CITYS_BY_ORDER, {params: options})
+    .then((res) => {
+    // console.log('GET ＝>>>>>>> getCitysByOrder start res = ' + JSON.stringify(res) + ", " + this._global.TEST_MODE);
     if (this._global.TEST_MODE) {
-      console.log('GET ＝>>>>>>> getCityByIp in test mode');
+      console.log('GET ＝>>>>>>> getCitysByOrder in test mode');
       response(options.order === 1 ? this._global.TEST_CITY_INFOS.data : this._global.TEST_TOTAL_INFOS.data);
       return;
     }
@@ -156,7 +156,19 @@ Vue.prototype.getCityByIp = function (options, response) {
     console.log("error" + error);
   });
 };
-
+// Vue.prototype.generateParam = function(jsonParam) {
+//   console.log(`Vue generateParam ==> start generateParam ${JSON.stringify(jsonParam)}`);
+//   if (typeof jsonParam !== 'object') {
+//     console.error(`param is not json object.`);
+//     return null;
+//   }
+//   let params = new URLSearchParams();
+//   for (let k in jsonParam) {
+//     params.append(k, jsonParam[k]);
+//     console.log(`Vue generateParam parse ==>  ${k}, ${jsonParam[k]}`);
+//   }
+//   return params;
+// }
 Vue.prototype.getInfoByWorkType = function (options, response) {
   this.http.post(this.getRequestUrl(options.workType), {
     params: options

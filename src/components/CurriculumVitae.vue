@@ -405,7 +405,7 @@ export default {
     Datepicker
   },
   data() {
-    this.getCityByIp(
+    this.getCitysByOrder(
       {
         // get totalCityInfos
         level: 2,
