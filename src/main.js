@@ -170,10 +170,8 @@ Vue.prototype.getCitysByOrder = function (options, response) {
 //   return params;
 // }
 Vue.prototype.getInfoByWorkType = function (options, response) {
-  this.http.post(this.getRequestUrl(options.workType), {
+  this.http.get(this.getRequestUrl(options.workType), {
     params: options
-  }, {
-    headers: {'Content-Type': 'application/json'} // must add content type
   }).then((res) => {
     if (this._global.TEST_MODE) {
       console.log('GET ＝>>>>>>> getInfoByWorkType in test mode');
