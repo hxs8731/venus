@@ -66,6 +66,9 @@ const MODIFY_RESUME_INTENT = RESUME_PREFIX + "modifyResumeIntent"; // 修改用�
 const MODIFY_SCHOOL_WORKS = RESUME_PREFIX + "modifySchoolWorks"; // 修改用户学校工作信息
 const MODIFY_SKILLS = RESUME_PREFIX + "modifySkills"; // 修改用户技能信息
 const MODIFY_USER_EDUS = RESUME_PREFIX + "modifyUserEdus"; // 修改用户教育信息
+
+const DELETE_RESUME_API = RESUME_PREFIX + "deleteResumeType"; // 删除简历指定部分
+
 // enum modify uri
 const MODIFY_RESUME_API = {
   modifyUserEdus: MODIFY_USER_EDUS,
@@ -76,6 +79,16 @@ const MODIFY_RESUME_API = {
   modifySchoolWorks: MODIFY_SCHOOL_WORKS,
   modifySkills: MODIFY_SKILLS
 };
+const DELETE_RESUME_TYPE = {
+  INTENT_CITY: 1,
+  EDU: 2,
+  SKILL: 3,
+  SCHOOLWORK: 4,
+  PRACTICE: 5,
+  AWARDS: 6,
+  ATTACH: 7
+};
+// 1:意向城市 2教育 3技能 4学校 5工作 6奖项 7附加
 const AWARD_LEVEL_ARRAY = [{ name: "初级", id: 0 }, { name: "中级", id: 1 }, {name: "高级", id: 2}, {name: "特级", id: 3}];
 const EDU_LEVEL_ARRAY = [{ name: "未知", id: 0 }, { name: "专科", id: 1 }, {name: "本科", id: 2}, {name: "研究生", id: 3}, {name: "博士", id: 4}];
 const SKILL_LEVEL_ARRAY = [{ name: "一般", id: 0 }, { name: "良好", id: 1 }, {name: "熟练", id: 2}, {name: "精通", id: 3}];
@@ -5000,6 +5013,8 @@ export default {
   MODIFY_USER_EDUS,
   MODIFY_ATTACHES,
   MODIFY_RESUME_API,
+  DELETE_RESUME_API,
+  DELETE_RESUME_TYPE,
   AWARD_LEVEL_ARRAY,EDU_LEVEL_ARRAY,SKILL_LEVEL_ARRAY,CERT_LEVEL_ARRAY
 };
 </script>

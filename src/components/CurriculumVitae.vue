@@ -193,9 +193,11 @@
                         <ul class="card-content">
                             <li>
                                 <span>意向城市<label> <a href="`"></a>*</label></span>
-                                <button v-for="(info, index) in resumeIntent.cityName.split(',')" class="btn btn-default">{{info}}</button>
+                                <button v-for="info in mainCityInfos" :class="resumeIntent && resumeIntent.cityName && resumeIntent.cityName.split(',').indexOf(info.city) >= 0 ? 'btn btn-primary' : 'btn btn-default' " @click="toggleResumeCity(info.city)"> {{ info.city }} </button>
+                                <!-- <span v-if="!resumeIntent.cityName">暂无意向城市</span>
+                                <button v-else v-for="(info, index) in resumeIntent.cityName.split(',')" class="btn btn-default">{{info}}</button>
                                 <a href="#" border=0 data-toggle="modal" data-target="#cityModal"><label class="glyphicon glyphicon-plus"></label>选择城市</a>
-                                <model-view modelTitle="自定义城市" :singleSelect="false" :selectedInfos="resumeIntent.cityName.split(',')" @modal-selected="selectInfoFromModal($event)" :modelData="letters" modelId="cityModal" />
+                                <model-view modelTitle="自定义城市" :singleSelect="false" :selectedInfos="resumeIntent.cityName.split(',')" @modal-selected="selectInfoFromModal($event)" :modelData="letters" modelId="cityModal" /> -->
                             </li>
                             <li>
                                 <span>意向职位<label> <a href="`"></a>*</label></span>
@@ -222,7 +224,7 @@
                             <p class="col-3">{{info.professional}}</p>
                             <p class="col-2">{{eduLevelArray[info.eduLevel].name}}</p>
                             <p class="col-3">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                            <p class="col-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationFormInfo.apiType, userEduInfos, info, index)"><a href="####">删除</a></span></p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#eduModal" @click="updateFormInfo(educationFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(educationFormInfo.deleteType, userEduInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="userEduInfos.length <= 0">暂无内容</p>
                     </div>
@@ -242,7 +244,7 @@
                                 <p class="col-4">{{info.company}}</p>
                                 <p class="col-2">{{info.jobName}}</p>
                                 <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                                <p class="col-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
+                                <p class="col-2"><span data-toggle="modal" data-target="#internshipModal" @click="updateFormInfo(internshipFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(internshipFormInfo.deleteType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
                             <div class="row cv-item cv-item-border" v-show="3 === info.workType">
                                 <p class="col-2">工作内容:</p>
@@ -267,7 +269,7 @@
                                 <p class="col-4">{{info.company}}</p>
                                 <p class="col-2">{{info.jobName}}</p>
                                 <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                                <p class="col-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectFormInfo.apiType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
+                                <p class="col-2"><span data-toggle="modal" data-target="#projectModal" @click="updateFormInfo(projectFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(projectFormInfo.deleteType, practiceInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
                             <div class="row cv-item cv-item-border" v-show="4 === info.workType">
                                 <p class="col-2">项目内容:</p>
@@ -291,7 +293,7 @@
                             <p class="col-4">{{info.name}}</p>
                             <p class="col-2">{{awardLevelArray[info.level].name}}</p>
                             <p class="col-4">{{info.awardDate}}</p>
-                            <p class="col-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.apiType, awardInfos, info, index)"><a href="####">删除</a></span></p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.deleteType, awardInfos, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="awardInfos.length <= 0">暂无内容</p>
                     </div>
@@ -310,7 +312,7 @@
                             <p class="col-4">{{info.name}}</p>
                             <p class="col-2">{{info.job}}</p>
                             <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
-                            <p class="col-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(clubFormInfo.apiType, schoolWorks, info, index)"><a href="####">删除</a></span></p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(clubFormInfo.modifyApi, schoolWorks, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="schoolWorks.length <= 0">暂无内容</p>
                     </div>
@@ -329,7 +331,7 @@
                             <div v-if="1 === info.skillType" class="row cv-item cv-item-border">
                               <p class="col-4">{{info.name}}</p>
                               <p class="col-5">{{skillLevelArray[info.level].name}}</p>
-                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.deleteType, skillInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
                         </div>
                         <p v-else>暂无内容</p>
@@ -354,7 +356,7 @@
                             <div v-if="2 === info.skillType" class="row cv-item cv-item-border">
                               <p class="col-4">{{info.name}}</p>
                               <p class="col-5">{{formatDate(info.startDate)}}</p>
-                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.apiType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.deleteType, skillInfos, info, index)"><a href="####">删除</a></span></p>
                           </div>
                         </div>
                         <p v-else>暂无内容</p>
@@ -405,21 +407,28 @@ export default {
     Datepicker
   },
   data() {
-    this.getCitysByOrder(
-      {
-        // get totalCityInfos
-        level: 2,
-        order: 0
-      }, (res) => {
-        // this.totalCityInfos = res;
-        for (let i = 0, len = this.letters.length; i < len; i++) {
-          let letterData = this.letters[i];
-          letterData.data = res.filter(info => {
-            return info.pinyin.startsWith(letterData.letter);
-          });
-        }
-      }
-    );
+    // this.getCitysByOrder(
+    //   {
+    //     // get totalCityInfos
+    //     level: 2,
+    //     order: 0
+    //   }, (res) => {
+    //     // this.totalCityInfos = res;
+    //     for (let i = 0, len = this.letters.length; i < len; i++) {
+    //       let letterData = this.letters[i];
+    //       letterData.data = res.filter(info => {
+    //         return info.pinyin.startsWith(letterData.letter);
+    //       });
+    //     }
+    //   }
+    // );
+    this.getCitysByOrder({
+      level: 2,
+      order: 1
+    }, (res) => {
+      this.mainCityInfos = res;
+        console.log('GET ＝>>>>>>> searchbar getCitysByOrder main start res = ' + JSON.stringify(res));
+    });
     this.getUserInfos();
     this.getResumeAllInfos();
     this.sawardLevelArray = [{ name: "初级", id: 0 }, { name: "中级", id: 1 }, {name: "高级", id: 2}, {name: "特级", id: 3}];
@@ -487,6 +496,7 @@ export default {
         // "gmtModified":1532362210000
       },
       intendedCitys: ["北京", "杭州", "上海"],
+      mainCityInfos: [],
       sexValues: [{ name: "男" }, { name: "女" }],
       cardDataInfo: {
         avatarUrl: "",
@@ -507,7 +517,7 @@ export default {
       },
       intentFormInfo: {
         infoType: "resumeIntent",
-        apiType: "modifyResumeIntent",
+        modifyApi: "modifyResumeIntent",
         index: -1,
         title: "意向岗位",
         state: "initial",
@@ -524,7 +534,8 @@ export default {
       },
       educationFormInfo: {
         infoType: "userEduInfos",
-        apiType: "modifyUserEdus",
+        modifyApi: "modifyUserEdus",
+        deleteType: this._global.DELETE_RESUME_TYPE.EDU,
         index: -1,
         title: "教育经历",
         state: "initial",
@@ -602,7 +613,8 @@ export default {
         index: -1,
         title: "实习经历",
         state: "initial",
-        apiType: "modifyPractices",
+        modifyApi: "modifyPractices",
+        deleteType: this._global.DELETE_RESUME_TYPE.PRACTICE,
         data: [
           {
             label: "实习公司",
@@ -663,7 +675,8 @@ export default {
         index: -1,
         title: "项目经历",
         state: "initial",
-        apiType: "modifyPractices",
+        modifyApi: "modifyPractices",
+        deleteType: this._global.DELETE_RESUME_TYPE.PRACTICE,
         data: [
           {
             label: "项目名称",
@@ -718,13 +731,14 @@ export default {
       //       {company: "项目名称1", jobName: "测试工程师", project_times:"2010-9至2013-7", content: "项目内容1"},
       //       {company: "项目名称2", jobName: "开发工程师", project_times:"2010-9至2013-7", content: "项目内容2"}
       //   ],
-      practiceInfos: [],
+      // practiceInfos: [],
       honoraryAwardsFormInfo: {
         infoType: "awardInfos",
         index: -1,
         title: "获得奖项",
         state: "initial",
-        apiType: "modifyAwards",
+        modifyApi: "modifyAwards",
+        deleteType: this._global.DELETE_RESUME_TYPE.AWARDS,
         data: [
           {
             label: "奖项名称",
@@ -766,7 +780,8 @@ export default {
         index: -1,
         title: "社团经历",
         state: "initial",
-        apiType: "modifySchoolWorks",
+        modifyApi: "modifySchoolWorks",
+        deleteType: this._global.DELETE_RESUME_TYPE.SCHOOLWORK,
         data: [
           {
             label: "社团名称",
@@ -811,7 +826,8 @@ export default {
         index: -1,
         title: "专业技能",
         state: "initial",
-        apiType: "modifySkills",
+        modifyApi: "modifySkills",
+        deleteType: this._global.DELETE_RESUME_TYPE.SKILL,
         data: [
           {
             label: "专业技能",
@@ -852,7 +868,8 @@ export default {
       certificatesFormInfo: {
         infoType: "certificates",
         index: -1,
-        apiType: "modifySkills",
+        modifyApi: "modifySkills",
+        deleteType: this._global.DELETE_RESUME_TYPE.SKILL,
         title: "获得证书",
         state: "initial",
         data: [
@@ -997,7 +1014,7 @@ export default {
             // update list.
             this.updateListInfos(listInfos, infos.data, infos.index);
           }
-          this.updateResumeInfo(infos.apiType, listInfos);
+          this.updateResumeInfo(infos.modifyApi, listInfos);
       } else {
           console.log(`infoType [ ${infos.infoType} ] not supported ! `);
       }
@@ -1105,11 +1122,31 @@ export default {
         }
     },
 
-    deleteListInfo: function(apiType, listInfos, info, index) {
-        console.log(`deleteListInfo listInfos ==> ${JSON.stringify(listInfos)}`);
-        console.log(`deleteListInfo info ==> ${JSON.stringify(info)}`);
-        listInfos.splice(index, 1);
-        this.updateResumeInfo(apiType, listInfos);
+    deleteListInfo: function(deleteType, listInfos, info, index) {
+      // console.log(`deleteListInfo listInfos ==> ${JSON.stringify(listInfos)}`);
+      // console.log(`deleteListInfo info ==> ${JSON.stringify(info)}`);
+      listInfos.splice(index, 1);
+      console.log(`deleteListInfo info = ${JSON.stringify(info)}`);
+      this.deleteResumeInfo(deleteType, info.id);
+    },
+
+    deleteResumeInfo: function(type, id) {
+      console.log(`deleteResumeInfo id = ${id}, type = ${type}`);
+      let params = new URLSearchParams();
+      params.append("type", type);
+      params.append("id", id);
+      this.http.post(this._global.DELETE_RESUME_API, params)
+        .then(res => {
+          console.log(`deleteResumeInfo callback ${JSON.stringify(res)}`);
+          if (res.data.success) {
+            // handle update login info success.
+          } else {
+            alert(`errMsg = ` + res.data.errMsg);
+          }
+        })
+        .catch(function(error) {
+          alert(`catch error: ` + error);
+        });
     },
 
     updateHighEdu(index) {
@@ -1152,20 +1189,18 @@ export default {
           } else {
             alert(res.data.errMsg);
           }
-          // 跳转到主页面；
-          // userType: 3 发布权限  2 系统管理员  1 普通用户
         })
         .catch(function(error) {
           alert(error);
         });
     },
-    updateResumeInfo: function(apiType, info) {
-      if (!apiType) {
+    updateResumeInfo: function(modifyApi, info) {
+      if (!modifyApi) {
         console.log(` not support this api type.`);
         return;
       }
-      let uri = this._global.MODIFY_RESUME_API[apiType];
-      console.log(`updateResumeInfo ${apiType}, ${JSON.stringify(info), this.isArray(info)}`);
+      let uri = this._global.MODIFY_RESUME_API[modifyApi];
+      console.log(`updateResumeInfo ${modifyApi}, ${JSON.stringify(info), this.isArray(info)}`);
       let params = {};
       let headerConfig;
       if (this.isArray(info)) {
@@ -1218,17 +1253,26 @@ export default {
     },
     getResumeAllInfos: function() {
       this.http
-        .post(this._global.GET_RESUME_ALL, null, {
+        .get(this._global.GET_RESUME_ALL
+        /*, null, {
           headers: {'Content-Type': 'application/json'} // must add content type
-        })
+        }*/)
         .then(res => {
           console.log(`getResumeAllInfos callback ${JSON.stringify(res)}`);
           if (res.data.success) {
             // handle update login info success.
             let result = res.data.data;
             for (var k in result) {
-              console.log(`getResumeAllInfos => ${k}, ${result[k]}`);
+              console.log(`getResumeAllInfos => ${k}, ${JSON.stringify(result[k])}`);
               this[k] = result[k]; // fill resume info to list.
+              if ("resumeIntent" === k && !result[k]) {
+                console.log(`resume intent is null, initial it ${k}, ${result[k]}`);
+                // initial it.
+                this[k] = {};
+                // this[k].cityName = "";
+                // this[k].intentPosition = "";
+                // console.log(`resume intent ${JSON.stringify(this[k])}`);
+              }
             }
           } else {
             alert(res.data.errMsg);
@@ -1239,13 +1283,33 @@ export default {
           alert(error);
         });
     },
-    selectInfoFromModal: function(options) { // 只能传一个参数；
-        console.log("selectInfoFromModal select city info = " + JSON.stringify(options));
-        if (options && options.infos) {
-            console.log("selectInfoFromModal ====>>>> select city infos = " + options.infos.toString());
-            this.resumeIntent.cityName = options.infos.toString();
-            this.updateResumeInfo("modifyResumeIntent", this.resumeIntent);
+    // selectInfoFromModal: function(options) { // 只能传一个参数；
+    //   console.log("selectInfoFromModal select city info = " + JSON.stringify(options));
+    //   if (options && options.infos) {
+    //       console.log("selectInfoFromModal ====>>>> select city infos = " + options.infos.toString());
+    //       this.resumeIntent.cityName = options.infos.toString();
+    //       this.updateResumeInfo("modifyResumeIntent", this.resumeIntent);
+    //   }
+    // },
+    toggleResumeCity: function(city) {
+        // this.deleteResumeInfo(1, 11);
+        // return;
+        let citys;
+        if (!this.resumeIntent.cityName) {
+          citys = [];
+        } else {
+          citys = this.resumeIntent.cityName.split(",");
         }
+        console.log(`toggleResumeCity ${city}, ${this.resumeIntent.cityName}, ${citys}`);
+        let index = citys.indexOf(city);
+        if (index < 0) {
+          citys.push(city);
+        } else {
+          citys.splice(index, 1);
+        }
+        this.resumeIntent.cityName = citys.toString();
+        console.log(`toggleResumeCity after toggle ${city}, ${this.resumeIntent.cityName}`);
+        this.updateResumeInfo("modifyResumeIntent", this.resumeIntent);
     },
   }
 };
