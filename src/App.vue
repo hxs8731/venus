@@ -64,12 +64,12 @@ a:focus {
     padding-top: 10px;
     text-align: center;
 }
+.btn {
+    margin-left: 5px;
+}
 .row {
     clear: both;
     overflow: hidden; /*解决 float后*/
-}
-.row p {
-    margin-top: 1.0rem; /*solve p content vertical middle*/
 }
 .list-row {
 padding: 10px 2%;

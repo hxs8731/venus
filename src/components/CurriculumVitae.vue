@@ -279,25 +279,6 @@
                         <p v-show="filterInfos(practiceInfos, 4, 'workType').length <= 0">暂无内容</p>
                     </div>
                 </div>
-                <div class="card card-default" id="honoraryAward">
-                    <div class="card-heading">
-                        荣誉奖项
-                        <a href="#" class=" card-info-edit float-right padding left right edit"
-                        data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo)">
-                            <i class="fa fa-pencil"></i>+荣誉奖项
-                        </a>
-                        <form-model-view :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
-                    </div>
-                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
-                        <div class="row cv-item cv-item-border" v-for="(info, index) in awardInfos">
-                            <p class="col-4">{{info.name}}</p>
-                            <p class="col-2">{{awardLevelArray[info.level].name}}</p>
-                            <p class="col-4">{{info.awardDate}}</p>
-                            <p class="col-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.deleteType, awardInfos, info, index)"><a href="####">删除</a></span></p>
-                        </div>
-                        <p v-show="awardInfos.length <= 0">暂无内容</p>
-                    </div>
-                </div>
                 <div class="card card-default" id="clubExp">
                     <div class="card-heading">
                         社团经历
@@ -309,12 +290,36 @@
                     </div>
                     <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div class="row cv-item cv-item-border" v-for="(info, index) in schoolWorks">
-                            <p class="col-4">{{info.name}}</p>
-                            <p class="col-2">{{info.job}}</p>
+                            <p class="col-2">{{info.name}}</p>
+                            <p class="col-4">{{info.job}}</p>
                             <p class="col-4">{{formatDate(info.startDate)}} 至 {{formatDate(info.endDate)}}</p>
                             <p class="col-2"><span data-toggle="modal" data-target="#clubModal" @click="updateFormInfo(this.clubFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(clubFormInfo.modifyApi, schoolWorks, info, index)"><a href="####">删除</a></span></p>
                         </div>
                         <p v-show="schoolWorks.length <= 0">暂无内容</p>
+                    </div>
+                </div>
+                <div class="card card-default" id="honoraryAward">
+                    <div class="card-heading">
+                        荣誉奖项
+                        <a href="#" class=" card-info-edit float-right padding left right edit"
+                        data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo)">
+                            <i class="fa fa-pencil"></i>+荣誉奖项
+                        </a>
+                        <form-model-view :formInfos="honoraryAwardsFormInfo" modelId="honoraryAwardsModal" @modal-positive="handlePositive($event)" />
+                    </div>
+                    <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
+                        <div class="row cv-item cv-item-border" v-for="(info, index) in awardInfos">
+                            <p class="col-2">{{info.name}}</p>
+                            <div class="progress col-3">
+                              <div class="progress-bar bg-info" role="progressbar" v-bind:style="{width: (info.level + 1) / awardLevelArray.length * 100 + '%'}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                {{awardLevelArray[info.level].name}}
+                              </div>
+                            </div>
+                            <!-- <p class="col-2">{{awardLevelArray[info.level].name}}</p> -->
+                            <p class="col-3">{{formatDate(info.awardDate)}}</p>
+                            <p class="col-2"><span data-toggle="modal" data-target="#honoraryAwardsModal" @click="updateFormInfo(honoraryAwardsFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(honoraryAwardsFormInfo.deleteType, awardInfos, info, index)"><a href="####">删除</a></span></p>
+                        </div>
+                        <p v-show="awardInfos.length <= 0">暂无内容</p>
                     </div>
                 </div>
                 <div class="card card-default" id="skills">
@@ -329,17 +334,18 @@
                     <div class="card-body" style="padding-top: 30px;padding-bottom: 30px;">
                         <div v-if="filterInfos(skillInfos, 1, 'skillType').length >= 1" v-for="(info, index) in skillInfos">
                             <div v-if="1 === info.skillType" class="row cv-item cv-item-border">
-                              <p class="col-4">{{info.name}}</p>
-                              <p class="col-5">{{skillLevelArray[info.level].name}}</p>
+                              <p class="col-2">{{info.name}}</p>
+                              <div class="progress col-3">
+                                <div class="progress-bar bg-info" role="progressbar" v-bind:style="{width: (info.level + 1) / skillLevelArray.length * 100 + '%'}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                  {{skillLevelArray[info.level].name}}
+                                </div>
+                              </div>
+                              <p class="col-3"></p>
+                              <!-- <p class="col-5">{{skillLevelArray[info.level].name}}</p> -->
                               <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.deleteType, skillInfos, info, index)"><a href="####">删除</a></span></p>
                             </div>
                         </div>
-                        <p v-else>暂无内容</p>
-
-                        <!-- <p>
-                            <label v-for="(info, index) in skillInfos" class="label label-gap label-info">{{info.name}}</label>
-                        </p>
-                        <p v-show="skillInfos.length <= 0">暂无内容</p> -->
+                        <p v-show="filterInfos(skillInfos, 1, 'skillType').length < 1">暂无内容</p>
                     </div>
                 </div>
                 <div class="card card-default" id="certifications">
@@ -356,14 +362,10 @@
                             <div v-if="2 === info.skillType" class="row cv-item cv-item-border">
                               <p class="col-4">{{info.name}}</p>
                               <p class="col-5">{{formatDate(info.startDate)}}</p>
-                              <p class="col-3"><span data-toggle="modal" data-target="#skillModal" @click="updateFormInfo(this.skillFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(skillFormInfo.deleteType, skillInfos, info, index)"><a href="####">删除</a></span></p>
+                              <p class="col-3"><span data-toggle="modal" data-target="#certificateModal" @click="updateFormInfo(certificatesFormInfo, info, index)"><a href="####">编辑</a></span>｜<span @click="deleteListInfo(certificatesFormInfo.deleteType, skillInfos, info, index)"><a href="####">删除</a></span></p>
                           </div>
                         </div>
-                        <p v-else>暂无内容</p>
-                        <!-- <p>
-                            <label v-for="(info, index) in certificates" class="label label-gap label-info">{{info.certificate_name}}</label>
-                        </p>
-                        <p v-show="certificates.length <= 0">暂无内容</p> -->
+                        <p v-show="filterInfos(skillInfos, 2, 'skillType').length < 1">暂无内容</p>
                     </div>
                 </div>
                 <div class="card card-default" id="additionalInfo">
@@ -382,7 +384,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary">保存</button><button class="btn btn-primary">预览</button><button class="btn btn-primary">简历打分</button><button class="btn btn-primary">导出</button>
+                <!-- <button class="btn btn-primary">保存</button><button class="btn btn-primary">预览</button><button class="btn btn-primary">简历打分</button><button class="btn btn-primary">导出</button> -->
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -866,7 +868,7 @@ export default {
     //   skillInfos: [{name: "专业技能1"}, {name: "专业技能2"}, {name: "专业技能3"}],
       skillInfos: [],
       certificatesFormInfo: {
-        infoType: "certificates",
+        infoType: "skillInfos",
         index: -1,
         modifyApi: "modifySkills",
         deleteType: this._global.DELETE_RESUME_TYPE.SKILL,
@@ -1648,4 +1650,17 @@ export default {
   height: 0;
   clear: both;
 }
+
+.cv-item p {
+    margin-top: 1.0rem; /*solve p content vertical middle*/
+}
+
+.progress {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-top: 1.0rem;
+  margin-left: 1.0rem;
+  margin-right: 1.0rem;
+}
+
 </style>
