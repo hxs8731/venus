@@ -2,7 +2,7 @@
 <div id="app" class="root">
   <router-view />
    <!-- v-show="'development' === prodMode" -->
-  <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/wxqr.jpg"/></div>
+  <div class="right-fix-banner"><img @click="linkToCV" src="./assets/images/resume_input.jpg"/></div>
   <div class="card">
     <div class="card-body">
         <p class="card-text mx-auto" style="text-align:center">中国领先的校园求职赋能平台 © Copyright 2018  |  浙ICP备18019378号</p>

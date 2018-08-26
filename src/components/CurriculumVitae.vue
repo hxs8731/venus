@@ -5,10 +5,8 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-              <li class="sidebar-brand">
-                  <a href="#baseInfo">
-                      简历信息
-                  </a>
+              <li>
+                  <a href="#baseInfo">简历信息</a>
               </li>
               <li>
                   <a href="#jobIntention">求职意向</a>
@@ -1337,6 +1335,7 @@ export default {
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  background: #FFF;
 }
 
 #wrapper.toggled {
@@ -1345,12 +1344,13 @@ export default {
 
 #sidebar-wrapper {
   z-index: 1000;
-  /* position: fixed; */
-  position: absolute;
-  left: 250px;
+  position: fixed;
+  /* position: absolute; */
+  top: 135px;
+  left: 264px;
   width: 0;
   /* width: 250px;  */
-  height: 520px;
+  height: 405px;
   margin-left: -250px;
   overflow-y: auto;
   background: #c9e2ec;
@@ -1358,6 +1358,7 @@ export default {
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  background: #f7fafc;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -1398,12 +1399,12 @@ export default {
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #999999;
+  color: #2d3132;
 }
 
 .sidebar-nav li a:hover {
   text-decoration: none;
-  color: #fff;
+  color: #656363;
   background: rgba(255, 255, 255, 0.2);
 }
 
