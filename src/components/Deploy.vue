@@ -37,16 +37,8 @@
               <input type="text" class="form-control" ref="recruit_link" v-model="recruitUrl" />
           </div>
           <div class="form-group">
-              <label>招聘职位:</label>
-              <input type="text" class="form-control" ref="recruit_work_name" v-model="jobName" />
-              <label>职位介绍:</label>
-              <textarea type="text" class="form-control" ref="recruit_work_disc" v-model="jobDisc" />
-              <label>职位要求:</label>
-              <textarea type="text" class="form-control" ref="recruit_work_require" v-model="jobRequire" />
-          </div>
-          <div class="form-group">
-              <label>投递简历地址:</label>
-              <input type="text" class="form-control" ref="resume_link" v-model="resumeLink" />
+              <label>职位描述:</label>
+              <tiny-editor @edit-content-change="handleEditContentChanged($event)" :editId="workType" />
           </div>
       </div>
       <div v-if="2 === workType" class="form-root">
@@ -73,7 +65,9 @@
           </div>
           <div class="form-group">
               <label>宣讲职位说明:</label>
-              <textarea type="text" class="form-control" ref="preach_job" v-model="preachJob" />
+              <!-- <textarea type="text" class="form-control" ref="preach_job" v-model="preachJob" /> -->
+                <!-- <tiny-editor :tinymceContent="recruitWork" /> -->
+                <tiny-editor @edit-content-change="handleEditContentChanged($event)" :editId="workType" />
           </div>
       </div>
       <div class="form-group">
@@ -86,14 +80,17 @@
 <script>
 import NavigatorBar from "@/components/NavigatorBar";
 import Datepicker from "vuejs-datepicker";
+import TinyEditor from "@/components/controls/TinyEditor";
 export default {
   name: "Deploy",
   components: {
     NavigatorBar,
-    Datepicker
+    Datepicker,
+    TinyEditor
   },
   data() {
     return {
+      recruitWork: "",
       companyName: "",
       companyDesc: "",
       companyTags: "",
@@ -115,6 +112,7 @@ export default {
     };
   },
   mounted() {
+    tinymce.init({});
     let user = this.cookieStore.getCookie("username");
     let type = this.cookieStore.getCookie("userType");
     if (user && type >= 2) {
@@ -145,6 +143,7 @@ export default {
       this.preachTime = "";
       this.rearuitUrl = "";
       this.preachJob = "";
+      this.recruitWork = "";
       this.xjTime = null;
     },
     checkInputValue: function() {
@@ -212,19 +211,21 @@ export default {
         recruitInfo.title = this.recruitTitle;
         recruitInfo.recruitUrl = this.recruitUrl;
         recruitInfo.recruitCitys = this.recruitCitys;
-        let workDetail = {
-          resumeLink: this.resumeLink,
-          jobName: this.jobName,
-          jobDisc: this.jobDisc,
-          jobRequire: this.jobRequire
-        };
-        recruitInfo.recruitWork = JSON.stringify(workDetail);
+        // let workDetail = {
+        //   resumeLink: this.resumeLink,
+        //   jobName: this.jobName,
+        //   jobDisc: this.jobDisc,
+        //   jobRequire: this.jobRequire
+        // };
+        // recruitInfo.recruitWork = JSON.stringify(workDetail);
+        recruitInfo.recruitWork = this.recruitWork;
       } else if (2 === this.workType) {
         recruitInfo.recruitCitys = this.preachCity;
         recruitInfo.school = this.preachSchool;
         recruitInfo.teachInsAddress = this.preachRoom;
         recruitInfo.xjTime = this.xjTime;
         recruitInfo.recruitUrl = this.recruitUrl;
+        recruitInfo.recruitWork = this.recruitWork;
         // preachJob: ""
       }
       // params.append("recruit", recruitInfo);
@@ -238,6 +239,10 @@ export default {
     },
     switchWorkType: function(type) {
       this.workType = type;
+    },
+    handleEditContentChanged(val) {
+      // console.log(`handleEditContentChanged:: ${val}`);
+      this.recruitWork = val;
     }
   }
 };
