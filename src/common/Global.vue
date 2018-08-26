@@ -46,6 +46,13 @@ const GET_USER_INFO = USER_PREFIX + "getUserInfo"; // 获取用户信息
 const DEPLOY_ACTION = API_PREFIX + "recruit/publishRecruit";
 const UPDATE_RECRUIT = API_PREFIX + "recruit/updateRecruitsStatus";
 const GET_RECRUIT_LIST = API_PREFIX + "recruit/getRecruitsByType";
+const ORDER_TYPE = {
+  INVALID: 0,
+  NORMAL: 1,
+  HOT: 2,
+  TOP: 3
+}
+
 //简历相关
 const RESUME_PREFIX = API_PREFIX + "resume/";
 
@@ -4994,6 +5001,7 @@ export default {
   USER_EXSIT_ACTION,
   GET_USER_INFO,
   DEPLOY_ACTION,
+  ORDER_TYPE,
   UPDATE_RECRUIT,
   GET_RECRUIT_LIST,
   UPDATE_USER_INFO,

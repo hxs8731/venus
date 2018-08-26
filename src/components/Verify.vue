@@ -14,7 +14,11 @@
         <div class="col-md-2 list-row">{{ list.recruitUrl }}</div>
         <div class="col-md-3 list-row">{{ list.title }}</div>
         <div class="col-md-2 list-row">{{ 1 === list.showType ? '已通过' : '待审核'}}</div>
-        <div class="col-md-3 list-row"><button class="btn btn-primary" @click="verify(list.id, true)">通过</button>&nbsp;&nbsp;<button class="btn btn-primary" @click="verify(list.id, false)">驳回</button></div>
+        <div class="col-md-3 list-row">
+          <button class="btn btn-primary" @click="verify(list.id, true)">通过</button>&nbsp;&nbsp;
+          <button class="btn btn-primary" @click="verify(list.id, false)">删除</button>&nbsp;&nbsp;
+          <button class="btn btn-primary" @click="verify(list.id, true, _global.ORDER_TYPE.HOT)">设为热门</button>
+        </div>
       </div>
   </div>
   <div class="content-foot">
@@ -63,10 +67,10 @@ export default {
     this.doQueryList();
   },
   methods: {
-    verify: function(id, pass) {
+    verify: function(id, pass, type) {
       this.http
         .get(this._global.UPDATE_RECRUIT, {
-          params: this.generateParams(id, pass)
+          params: this.generateParams(id, pass, type)
         }).then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
           if (res.data.success) {
@@ -83,7 +87,7 @@ export default {
           alert(error);
         });
     },
-    generateParams: function(ids, pass) {
+    generateParams: function(ids, pass, type) {
       // let params = new URLSearchParams();
       // params.append("userName", this.cookieStore.getCookie("username"));
       // // ids=1,2&showType=0
@@ -94,6 +98,9 @@ export default {
       params.userName = this.cookieStore.getCookie("username");
       params.ids = ids;
       params.showType = pass ? 1 : 0;
+      if (type || 0 === type) {
+        params.orderType = type
+      }
       return params;
     },
     doQueryList: function() {
