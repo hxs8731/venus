@@ -26,7 +26,7 @@
           <h3 class="header">招聘信息</h3>
           <div class="form-group">
               <label>*招聘城市:</label>
-              <input type="text" class="form-control" ref="recruit_city" v-model="recruitCity" />
+              <input type="text" class="form-control" ref="recruit_city" v-model="recruitCitys" />
           </div>
           <div class="form-group">
               <label>*招聘标题:</label>
@@ -97,7 +97,7 @@ export default {
       companyName: "",
       companyDesc: "",
       companyTags: "",
-      recruitCity: "",
+      recruitCitys: "",
       recruitTitle: "",
       recruitUrl: "",
       resumeLink: "",
@@ -132,7 +132,7 @@ export default {
       this.companyName = "";
       this.companyDesc = "";
       this.companyTags = "";
-      this.recruitCity = "",
+      this.recruitCitys = "",
       this.recruitTitle = "";
       this.recruitUrl = "";
       this.resumeLink = "";
@@ -154,7 +154,7 @@ export default {
       invalide &= "" !== this.companyName;
       invalide &= "" !== this.companyDesc;
       if (1 === this.workType) {
-        invalide &= "" !== this.recruitCity;
+        invalide &= "" !== this.recruitCitys;
         invalide &= "" !== this.recruitTitle;
         invalide &= "" !== this.recruitUrl;
       } else {
@@ -211,6 +211,7 @@ export default {
       if (1 === this.workType) {
         recruitInfo.title = this.recruitTitle;
         recruitInfo.recruitUrl = this.recruitUrl;
+        recruitInfo.recruitCitys = this.recruitCitys;
         let workDetail = {
           resumeLink: this.resumeLink,
           jobName: this.jobName,
