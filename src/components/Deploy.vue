@@ -160,6 +160,7 @@ export default {
         invalide &= "" !== this.preachCity;
         invalide &= "" !== this.preachSchool;
         invalide &= null !== this.xjTime;
+        console.log(`checkInputValue xj ${this.preachCity}, ${this.preachSchool}, ${this.xjTime}`);
       }
       console.log(`end check value, invalide = ${invalide} !`);
       return invalide;

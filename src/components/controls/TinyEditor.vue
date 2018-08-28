@@ -47,14 +47,24 @@ export default {
   },
   methods: {
     handleImgUpload: function(blobInfo, success, failure) {
-      console.log(`handleImgUpload FIXME`);
-      // let formdata = new FormData();
-      // formdata.set('upload_file', blobInfo.blob());
-      // this.http.post('/api/upload', formdata).then(res => {
-      //   success(res.data.data.src);
-      // }).catch(res => {
-      //   failure('error');
-      // });
+      console.log(`handleImgUpload ${JSON.stringify(blobInfo.blob()), blobInfo.filename()}`);
+      let formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+      let config = {
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      };
+      // let params = new URLSearchParams();
+      // params.append("uploadFile", formData);
+      this.http.post(this._global.UPLOAD_IMAGE_API, formData, config)
+        .then(res => {
+          // console.log("333333333" + res.data.data);
+          success(res.data.data);
+        }).catch(res => {
+          console.log(`handleImgUpload failure ${JSON.stringify(res.data)}`);
+          failure('error');
+      });
     },
   },
   watch: {

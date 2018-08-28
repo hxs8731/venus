@@ -36,6 +36,7 @@ const SCHOOL_BY_CITY_ID_URI = BASE_PREFIX + "getSchoolByParams"; //获取市学�
 //Long provinceId, Long cityId, String provinceName, String cityName,String competent,Integer level, Integer order
 
 const SCHOOL_BY_PROVINCE_ID_URI = BASE_PREFIX + "getSchoolByProvince"; //获取省下的学校
+const UPLOAD_IMAGE_API = BASE_PREFIX + "uploadImg";
 // 用户相关的API
 const USER_PREFIX = API_PREFIX + "user/";
 const USER_LOGIN_ACTION = USER_PREFIX + "login";
@@ -52,6 +53,7 @@ const ORDER_TYPE = {
   HOT: 2,
   TOP: 3
 }
+
 
 //简历相关
 const RESUME_PREFIX = API_PREFIX + "resume/";
@@ -175,27 +177,6 @@ const TEST_RESULT = {
   },
   status: 200,
   statusText: "OK",
-  headers: {
-    date: "Sat, 31 Mar 2018 05:54:48 GMT",
-    "content-encoding": "gzip",
-    server: "nginx/1.12.2",
-    "x-powered-by": "Express",
-    vary: "Accept-Encoding",
-    "content-type": "application/json;charset=UTF-8",
-    "transfer-encoding": "chunked",
-    connection: "close"
-  },
-  config: {
-    transformRequest: {},
-    transformResponse: {},
-    timeout: 0,
-    xsrfCookieName: "XSRF-TOKEN",
-    xsrfHeaderName: "X-XSRF-TOKEN",
-    maxContentLength: -1,
-    headers: { Accept: "application/json, text/plain, */*" },
-    method: "get",
-    url: "/api/index/getInfoByWorkType?workType=1&pageNumber=0&pageSize=10"
-  },
   request: {}
 };
 const TEST_CITY_INFOS = {
@@ -5003,6 +4984,7 @@ export default {
   DEPLOY_ACTION,
   ORDER_TYPE,
   UPDATE_RECRUIT,
+  UPLOAD_IMAGE_API,
   GET_RECRUIT_LIST,
   UPDATE_USER_INFO,
   GET_RESUME_ALL,
