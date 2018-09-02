@@ -214,6 +214,7 @@ export default {
         invalide &= "" !== this.preachSchool;
         invalide &= "" !== this.preachRoom;
         invalide &= null !== this.xjTime;
+        invalide &= "Invalid date" !== this.xjTime;
         console.log(`checkInputValue xj preachCity = ${this.preachCity}, preachSchool = ${this.preachSchool}, xjTime = ${this.xjTime}, preachRoom = ${this.preachRoom}`);
       }
       console.log(`checkInputValue both companyName = ${this.companyName}, companyDesc = ${this.companyDesc}`);
@@ -233,14 +234,15 @@ export default {
         })
         .then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
-          this.clearInput();
           if (res.data && res.data.success) {
             alert("发布成功！");
+            this.clearInput();
           } else {
             alert("发布失败！" + res.data.errMsg);
-              if ("user_error" === res.data.errCode) {
-                this.goHomeLogout();
-              }
+            if ("user_error" === res.data.errCode) {
+              this.clearInput();
+              this.goHomeLogout();
+            }
           }
         })
         .catch(function(error) {
