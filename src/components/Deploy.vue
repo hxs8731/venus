@@ -58,17 +58,17 @@
           <div class="form-group">
               <label>*宣讲时间:</label>
               <p>
-                <datepicker class="form-control" type="text" @selected="selectXjtime" @closed="datepickerClosedFunction()" placeholder="宣讲时间" language="zh" :format="customFormatter" />
+                <datepicker class="form-control" ref="preach_time" @selected="selectXjtime" @closed="datepickerClosedFunction()" placeholder="宣讲时间" language="zh" :format="customFormatter" />
               </p>
-              <div v-show="showTimepicker" class="modal-body">
-                <input type="text" v-model="hourVal" ref="hour" /> &nbsp;&nbsp;:&nbsp;&nbsp;
-                <input type="text" v-model="minuteVal" ref="minute" /> &nbsp;&nbsp;:&nbsp;&nbsp;
-                <input type="text" v-model="secondVal" ref="second" />
+              <div v-show="showTimepicker">
+                <input type="text" style="width:100px; text-align: center;" v-model="hourVal" ref="hour" /> &nbsp;&nbsp;:&nbsp;&nbsp;
+                <input type="text" style="width:100px; text-align: center;" v-model="minuteVal" ref="minute" /> &nbsp;&nbsp;:&nbsp;&nbsp;
+                <input type="text" style="width:100px; text-align: center;" v-model="secondVal" ref="second" />
               </div>
           </div>
           <div class="form-group">
               <label>招聘官网:</label>
-              <input type="text" class="form-control" ref="preach_time" v-model="recruitUrl" />
+              <input type="text" class="form-control" v-model="recruitUrl" />
           </div>
           <div class="form-group">
               <label>宣讲职位说明:</label>
@@ -97,9 +97,9 @@ export default {
   },
   data() {
     return {
-      hourVal: "00",
-      minuteVal: "00",
-      secondVal: "00",
+      hourVal: "0",
+      minuteVal: "0",
+      secondVal: "0",
       recruitWork: "",
       companyName: "",
       companyDesc: "",
@@ -189,6 +189,13 @@ export default {
       this.recruitUrl = "";
       this.preachJob = "";
       this.recruitWork = "";
+      this.hourVal = "0";
+      this.minuteVal = "0";
+      this.secondVal = "0";
+      this.clearXjTime();
+    },
+    clearXjTime: function() {
+      this.showTimepicker = false,
       this.xjTime = null;
     },
     checkInputValue: function() {
@@ -201,22 +208,22 @@ export default {
         invalide &= "" !== this.recruitCitys;
         invalide &= "" !== this.recruitTitle;
         invalide &= "" !== this.recruitUrl;
-        console.log(`checkInputValue recruit ${this.recruitCitys}, ${this.recruitTitle}, ${this.recruitUrl}`);
+        console.log(`checkInputValue recruit recruitCitys = ${this.recruitCitys}, recruitTitle = ${this.recruitTitle}, recruitUrl = ${this.recruitUrl}`);
       } else {
         invalide &= "" !== this.preachCity;
         invalide &= "" !== this.preachSchool;
         invalide &= "" !== this.preachRoom;
         invalide &= null !== this.xjTime;
-        console.log(`checkInputValue xj ${this.preachCity}, ${this.preachSchool}, ${this.xjTime}, ${this.preachRoom}`);
+        console.log(`checkInputValue xj preachCity = ${this.preachCity}, preachSchool = ${this.preachSchool}, xjTime = ${this.xjTime}, preachRoom = ${this.preachRoom}`);
       }
-      console.log(`checkInputValue both ${this.companyName}, ${this.companyDesc}}`);
+      console.log(`checkInputValue both companyName = ${this.companyName}, companyDesc = ${this.companyDesc}`);
       console.log(`end check value, invalide = ${invalide} !`);
       return invalide;
     },
     doDeploy: function() {
       if (!this.checkInputValue()) {
         console.log(`disable do nothing`);
-        alert("请填写信息！");
+        // alert("请填写信息！");
         return;
       }
       let params = this.generateParams();
@@ -288,6 +295,7 @@ export default {
     },
     switchWorkType: function(type) {
       this.workType = type;
+      this.clearXjTime();
     },
     handleEditContentChanged(val) {
       // console.log(`handleEditContentChanged:: ${val}`);
