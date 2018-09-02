@@ -201,12 +201,15 @@ export default {
         invalide &= "" !== this.recruitCitys;
         invalide &= "" !== this.recruitTitle;
         invalide &= "" !== this.recruitUrl;
+        console.log(`checkInputValue recruit ${this.recruitCitys}, ${this.recruitTitle}, ${this.recruitUrl}`);
       } else {
         invalide &= "" !== this.preachCity;
         invalide &= "" !== this.preachSchool;
+        invalide &= "" !== this.preachRoom;
         invalide &= null !== this.xjTime;
-        console.log(`checkInputValue xj ${this.preachCity}, ${this.preachSchool}, ${this.xjTime}`);
+        console.log(`checkInputValue xj ${this.preachCity}, ${this.preachSchool}, ${this.xjTime}, ${this.preachRoom}`);
       }
+      console.log(`checkInputValue both ${this.companyName}, ${this.companyDesc}}`);
       console.log(`end check value, invalide = ${invalide} !`);
       return invalide;
     },
@@ -223,6 +226,7 @@ export default {
         })
         .then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
+          this.clearInput();
           if (res.data && res.data.success) {
             alert("发布成功！");
           } else {
@@ -231,7 +235,6 @@ export default {
                 this.goHomeLogout();
               }
           }
-          this.clearInput();
         })
         .catch(function(error) {
           alert(error);
