@@ -74,6 +74,7 @@ export default {
         }).then(res => {
           console.log(`doDeploy callback ${JSON.stringify(res)}`);
           if (res.data.success) {
+            this.doQueryList();
             alert('操作成功！');
           } else {
             alert('操作失败！' + res.data.errorMsg);

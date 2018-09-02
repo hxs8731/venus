@@ -11,49 +11,49 @@
         <h3 class="header">公司信息</h3>
         <div class="form-group">
             <label>*公司名称:</label>
-            <input type="text" class="form-control" ref="company_name" v-model="companyName" />
+            <input type="text" class="form-control" maxlength="50" ref="company_name" v-model="companyName" />
         </div>
         <div class="form-group">
             <label>*公司介绍:</label>
-            <textarea type="text" class="form-control" ref="company_desc" v-model="companyDesc" />
+            <textarea type="text" class="form-control" maxlength="3000" ref="company_desc" v-model="companyDesc" />
         </div>
         <div class="form-group">
             <label>公司标签:</label>
-            <input type="text" class="form-control" ref="company_label" v-model="companyTags" />
+            <input type="text" class="form-control" maxlength="50" ref="company_label" v-model="companyTags" />
         </div>
       </div>
       <div v-if="1 === workType" class="form-root">
           <h3 class="header">招聘信息</h3>
           <div class="form-group">
               <label>*招聘城市:</label>
-              <input type="text" class="form-control" ref="recruit_city" v-model="recruitCitys" />
+              <input type="text" class="form-control" maxlength="50" ref="recruit_city" v-model="recruitCitys" />
           </div>
           <div class="form-group">
               <label>*招聘标题:</label>
-              <input type="text" class="form-control" ref="recruit_title" v-model="recruitTitle" />
+              <input type="text" class="form-control" maxlength="50" ref="recruit_title" v-model="recruitTitle" />
           </div>
           <div class="form-group">
               <label>*招聘官网链接:</label>
-              <input type="text" class="form-control" ref="recruit_link" v-model="recruitUrl" />
+              <input type="text" class="form-control" maxlength="50" ref="recruit_link" v-model="recruitUrl" />
           </div>
           <div class="form-group">
               <label>职位描述:</label>
-              <tiny-editor @edit-content-change="handleEditContentChanged($event)" :editId="workType" />
+              <tiny-editor @edit-content-change="handleEditContentChanged($event)" ref="recruit_desc" :editId="workType" />
           </div>
       </div>
       <div v-if="2 === workType" class="form-root">
           <h3 class="header">宣讲会信息</h3>
           <div class="form-group">
               <label>*宣讲城市:</label>
-              <input type="text" class="form-control" ref="preach_city" v-model="preachCity" />
+              <input type="text" class="form-control" maxlength="50" ref="preach_city" v-model="preachCity" />
           </div>
           <div class="form-group">
               <label>*宣讲学校:</label>
-              <input type="text" class="form-control" ref="preach_school" v-model="preachSchool" />
+              <input type="text" class="form-control" maxlength="50" ref="preach_school" v-model="preachSchool" />
           </div>
           <div class="form-group">
               <label>*宣讲教室:</label>
-              <input type="text" class="form-control" ref="preach_room" v-model="preachRoom" />
+              <input type="text" class="form-control" maxlength="50" ref="preach_room" v-model="preachRoom" />
           </div>
           <div class="form-group">
               <label>*宣讲时间:</label>
@@ -68,13 +68,13 @@
           </div>
           <div class="form-group">
               <label>招聘官网:</label>
-              <input type="text" class="form-control" v-model="recruitUrl" />
+              <input type="text" class="form-control" maxlength="50" v-model="recruitUrl" />
           </div>
           <div class="form-group">
               <label>宣讲职位说明:</label>
               <!-- <textarea type="text" class="form-control" ref="preach_job" v-model="preachJob" /> -->
                 <!-- <tiny-editor :tinymceContent="recruitWork" /> -->
-                <tiny-editor @edit-content-change="handleEditContentChanged($event)" :editId="workType" />
+                <tiny-editor @edit-content-change="handleEditContentChanged($event)" ref="preach_desc" :editId="workType" />
           </div>
       </div>
       <div class="form-group">
@@ -158,7 +158,7 @@ export default {
       this.secondVal = this.matchValue(val, 0, 60);
       let second = this.moment(this.xjTime).seconds();
       this.xjTime = this.moment(this.xjTime).add(val - second, 's').format("YYYY-MM-DD HH:mm:ss");
-      console.log(`minuteVal change xjTime = ${this.xjTime}, ${second}`);
+      console.log(`secondVal change xjTime = ${this.xjTime}, ${second}`);
     }
   },
   methods: {
@@ -193,10 +193,24 @@ export default {
       this.minuteVal = "0";
       this.secondVal = "0";
       this.clearXjTime();
+      this.resetTinyEditors();
+    },
+    resetTinyEditors: function() {
+      console.log(`resetTinyEditors ------ ${this.$refs.recruit_desc}, ${this.$refs.preach_desc}`);
+      if (this.$refs.recruit_desc) {
+        this.$refs.recruit_desc.tinymceContent = "请输入内容";
+      }
+      if (this.$refs.preach_desc) {
+        this.$refs.preach_desc.tinymceContent = "请输入内容";
+      }
     },
     clearXjTime: function() {
       this.showTimepicker = false,
       this.xjTime = null;
+      if (this.$refs.preach_time) {
+        this.$refs.preach_time.clearDate();
+      }
+      // preach_time
     },
     checkInputValue: function() {
       // return "" !== this.companyName && "" !== this.companyDesc;
@@ -281,7 +295,7 @@ export default {
         recruitInfo.recruitCitys = this.preachCity;
         recruitInfo.school = this.preachSchool;
         recruitInfo.teachInsAddress = this.preachRoom;
-        recruitInfo.xjTime = this.xjTime;
+        recruitInfo.xjTime = this.moment(this.xjTime).format("YYYY-MM-DD HH:mm:ss");
         recruitInfo.recruitUrl = this.recruitUrl;
         recruitInfo.recruitWork = this.recruitWork;
         // preachJob: ""
@@ -298,6 +312,7 @@ export default {
     switchWorkType: function(type) {
       this.workType = type;
       this.clearXjTime();
+      // this.resetTinyEditors();
     },
     handleEditContentChanged(val) {
       // console.log(`handleEditContentChanged:: ${val}`);

@@ -25,7 +25,7 @@ export default {
   props:['editId'],
   data () {
     return {
-      tinymceContent: '请输入内容',
+      tinymceContent: "请输入内容",
       init: {
         language_url: '/static/tinymce/zh_CN.js',
         language: 'zh_CN',
@@ -73,7 +73,9 @@ export default {
       this.$emit("edit-content-change", val, oldval);
     }
   },
-  components: {Editor}
+  components: {
+    Editor
+  }
 }
 </script>
 
