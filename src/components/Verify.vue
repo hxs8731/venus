@@ -5,14 +5,14 @@
       <div class="row list-title">
         <div class="col-md-2 list-header">招聘类型</div>
         <div class="col-md-2 list-header">招聘链接</div>
-        <div class="col-md-3 list-header">标题</div>
+        <div class="col-md-3 list-header">公司名称</div>
         <div class="col-md-2 list-header">审核状态</div>
         <div class="col-md-3 list-header">审核操作</div>
       </div>
       <div class="row list-body" v-for="list in requestLists" :class="requestLists.indexOf(list) % 2 === 0 ? 'row list-body' : 'row list-body gray'">
         <div class="col-md-2 list-row">{{ 1 === list.workType ? '校园招聘' : '校园宣讲会' }}</div>
         <div class="col-md-2 list-row">{{ list.recruitUrl }}</div>
-        <div class="col-md-3 list-row">{{ list.title }}</div>
+        <div class="col-md-3 list-row">{{ list.companyName }}</div>
         <div class="col-md-2 list-row">{{ 1 === list.showType ? '已通过' : '待审核'}}</div>
         <div class="col-md-3 list-row">
           <button class="btn btn-primary" @click="verify(list.id, true)">通过</button>&nbsp;&nbsp;

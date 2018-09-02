@@ -1166,22 +1166,8 @@ export default {
       params.append("age", this.cardDataInfo.age);
       params.append("address", this.cardDataInfo.address);
       params.append("email", this.cardDataInfo.email);
-      // let params = {
-      //   name: this.cardDataInfo.name,
-      //   id: this.cardDataInfo.id,
-      //   headImg: "../assets/images/avtar.png",
-      //   sex: this.cardDataInfo.sex,
-      //   telephone: this.cardDataInfo.telephone,
-      //   hignEdu: this.cardDataInfo.degree,
-      //   birthday: this.cardDataInfo.birthday,
-      //   age: this.cardDataInfo.age,
-      //   address: this.cardDataInfo.address
-      // };
       this.http
-        .post(this._global.UPDATE_USER_INFO, params
-        /*, {
-          headers: {'Content-Type': 'application/json'} // must add content type
-        }*/)
+        .post(this._global.UPDATE_USER_INFO, params)
         .then(res => {
           console.log(`updateLoginInfo callback ${JSON.stringify(res)}`);
           if (res.data.success) {

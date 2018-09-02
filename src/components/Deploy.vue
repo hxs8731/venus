@@ -57,11 +57,18 @@
           </div>
           <div class="form-group">
               <label>*宣讲时间:</label>
-              <p><datepicker class="form-control" type="text" @selected="selectXjtime" placeholder="宣讲时间" language="zh" :format="customFormatter" /></p>
+              <p>
+                <datepicker class="form-control" type="text" @selected="selectXjtime" @closed="datepickerClosedFunction()" placeholder="宣讲时间" language="zh" :format="customFormatter" />
+              </p>
+              <div v-show="showTimepicker" class="modal-body">
+                <input type="text" v-model="hourVal" ref="hour" /> &nbsp;&nbsp;:&nbsp;&nbsp;
+                <input type="text" v-model="minuteVal" ref="minute" /> &nbsp;&nbsp;:&nbsp;&nbsp;
+                <input type="text" v-model="secondVal" ref="second" />
+              </div>
           </div>
           <div class="form-group">
               <label>招聘官网:</label>
-              <input type="text" class="form-control" ref="preach_time" v-model="rearuitUrl" />
+              <input type="text" class="form-control" ref="preach_time" v-model="recruitUrl" />
           </div>
           <div class="form-group">
               <label>宣讲职位说明:</label>
@@ -90,6 +97,9 @@ export default {
   },
   data() {
     return {
+      hourVal: "00",
+      minuteVal: "00",
+      secondVal: "00",
       recruitWork: "",
       companyName: "",
       companyDesc: "",
@@ -106,8 +116,9 @@ export default {
       preachSchool: "",
       preachRoom: "",
       preachTime: "",
-      rearuitUrl: "",
+      recruitUrl: "",
       preachJob: "",
+      showTimepicker: false,
       xjTime: null
     };
   },
@@ -120,12 +131,46 @@ export default {
     } else {
       alert("没有权限操作，请联系管理员！");
       this.$router.push('/');
+      return;
     }
     console.log("checkUserExist type" + user + ", user type = " + type);
   },
   // computed: {
   // },
+  watch: {
+    hourVal: function(val, oldval) {
+      console.log(`hourVal change ${val}, ${oldval}`);
+      this.hourVal = this.matchValue(val, 0, 24);
+      let hour = this.moment(this.xjTime).hours();
+      this.xjTime = this.moment(this.xjTime).add(val - hour, 'h').format("YYYY-MM-DD HH:mm:ss");
+      console.log(`hourVal change xjTime = ${this.xjTime}, ${hour}`);
+      
+    },
+    minuteVal: function(val, oldval) {
+      console.log(`minuteVal change ${val}, ${oldval}`);
+      this.minuteVal = this.matchValue(val, 0, 60);
+      let minute = this.moment(this.xjTime).minutes();
+      this.xjTime = this.moment(this.xjTime).add(val - minute, 'm').format("YYYY-MM-DD HH:mm:ss");
+      console.log(`minuteVal change xjTime = ${this.xjTime}, ${minute}`);
+    },
+    secondVal: function(val, oldval) {
+      console.log(`secondVal change ${val}, ${oldval}`);
+      this.secondVal = this.matchValue(val, 0, 60);
+      let second = this.moment(this.xjTime).seconds();
+      this.xjTime = this.moment(this.xjTime).add(val - second, 's').format("YYYY-MM-DD HH:mm:ss");
+      console.log(`minuteVal change xjTime = ${this.xjTime}, ${second}`);
+    }
+  },
   methods: {
+    matchValue(val, min, max) {
+      if (val < min) {
+        val = min;
+      }
+      if (val > max) {
+        val = max;
+      }
+      return val;
+    },
     clearInput: function() {
       this.companyName = "";
       this.companyDesc = "";
@@ -141,7 +186,7 @@ export default {
       this.preachSchool = "";
       this.preachRoom = "";
       this.preachTime = "";
-      this.rearuitUrl = "";
+      this.recruitUrl = "";
       this.preachJob = "";
       this.recruitWork = "";
       this.xjTime = null;
@@ -193,11 +238,11 @@ export default {
         });
     },
     customFormatter: function(date) {
-      return this.moment(date).format("YYYY-MM-DD HH:mm:ss");
+      return this.moment(date).format("YYYY-MM-DD");
     },
     selectXjtime: function(value) {
       this.xjTime = this.customFormatter(value);
-      // console.log(`selectXjtime ==> ${this.xjTime}`);
+      console.log(`selectXjtime ==> ${this.xjTime}`);
     },
     generateParams: function() {
       let params = {};
@@ -244,6 +289,13 @@ export default {
     handleEditContentChanged(val) {
       // console.log(`handleEditContentChanged:: ${val}`);
       this.recruitWork = val;
+    },
+    datepickerClosedFunction() {
+      this.hourVal = this.moment(this.xjTime).hours();
+      this.minuteVal = this.moment(this.xjTime).minutes();
+      this.secondVal = this.moment(this.xjTime).seconds();
+      this.showTimepicker = true;
+      console.log(`datepickerClosedFunction ==> ${this.hourVal}, ${this.minuteVal}, ${this.secondVal}`)
     }
   }
 };
