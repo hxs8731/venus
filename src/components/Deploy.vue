@@ -11,7 +11,7 @@
         <h3 class="header">公司信息</h3>
         <div class="form-group">
             <label>*公司名称:</label>
-            <input type="text" class="form-control" maxlength="50" ref="company_name" v-model="companyName" />
+            <input type="text" class="form-control" maxlength="200" ref="company_name" v-model="companyName" />
         </div>
         <div class="form-group">
             <label>*公司介绍:</label>
@@ -19,22 +19,22 @@
         </div>
         <div class="form-group">
             <label>公司标签:</label>
-            <input type="text" class="form-control" maxlength="50" ref="company_label" v-model="companyTags" />
+            <input type="text" class="form-control" maxlength="200" ref="company_label" v-model="companyTags" />
         </div>
       </div>
       <div v-if="1 === workType" class="form-root">
           <h3 class="header">招聘信息</h3>
           <div class="form-group">
               <label>*招聘城市:</label>
-              <input type="text" class="form-control" maxlength="50" ref="recruit_city" v-model="recruitCitys" />
+              <input type="text" class="form-control" maxlength="200" ref="recruit_city" v-model="recruitCitys" />
           </div>
           <div class="form-group">
               <label>*招聘标题:</label>
-              <input type="text" class="form-control" maxlength="50" ref="recruit_title" v-model="recruitTitle" />
+              <input type="text" class="form-control" maxlength="200" ref="recruit_title" v-model="recruitTitle" />
           </div>
           <div class="form-group">
               <label>*招聘官网链接:</label>
-              <input type="text" class="form-control" maxlength="50" ref="recruit_link" v-model="recruitUrl" />
+              <input type="text" class="form-control" maxlength="200" ref="recruit_link" v-model="recruitUrl" />
           </div>
           <div class="form-group">
               <label>职位描述:</label>
@@ -45,15 +45,15 @@
           <h3 class="header">宣讲会信息</h3>
           <div class="form-group">
               <label>*宣讲城市:</label>
-              <input type="text" class="form-control" maxlength="50" ref="preach_city" v-model="preachCity" />
+              <input type="text" class="form-control" maxlength="200" ref="preach_city" v-model="preachCity" />
           </div>
           <div class="form-group">
               <label>*宣讲学校:</label>
-              <input type="text" class="form-control" maxlength="50" ref="preach_school" v-model="preachSchool" />
+              <input type="text" class="form-control" maxlength="200" ref="preach_school" v-model="preachSchool" />
           </div>
           <div class="form-group">
               <label>*宣讲教室:</label>
-              <input type="text" class="form-control" maxlength="50" ref="preach_room" v-model="preachRoom" />
+              <input type="text" class="form-control" maxlength="200" ref="preach_room" v-model="preachRoom" />
           </div>
           <div class="form-group">
               <label>*宣讲时间:</label>
@@ -68,7 +68,7 @@
           </div>
           <div class="form-group">
               <label>招聘官网:</label>
-              <input type="text" class="form-control" maxlength="50" v-model="recruitUrl" />
+              <input type="text" class="form-control" maxlength="200" v-model="recruitUrl" />
           </div>
           <div class="form-group">
               <label>宣讲职位说明:</label>
